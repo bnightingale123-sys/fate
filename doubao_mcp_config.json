@@ -1,0 +1,9 @@
+{
+  "mcp_servers": {
+    "ziwei-doushu": {
+      "description": "紫微斗数命理分析 - 输入出生信息自动排盘解读",
+      "command": "python",
+      "args": ["C:\\Users\\Administrator\\Desktop\\zwei-web\\mcp_server.py"]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcp_servers": {
+    "ziwei-doushu": {
+      "command": "python",
+      "args": ["C:\\Users\\Administrator\\Desktop\\zwei-web\\mcp_server.py"]
+    }
+  }
+}
