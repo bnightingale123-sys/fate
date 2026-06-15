@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ziwei-doushu-mcp"
+version = "1.0.0"
+description = "紫微斗数 MCP Server - AI-powered Chinese Zi Wei Dou Shu fortune-telling analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = ["mcp", "ziwei", "ziweidoushu", "fortune-telling", "chinese-astrology"]
+authors = [
+    {name = "bnightingale123-sys", email = "769321785@qq.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.1.0",
+    "uvicorn>=0.30.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/bnightingale123-sys/fate"
+Repository = "https://github.com/bnightingale123-sys/fate"
+"MCP Registry" = "https://registry.modelcontextprotocol.io"
+
+[project.scripts]
+ziwei-mcp = "ziwei_mcp:cli_main"
+
+[tool.setuptools.packages.find]
+include = ["ziwei_mcp*"]
+
+[tool.setuptools.package-data]
+ziwei_mcp = ["py.typed"]

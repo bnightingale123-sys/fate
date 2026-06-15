@@ -4,3 +4,7 @@ __pycache__/
 .env
 venv/
 .venv/
+dist/
+*.egg-info/
+mcp-publisher.tar.gz
+mcp-publisher.exe
