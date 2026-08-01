@@ -1,646 +1,1802 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>紫微斗数 - 命理分析</title>
+<title data-i18n="site.title">紫微斗数 - 命理分析</title>
 <style>
 /* ===== Reset & Base ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; }
-body {
-  font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
-  background: #0f0f23;
-  color: #e0d8c8;
-  -webkit-font-smoothing: antialiased;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  background:#0a0a1a;color:#e0d8c8;-webkit-font-smoothing:antialiased;line-height:1.6
 }
-::-webkit-scrollbar { width: 0; height: 0; }
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0a1a}
+::-webkit-scrollbar-thumb{background:#3a3a5a;border-radius:3px}
+img{max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
 
-/* ===== App Container ===== */
-.app-container {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
+/* ===== Header ===== */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:#2D1B4E;color:#fff;
+  padding:16px 0;box-shadow:0 4px 20px rgba(0,0,0,0.3)
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.header-logo{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:bold}
+.header-logo .icon{color:#D4AF37;font-size:1.5rem}
+.header-logo span{color:#D4AF37}
+.header-nav{display:flex;align-items:center;gap:32px;font-size:0.9rem}
+.header-nav a{transition:color 0.2s;color:#c0b8d0}
+.header-nav a:hover{color:#D4AF37}
+.header-cta{
+  background:linear-gradient(135deg,#D4AF37,#C49F27);color:#1a1a2e;
+  padding:10px 22px;border-radius:25px;font-weight:bold;font-size:0.85rem;
+  transition:opacity 0.2s,transform 0.2s;border:none;cursor:pointer
+}
+.header-cta:hover{opacity:0.9;transform:translateY(-1px)}
+.mobile-menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+@media(max-width:768px){
+  .header-nav{display:none}
+  .mobile-menu-btn{display:block}
 }
 
-/* ===== Views ===== */
-.view { display: none; }
-.view.active { display: block; }
-
-/* ===== Utility ===== */
-.hidden { display: none !important; }
-
-/* ===== Shared ===== */
-.footer-note {
-  text-align: center;
-  margin: 40px 0;
-  font-size: 0.7rem;
-  color: #5a5040;
+/* ===== Hero ===== */
+.hero-section{
+  position:relative;min-height:85vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1a1035 0%,#0d1b3e 40%,#1a0a2e 100%);
+  overflow:hidden
+}
+.hero-bg{
+  position:absolute;inset:0;opacity:0.15;
+  background:
+    radial-gradient(ellipse at 20% 50%,#D4AF37 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 50%,#6b4fa0 0%,transparent 50%)
+}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:800px;padding:0 24px}
+.hero-badge{
+  display:inline-block;background:rgba(212,175,55,0.15);color:#D4AF37;
+  padding:6px 20px;border-radius:20px;font-size:0.85rem;margin-bottom:24px;
+  border:1px solid rgba(212,175,55,0.3)
+}
+.hero-title{font-size:2.8rem;font-weight:bold;color:#fff;line-height:1.25;margin-bottom:20px}
+.hero-title .gold{color:#D4AF37}
+.hero-sub{font-size:1.15rem;color:#a098b8;margin-bottom:36px;line-height:1.7}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-gold{
+  background:linear-gradient(135deg,#D4AF37,#C49F27);color:#1a1a2e;
+  padding:14px 36px;border-radius:30px;font-weight:bold;font-size:1rem;
+  transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer
+}
+.btn-gold:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.btn-outline-light{
+  background:transparent;color:#D4AF37;border:2px solid #D4AF37;
+  padding:14px 36px;border-radius:30px;font-weight:bold;font-size:1rem;
+  transition:all 0.3s;cursor:pointer
+}
+.btn-outline-light:hover{background:rgba(212,175,55,0.1);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);animation:bounce 2s infinite}
+.hero-scroll span{font-size:1.5rem;color:#D4AF37}
+@keyframes bounce{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(-10px)}
+}
+@media(max-width:768px){
+  .hero-title{font-size:1.8rem}
+  .hero-sub{font-size:1rem}
+  .hero-section{min-height:75vh}
 }
 
-/* ===== Toast ===== */
-.toast-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  pointer-events: none;
+/* ===== Sections ===== */
+.section{padding:80px 0}
+.section-header{text-align:center;margin-bottom:56px}
+.section-label{
+  display:inline-block;color:#D4AF37;font-size:0.85rem;font-weight:bold;
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:12px
 }
-.toast-msg {
-  background: rgba(0,0,0,0.85);
-  color: #e0d8c8;
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  text-align: center;
-  max-width: 280px;
-  transition: opacity 0.3s;
+.section-title{font-size:2rem;font-weight:bold;color:#fff;margin-bottom:16px}
+.section-desc{font-size:1rem;color:#9088a8;max-width:600px;margin:0 auto;line-height:1.7}
+@media(max-width:768px){.section{padding:56px 0}.section-title{font-size:1.5rem}}
+
+/* ===== Features ===== */
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.feature-card{
+  background:#1A1A2E;border-radius:16px;padding:32px 24px;text-align:center;
+  border:1px solid #2a2a4a;transition:all 0.3s;cursor:default
 }
+.feature-card:hover{border-color:#D4AF37;transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
+.feature-icon{font-size:2.5rem;margin-bottom:16px}
+.feature-name{font-size:1.1rem;font-weight:bold;color:#D4AF37;margin-bottom:8px}
+.feature-desc{font-size:0.85rem;color:#9088a8;line-height:1.6}
+@media(max-width:768px){.features-grid{grid-template-columns:1fr 1fr;gap:16px}}
+@media(max-width:480px){.features-grid{grid-template-columns:1fr}}
+
+/* ===== How It Works ===== */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.step-card{text-align:center;position:relative}
+.step-num{
+  width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#C49F27);
+  color:#1a1a2e;font-size:1.5rem;font-weight:bold;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 20px
+}
+.step-title{font-size:1.1rem;font-weight:bold;color:#fff;margin-bottom:8px}
+.step-desc{font-size:0.85rem;color:#9088a8;line-height:1.6}
+.step-arrow{position:absolute;top:28px;right:-24px;color:#D4AF37;font-size:1.5rem}
+@media(max-width:768px){
+  .steps-grid{grid-template-columns:1fr;gap:24px}
+  .step-arrow{display:none}
+}
+
+/* ===== Form Section ===== */
+.form-section-wrapper{
+  background:#1A1A2E;border-radius:20px;padding:48px;
+  border:1px solid #2a2a4a
+}
+.form-section-wrapper .section-header{margin-bottom:32px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:700px;margin:0 auto}
+.form-grid.full{grid-template-columns:1fr}
+.form-group{margin-bottom:0}
+.form-label{display:block;font-size:0.85rem;color:#c0b8a8;margin-bottom:8px;font-weight:500}
+.form-input,.form-select{
+  width:100%;height:48px;background:rgba(255,255,255,0.05);
+  border:1px solid #3a3a5a;border-radius:10px;padding:0 16px;
+  font-size:0.9rem;color:#e0d8c8;outline:none;transition:border-color 0.2s;font-family:inherit
+}
+.form-input:focus,.form-select:focus{border-color:#D4AF37}
+.form-select{
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238a7e6b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center
+}
+.form-select option{background:#1a1a2e;color:#e0d8c8}
+.radio-group{display:flex;gap:12px}
+.radio-item{
+  flex:1;height:48px;background:rgba(255,255,255,0.05);
+  border:1px solid #3a3a5a;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;color:#8a7e6b;cursor:pointer;transition:all 0.2s;user-select:none
+}
+.radio-item.active{border-color:#D4AF37;color:#D4AF37;background:rgba(212,175,55,0.1)}
+.date-type-tabs{display:flex;gap:12px;margin-bottom:12px}
+.date-tab{
+  flex:1;height:38px;background:rgba(255,255,255,0.05);
+  border:1px solid #3a3a5a;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:#8a7e6b;cursor:pointer;transition:all 0.2s;user-select:none
+}
+.date-tab.active{border-color:#D4AF37;color:#D4AF37;background:rgba(212,175,55,0.1)}
+.date-picker-box{
+  background:rgba(255,255,255,0.05);border:1px solid #3a3a5a;
+  border-radius:10px;height:48px;display:flex;align-items:center;padding:0 16px
+}
+.date-picker-box input[type="date"]{
+  width:100%;background:none;border:none;font-size:0.9rem;color:#e0d8c8;outline:none;font-family:inherit
+}
+.date-picker-box input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7)}
+.btn-submit{
+  grid-column:1/-1;height:56px;background:linear-gradient(135deg,#D4AF37,#C49F27);
+  border:none;border-radius:28px;font-size:1.05rem;color:#1a1a2e;font-weight:bold;
+  cursor:pointer;margin-top:8px;transition:all 0.3s;
+  display:flex;align-items:center;justify-content:center;gap:8px
+}
+.btn-submit:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,175,55,0.3)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.spinner{
+  display:inline-block;width:20px;height:20px;
+  border:2px solid rgba(26,26,46,0.3);border-top-color:#1a1a2e;
+  border-radius:50%;animation:spin 0.6s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.form-note{text-align:center;margin-top:16px;font-size:0.75rem;color:#6a6040}
+@media(max-width:768px){.form-section-wrapper{padding:32px 20px}.form-grid{grid-template-columns:1fr}}
+
+/* ===== Chart Result ===== */
+.result-section{display:none}
+.result-section.active{display:block}
+.chart-wrapper{
+  background:#1A1A2E;border-radius:20px;padding:32px;
+  border:1px solid #2a2a4a
+}
+.chart-info{text-align:center;margin-bottom:24px}
+.chart-name{font-size:1.1rem;color:#D4AF37;font-weight:bold}
+.chart-date{font-size:0.85rem;color:#8a7e6b;margin-top:4px}
+.ganzhi-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.ganzhi-item{
+  font-size:0.75rem;color:#8a7e6b;background:rgba(255,255,255,0.05);
+  padding:4px 14px;border-radius:6px
+}
+.chart-grid-table{width:100%;border:1px solid #3a3a5a;border-radius:12px;overflow:hidden}
+.chart-row{display:flex;border-bottom:1px solid #2a2a4a}
+.chart-row:last-child{border-bottom:none}
+.chart-cell{
+  flex:1;min-height:105px;padding:10px 8px;background:rgba(255,255,255,0.02);
+  border-right:1px solid #2a2a4a;cursor:pointer;transition:background 0.2s
+}
+.chart-cell:hover{background:rgba(212,175,55,0.06)}
+.chart-cell:last-child{border-right:none}
+.chart-cell.ming{background:rgba(212,175,55,0.1)}
+.center-cell{
+  flex:2;min-height:105px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:rgba(212,175,55,0.04);padding:10px;border-right:1px solid #2a2a4a
+}
+.center-element{font-size:0.95rem;color:#D4AF37;font-weight:bold}
+.center-label{font-size:0.65rem;color:#6a6048;margin-top:2px}
+.center-lunar{font-size:0.7rem;color:#8a7e6b;margin-top:4px}
+.center-ziwei{font-size:1rem;margin-top:2px;color:#D4AF37}
+.cell-branch-row{display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.cell-branch-tag{font-size:0.7rem;color:#5a5040;font-weight:bold}
+.cell-shen-tag{
+  font-size:0.6rem;color:#10B981;background:rgba(16,185,129,0.15);
+  padding:0 6px;border-radius:3px
+}
+.cell-title{font-size:0.75rem;color:#D4AF37;font-weight:bold;display:block;margin-bottom:4px}
+.cell-stars-list{display:flex;flex-wrap:wrap;gap:3px}
+.star-tag{font-size:0.58rem;padding:1px 5px;border-radius:3px;white-space:nowrap;line-height:1.5}
+.star-tag.main{color:#f0d080;background:rgba(240,208,128,0.15)}
+.star-tag.aux{color:#80c0f0;background:rgba(128,192,240,0.12)}
+.star-tag.sha{color:#f08080;background:rgba(240,128,128,0.12)}
+.cell-hua{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px}
+.hua-tag{font-size:0.52rem;padding:1px 5px;border-radius:2px;font-weight:bold}
+.hua-tag.lu{color:#f0d080;background:rgba(240,208,128,0.2)}
+.hua-tag.quan{color:#10B981;background:rgba(16,185,129,0.2)}
+.hua-tag.ke{color:#80c0f0;background:rgba(128,192,240,0.2)}
+.hua-tag.ji{color:#f08080;background:rgba(240,128,128,0.2)}
+.hua-bar{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:14px;margin:20px 0;padding:14px;background:rgba(255,255,255,0.03);border-radius:12px
+}
+.hua-label{font-size:0.85rem;color:#8a7e6b}
+.hua-item{font-size:0.85rem;font-weight:bold;padding:4px 14px;border-radius:8px}
+.hua-item.lu{color:#f0d080;background:rgba(240,208,128,0.12)}
+.hua-item.quan{color:#10B981;background:rgba(16,185,129,0.12)}
+.hua-item.ke{color:#80c0f0;background:rgba(128,192,240,0.12)}
+.hua-item.ji{color:#f08080;background:rgba(240,128,128,0.12)}
+.daxian-scroll{overflow-x:auto;padding-bottom:8px}
+.daxian-row{display:flex;gap:10px}
+.daxian-item{
+  flex:0 0 auto;display:flex;flex-direction:column;align-items:center;
+  padding:12px 18px;background:rgba(255,255,255,0.03);
+  border:1px solid #2a2a4a;border-radius:10px;min-width:80px
+}
+.daxian-age{font-size:0.7rem;color:#8a7e6b}
+.daxian-palace{font-size:0.75rem;color:#D4AF37;margin-top:4px}
+.chart-actions{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.btn-outline{
+  height:50px;background:transparent;border:2px solid #D4AF37;
+  border-radius:25px;font-size:0.92rem;color:#D4AF37;font-weight:bold;
+  cursor:pointer;transition:background 0.2s;
+  display:flex;align-items:center;justify-content:center
+}
+.btn-outline:hover{background:rgba(212,175,55,0.08)}
+.btn-outline.unlocked{border-color:#10B981;color:#10B981;background:rgba(16,185,129,0.08)}
+.btn-secondary{
+  height:46px;background:rgba(255,255,255,0.05);border:1px solid #3a3a5a;
+  border-radius:23px;font-size:0.85rem;color:#8a7e6b;cursor:pointer;
+  transition:background 0.2s;display:flex;align-items:center;justify-content:center
+}
+.btn-secondary:hover{background:rgba(255,255,255,0.08)}
+@media(max-width:768px){.chart-wrapper{padding:16px 8px}}
+
+/* ===== Detail View ===== */
+.detail-section-wrapper{display:none}
+.detail-section-wrapper.active{display:block}
+.detail-inner{
+  background:#1A1A2E;border-radius:20px;padding:40px;
+  border:1px solid #2a2a4a
+}
+.detail-header{text-align:center;margin-bottom:28px}
+.detail-title{font-size:1.2rem;color:#D4AF37;font-weight:bold}
+.detail-subtitle{font-size:0.8rem;color:#8a7e6b;margin-top:6px}
+.summary-card{
+  background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);
+  border-radius:14px;padding:18px;margin-bottom:24px
+}
+.summary-text{display:block;font-size:0.85rem;color:#c0b8a8;line-height:1.7}
+.hua-grid{display:flex;gap:12px;margin-bottom:24px}
+.hua-card{flex:1;padding:16px 10px;border-radius:12px;text-align:center}
+.hua-card.lu{background:rgba(240,208,128,0.1);border:1px solid rgba(240,208,128,0.25)}
+.hua-card.quan{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25)}
+.hua-card.ke{background:rgba(128,192,240,0.1);border:1px solid rgba(128,192,240,0.25)}
+.hua-card.ji{background:rgba(240,128,128,0.1);border:1px solid rgba(240,128,128,0.25)}
+.hua-type{display:block;font-size:0.7rem;color:#8a7e6b;margin-bottom:4px}
+.hua-star{display:block;font-size:1.05rem;font-weight:bold}
+.hua-card.lu .hua-star{color:#f0d080}
+.hua-card.quan .hua-star{color:#10B981}
+.hua-card.ke .hua-star{color:#80c0f0}
+.hua-card.ji .hua-star{color:#f08080}
+.hua-desc{display:block;font-size:0.63rem;color:#6a6048;margin-top:3px}
+.pattern-card{
+  background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);
+  border-radius:12px;padding:14px;margin-bottom:12px
+}
+.pattern-name{display:block;font-size:0.9rem;color:#D4AF37;font-weight:bold;margin-bottom:6px}
+.pattern-desc{display:block;font-size:0.78rem;color:#b0a898;line-height:1.6}
+.palace-card{
+  background:rgba(255,255,255,0.02);border:1px solid #2a2a4a;
+  border-radius:12px;padding:16px;margin-bottom:10px;cursor:pointer;transition:background 0.2s
+}
+.palace-card:hover{background:rgba(212,175,55,0.04);border-color:#3a3a5a}
+.palace-card.ming{background:rgba(212,175,55,0.08);border-color:rgba(212,175,55,0.25)}
+.palace-header{display:flex;align-items:center;gap:8px}
+.palace-left{display:flex;align-items:center;gap:6px;min-width:100px}
+.palace-name{font-size:0.9rem;color:#D4AF37;font-weight:bold}
+.palace-branch{font-size:0.72rem;color:#6a6048}
+.shen-tag{
+  font-size:0.65rem;color:#10B981;background:rgba(16,185,129,0.15);
+  padding:0 6px;border-radius:3px
+}
+.palace-stars{flex:1;display:flex;flex-wrap:wrap;gap:4px}
+.palace-star{font-size:0.7rem;padding:2px 8px;border-radius:4px}
+.palace-star.main{color:#f0d080;background:rgba(240,208,128,0.12)}
+.arrow-icon{font-size:1.1rem;color:#3a3a5a}
+.palace-hua{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.hua-badge{font-size:0.65rem;padding:2px 8px;border-radius:4px}
+.hua-badge.lu{color:#f0d080;background:rgba(240,208,128,0.12)}
+.hua-badge.quan{color:#10B981;background:rgba(16,185,129,0.12)}
+.hua-badge.ke{color:#80c0f0;background:rgba(128,192,240,0.12)}
+.hua-badge.ji{color:#f08080;background:rgba(240,128,128,0.12)}
+.palace-preview{margin-top:8px}
+.preview-text{font-size:0.78rem;color:#6a6048;line-height:1.5}
+.dx-list{display:flex;flex-wrap:wrap;gap:10px}
+.dx-card{
+  width:calc(33.33% - 7px);padding:12px 8px;
+  background:rgba(255,255,255,0.02);border:1px solid #2a2a4a;
+  border-radius:10px;text-align:center
+}
+.dx-age{display:block;font-size:0.7rem;color:#8a7e6b;margin-bottom:3px}
+.dx-palace{display:block;font-size:0.8rem;color:#D4AF37;font-weight:bold;margin-bottom:3px}
+.dx-stars{display:block;font-size:0.65rem;color:#6a6048}
+.text-card{
+  background:rgba(255,255,255,0.02);border:1px solid #2a2a4a;
+  border-radius:12px;padding:18px;margin-bottom:24px
+}
+.body-text{font-size:0.85rem;color:#c0b8a8;line-height:1.7}
+.advice-card{
+  background:rgba(128,192,240,0.05);border:1px solid rgba(128,192,240,0.15);
+  border-radius:12px;padding:18px
+}
+.advice-text{font-size:0.85rem;color:#a0b8d0;line-height:1.7}
+@media(max-width:768px){
+  .detail-inner{padding:20px 16px}
+  .hua-grid{flex-wrap:wrap}
+  .dx-card{width:calc(50% - 5px)}
+}
+
+/* ===== Testimonials ===== */
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testimonial-card{
+  background:#1A1A2E;border-radius:16px;padding:28px;
+  border:1px solid #2a2a4a
+}
+.testimonial-stars{color:#D4AF37;font-size:1.1rem;margin-bottom:12px}
+.testimonial-text{font-size:0.9rem;color:#c0b8a8;line-height:1.7;margin-bottom:16px}
+.testimonial-author{font-size:0.85rem;color:#D4AF37;font-weight:bold}
+.testimonial-role{font-size:0.75rem;color:#6a6048}
+.stats-row{display:flex;justify-content:center;gap:48px;margin-top:48px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-size:2rem;font-weight:bold;color:#D4AF37}
+.stat-label{font-size:0.85rem;color:#8a7e6b;margin-top:4px}
+@media(max-width:768px){.testimonials-grid{grid-template-columns:1fr}.stats-row{gap:24px}}
+
+/* ===== Pricing ===== */
+.pricing-card{
+  max-width:440px;margin:0 auto;background:#1A1A2E;border-radius:20px;
+  padding:40px;border:2px solid #D4AF37;text-align:center;position:relative
+}
+.pricing-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:#10B981;color:#fff;padding:4px 16px;border-radius:12px;
+  font-size:0.75rem;font-weight:bold
+}
+.pricing-name{font-size:1.2rem;color:#fff;font-weight:bold;margin-bottom:20px}
+.pricing-price{font-size:3rem;font-weight:bold;color:#D4AF37;margin-bottom:4px}
+.pricing-period{font-size:0.85rem;color:#8a7e6b;margin-bottom:28px}
+.pricing-features{list-style:none;margin-bottom:32px}
+.pricing-features li{
+  font-size:0.9rem;color:#c0b8a8;padding:8px 0;
+  border-bottom:1px solid #2a2a4a
+}
+.pricing-features li:last-child{border:none}
+.pricing-features .check{color:#10B981;margin-right:8px}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{
+  background:#1A1A2E;border:1px solid #2a2a4a;border-radius:12px;
+  margin-bottom:12px;overflow:hidden;cursor:pointer
+}
+.faq-q{
+  padding:18px 24px;display:flex;justify-content:space-between;
+  align-items:center;font-weight:bold;color:#fff;font-size:0.95rem
+}
+.faq-q:hover{color:#D4AF37}
+.faq-q .arrow-icon{color:#D4AF37;transition:transform 0.3s;font-size:0.8rem}
+.faq-item.open .faq-q .arrow-icon{transform:rotate(180deg)}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all 0.3s}
+.faq-item.open .faq-a{padding:0 24px 18px;max-height:300px}
+.faq-a p{font-size:0.85rem;color:#9088a8;line-height:1.7}
+
+/* ===== CTA Section ===== */
+.cta-section{background:#2D1B4E;text-align:center}
+.cta-title{font-size:2rem;font-weight:bold;color:#fff;margin-bottom:16px}
+.cta-desc{font-size:1rem;color:#c0b8d0;margin-bottom:32px}
+@media(max-width:768px){.cta-title{font-size:1.5rem}}
+
+/* ===== Footer ===== */
+.site-footer{
+  background:#0d0d1f;padding:48px 0 24px;text-align:center;
+  border-top:1px solid #2a2a4a
+}
+.footer-brand{font-size:1.2rem;color:#D4AF37;font-weight:bold;margin-bottom:8px}
+.footer-desc{font-size:0.85rem;color:#6a6048;margin-bottom:24px}
+.footer-links{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:24px}
+.footer-links a{font-size:0.85rem;color:#8a7e6b;transition:color 0.2s}
+.footer-links a:hover{color:#D4AF37}
+.footer-bottom{font-size:0.75rem;color:#4a4050}
+
+/* ===== Feature Card CTA ===== */
+.feature-card{cursor:pointer}
+.feature-cta{
+  display:block;margin-top:14px;font-size:0.78rem;color:#D4AF37;opacity:0;
+  transform:translateY(6px);transition:all 0.25s
+}
+.feature-card:hover .feature-cta{opacity:1;transform:translateY(0)}
 
 /* ===== Modal ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:900;
+  display:flex;align-items:center;justify-content:center;padding:24px
 }
-.modal-box {
-  background: #1a1a3e;
-  border: 1px solid #3a3a5a;
-  border-radius: 16px;
-  padding: 28px 24px 20px;
-  max-width: 400px;
-  width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
+.modal-overlay.hidden{display:none}
+.modal-box{
+  background:#1A1A2E;border:1px solid #3a3a5a;border-radius:18px;
+  padding:32px 28px 24px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto
 }
-.modal-title {
-  font-size: 1.05rem;
-  color: #d4a853;
-  font-weight: bold;
-  margin-bottom: 14px;
-  text-align: center;
+.modal-title{font-size:1.1rem;color:#D4AF37;font-weight:bold;margin-bottom:16px;text-align:center}
+.modal-body{
+  font-size:0.88rem;color:#c0b8a8;line-height:1.8;white-space:pre-wrap;margin-bottom:22px
 }
-.modal-body {
-  font-size: 0.85rem;
-  color: #c0b8a8;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  margin-bottom: 20px;
+.modal-btn{
+  width:100%;height:48px;background:linear-gradient(135deg,#D4AF37,#C49F27);
+  border:none;border-radius:24px;font-size:1rem;color:#1a1a2e;font-weight:bold;
+  cursor:pointer;transition:opacity 0.2s
 }
-.modal-btn {
-  width: 100%;
-  height: 44px;
-  background: linear-gradient(135deg, #d4a853 0%, #b8913a 100%);
-  border: none;
-  border-radius: 22px;
-  font-size: 0.95rem;
-  color: #1a1a2e;
-  font-weight: bold;
-  cursor: pointer;
-  transition: opacity 0.2s;
+.modal-btn:hover{opacity:0.9}
+.modal-btn:disabled{opacity:0.6;cursor:not-allowed}
+.modal-btn-lianlian{
+  width:100%;height:48px;background:linear-gradient(135deg,#2563EB,#1D4ED8);
+  border:none;border-radius:24px;font-size:1rem;color:#fff;font-weight:bold;
+  cursor:pointer;transition:opacity 0.2s
 }
-.modal-btn:hover { opacity: 0.9; }
+.modal-btn-lianlian:hover{opacity:0.9}
+.modal-btn-lianlian:disabled{opacity:0.6;cursor:not-allowed}
+.modal-btn-cancel{
+  width:100%;height:42px;background:transparent;border:1px solid #3a3a5a;
+  border-radius:21px;font-size:0.85rem;color:#8a7e6b;cursor:pointer;
+  margin-top:12px;transition:background 0.2s
+}
+.modal-btn-cancel:hover{background:rgba(255,255,255,0.05)}
 
-/* ===== View: Input ===== */
-#view-input .container { min-height: 100vh; padding: 24px; display: flex; flex-direction: column; align-items: center; }
-#view-input .header { text-align: center; margin: 40px 0 36px; }
-#view-input .title { font-size: 1.6rem; color: #d4a853; font-weight: bold; letter-spacing: 4px; }
-#view-input .subtitle { display: block; font-size: 0.8rem; color: #8a7e6b; margin-top: 8px; }
-
-.form-card {
-  width: 100%;
-  background: linear-gradient(135deg, #1a1a3e 0%, #16162a 100%);
-  border-radius: 16px;
-  padding: 28px 24px;
-  border: 1px solid #2a2a4a;
+/* ===== Category Modal ===== */
+.cat-section{margin-bottom:18px}
+.cat-intro{font-size:0.88rem;color:#c0b8a8;line-height:1.7;margin:0}
+.cat-section-title{font-size:0.92rem;color:#D4AF37;font-weight:bold;margin-bottom:10px}
+.cat-analyze-list{display:flex;flex-direction:column;gap:8px}
+.cat-analyze-item{
+  display:flex;gap:10px;padding:10px 14px;
+  background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid #2a2a4a
 }
-.form-title { font-size: 1.05rem; color: #d4a853; font-weight: bold; margin-bottom: 28px; text-align: center; }
-.form-group { margin-bottom: 24px; }
-.form-label { display: block; font-size: 0.85rem; color: #c0b8a8; margin-bottom: 10px; }
-
-.form-input {
-  width: 100%;
-  height: 44px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 8px;
-  padding: 0 16px;
-  font-size: 0.85rem;
-  color: #e0d8c8;
-  outline: none;
-  transition: border-color 0.2s;
+.cat-analyze-label{
+  font-size:0.8rem;color:#D4AF37;font-weight:bold;white-space:nowrap;min-width:80px
 }
-.form-input:focus { border-color: #d4a853; }
-
-.radio-group { display: flex; gap: 12px; }
-.radio-item {
-  flex: 1;
-  height: 44px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: #8a7e6b;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
+.cat-analyze-desc{font-size:0.78rem;color:#9088a8;line-height:1.5}
+.cat-service-intro{font-size:0.82rem;color:#8a7e6b;margin:0 0 8px 0}
+.cat-service-list{
+  list-style:none;display:flex;flex-direction:column;gap:6px
 }
-.radio-item.active {
-  border-color: #d4a853;
-  color: #d4a853;
-  background: rgba(212,168,83,0.1);
+.cat-service-list li{
+  font-size:0.8rem;color:#c0b8a8;padding:6px 12px;
+  background:rgba(212,175,55,0.06);border-radius:8px;
+  border-left:3px solid #D4AF37
+}
+.cat-service-list li::before{content:'\2713 ';color:#10B981;margin-right:6px;font-weight:bold}
+.cat-pricing{
+  text-align:center;padding:16px;margin-top:8px;
+  background:rgba(212,175,55,0.08);border-radius:14px;
+  border:1px solid rgba(212,175,55,0.2)
+}
+.cat-price{font-size:2rem;font-weight:bold;color:#D4AF37}
+.cat-price-note{font-size:0.75rem;color:#8a7e6b;margin-top:4px}
+
+/* ===== Toast ===== */
+.toast-container{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:1000;pointer-events:none
+}
+.toast-msg{
+  background:rgba(0,0,0,0.9);color:#e0d8c8;padding:14px 28px;
+  border-radius:12px;font-size:0.88rem;text-align:center;
+  max-width:320px;transition:opacity 0.3s
 }
 
-.date-type-tabs { display: flex; gap: 12px; margin-bottom: 14px; }
-.date-tab {
-  flex: 1;
-  height: 38px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  color: #8a7e6b;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-}
-.date-tab.active {
-  border-color: #d4a853;
-  color: #d4a853;
-  background: rgba(212,168,83,0.1);
+/* ===== Detail Container Section Overrides ===== */
+#detailContainer .section{padding:0;margin-bottom:24px;background:none;border:none}
+#detailContainer .section-title{
+  display:block;font-size:0.95rem;color:#D4AF37;font-weight:bold;margin-bottom:12px;
+  text-align:left;max-width:none
 }
 
-.date-picker-box {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 8px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
+/* ===== Chart internal classes ===== */
+.info-bar{display:flex;justify-content:center;gap:28px;margin-bottom:12px}
+.info-text{font-size:0.88rem;color:#c0b8a8}
+.chart-table{width:100%;border:1px solid #3a3a5a;border-radius:12px;overflow:hidden}
+.chart-cell[data-palace]:hover{background:rgba(212,175,55,0.08)!important}
+.actions{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.btn-back{
+  width:100%;height:46px;background:rgba(255,255,255,0.05);border:1px solid #3a3a5a;
+  border-radius:23px;font-size:0.85rem;color:#8a7e6b;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background 0.2s
 }
-.date-picker-box input[type="date"] {
-  width: 100%;
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  color: #e0d8c8;
-  outline: none;
-  font-family: inherit;
+.btn-back:hover{background:rgba(255,255,255,0.08)}
+.arrow{font-size:1.1rem;color:#3a3a5a}
+.palace-list{display:flex;flex-direction:column;gap:8px}
+.section-title:empty{display:none}
+
+/* ===== Language Switcher ===== */
+.lang-switcher{
+  display:flex;align-items:center;gap:4px;margin-left:16px;
+  background:rgba(255,255,255,0.08);border-radius:20px;padding:3px
 }
-.date-picker-box input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7);
+.lang-btn{
+  background:transparent;border:none;color:#c0b8d0;font-size:0.75rem;
+  font-weight:bold;padding:5px 10px;border-radius:17px;cursor:pointer;
+  transition:all 0.2s;white-space:nowrap;font-family:inherit
+}
+.lang-btn:hover{color:#D4AF37}
+.lang-btn.active{background:#D4AF37;color:#1a1a2e}
+@media(max-width:768px){
+  .lang-switcher{margin-left:0;margin-top:8px}
 }
 
-.select-box {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 8px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  cursor: pointer;
-  position: relative;
-}
-.select-box select {
-  width: 100%;
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  color: #e0d8c8;
-  outline: none;
-  font-family: inherit;
-  appearance: none;
-  cursor: pointer;
-}
-.select-box select option {
-  background: #1a1a3e;
-  color: #e0d8c8;
-}
-.select-box::after {
-  content: '▾';
-  position: absolute;
-  right: 14px;
-  color: #8a7e6b;
-  pointer-events: none;
-}
+/* ===== RTL Support (Arabic) ===== */
+[dir="rtl"] body{direction:rtl}
+[dir="rtl"] .header-inner{flex-direction:row}
+[dir="rtl"] .header-nav{flex-direction:row}
+[dir="rtl"] .hero-content,[dir="rtl"] .section-header{text-align:center}
+[dir="rtl"] .steps-grid .step-arrow{right:auto;left:-24px;transform:scaleX(-1)}
+[dir="rtl"] .cat-analyze-item{text-align:right}
+[dir="rtl"] .cat-service-list li{border-left:none;border-right:3px solid #D4AF37;text-align:right}
+[dir="rtl"] .palace-card{direction:rtl}
+[dir="rtl"] .palace-header{flex-direction:row}
+[dir="rtl"] .faq-q span:last-child{margin-left:0;margin-right:auto}
+[dir="rtl"] .chart-cell{direction:rtl}
+[dir="rtl"] .feature-cta{direction:rtl}
+[dir="rtl"] .modal-body{text-align:right}
+[dir="rtl"] .chart-actions{direction:rtl}
+[dir="rtl"] .testimonial-card{text-align:right}
+[dir="rtl"] .footer-links{flex-direction:row}
 
-.btn-primary {
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(135deg, #d4a853 0%, #b8913a 100%);
-  border: none;
-  border-radius: 25px;
-  font-size: 1rem;
-  color: #1a1a2e;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.btn-primary:hover { opacity: 0.9; }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.spinner {
-  display: inline-block;
-  width: 18px; height: 18px;
-  border: 2px solid rgba(26,26,46,0.3);
-  border-top-color: #1a1a2e;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ===== View: Chart ===== */
-#view-chart .container { min-height: 100vh; padding: 16px; }
-.info-bar { text-align: center; margin-bottom: 8px; }
-.info-text { display: block; font-size: 0.85rem; color: #d4a853; line-height: 1.7; }
-
-.ganzhi-bar {
-  display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
-}
-.ganzhi-item {
-  font-size: 0.73rem; color: #8a7e6b; background: rgba(255,255,255,0.05);
-  padding: 4px 12px; border-radius: 6px;
-}
-
-/* Chart Table */
-.chart-table {
-  width: 100%;
-  border: 1px solid #3a3a5a;
-  border-radius: 10px;
-  overflow: hidden;
-}
-.chart-row { display: flex; border-bottom: 1px solid #2a2a4a; }
-.chart-row:last-child { border-bottom: none; }
-
-.chart-cell {
-  flex: 1;
-  min-height: 100px;
-  padding: 8px 6px;
-  background: rgba(255,255,255,0.02);
-  border-right: 1px solid #2a2a4a;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.chart-cell:hover { background: rgba(255,255,255,0.05); }
-.chart-cell:last-child { border-right: none; }
-.chart-cell.ming { background: rgba(212,168,83,0.08); }
-
-.center-cell {
-  flex: 2;
-  min-height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(212,168,83,0.03);
-  padding: 10px;
-  border-right: 1px solid #2a2a4a;
-}
-.chart-row:first-child .center-cell, .chart-row:last-child .center-cell {
-  border-right: 1px solid #2a2a4a;
-}
-
-.center-element { font-size: 0.95rem; color: #d4a853; font-weight: bold; }
-.center-label { font-size: 0.65rem; color: #6a6048; margin-top: 2px; }
-.center-lunar { font-size: 0.7rem; color: #8a7e6b; margin-top: 4px; }
-.center-ziwei { font-size: 1rem; margin-top: 2px; color: #d4a853; }
-
-.cell-branch-row { display: flex; align-items: center; gap: 4px; margin-bottom: 3px; }
-.cell-branch-tag { font-size: 0.7rem; color: #5a5040; font-weight: bold; }
-.cell-shen-tag {
-  font-size: 0.6rem; color: #80f0a0; background: rgba(128,240,160,0.15);
-  padding: 0 6px; border-radius: 3px;
-}
-.cell-title { font-size: 0.75rem; color: #d4a853; font-weight: bold; display: block; margin-bottom: 4px; }
-.cell-stars-list { display: flex; flex-wrap: wrap; gap: 3px; }
-
-.star-tag {
-  font-size: 0.58rem; padding: 1px 5px; border-radius: 3px;
-  white-space: nowrap; line-height: 1.5;
-}
-.star-tag.main { color: #f0d080; background: rgba(240,208,128,0.15); }
-.star-tag.aux { color: #80c0f0; background: rgba(128,192,240,0.12); }
-.star-tag.sha { color: #f08080; background: rgba(240,128,128,0.12); }
-
-.cell-hua { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
-.hua-tag {
-  font-size: 0.52rem; padding: 1px 5px; border-radius: 2px; font-weight: bold;
-}
-.hua-tag.lu { color: #f0d080; background: rgba(240,208,128,0.2); }
-.hua-tag.quan { color: #80f0a0; background: rgba(128,240,160,0.2); }
-.hua-tag.ke { color: #80c0f0; background: rgba(128,192,240,0.2); }
-.hua-tag.ji { color: #f08080; background: rgba(240,128,128,0.2); }
-
-/* Hua Bar */
-.hua-bar {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 12px; margin: 16px 0;
-  padding: 14px; background: rgba(255,255,255,0.03); border-radius: 10px;
-}
-.hua-label { font-size: 0.8rem; color: #8a7e6b; }
-.hua-item { font-size: 0.8rem; font-weight: bold; padding: 3px 12px; border-radius: 6px; }
-.hua-item.lu { color: #f0d080; background: rgba(240,208,128,0.12); }
-.hua-item.quan { color: #80f0a0; background: rgba(128,240,160,0.12); }
-.hua-item.ke { color: #80c0f0; background: rgba(128,192,240,0.12); }
-.hua-item.ji { color: #f08080; background: rgba(240,128,128,0.12); }
-
-/* Da Xian */
-.section { margin-bottom: 24px; }
-.section-title {
-  font-size: 0.92rem; color: #d4a853; font-weight: bold;
-  display: block; margin-bottom: 12px; padding-left: 8px;
-  border-left: 3px solid #d4a853;
-}
-.daxian-scroll { overflow-x: auto; padding-bottom: 8px; }
-.daxian-row { display: flex; gap: 10px; }
-.daxian-item {
-  flex: 0 0 auto;
-  display: flex; flex-direction: column; align-items: center;
-  padding: 12px 18px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  min-width: 80px;
-}
-.daxian-age { font-size: 0.7rem; color: #8a7e6b; }
-.daxian-palace { font-size: 0.75rem; color: #d4a853; margin-top: 4px; }
-
-/* Actions */
-.actions { display: flex; flex-direction: column; gap: 14px; margin: 24px 0; }
-.btn-outline {
-  height: 50px;
-  background: transparent;
-  border: 2px solid #d4a853;
-  border-radius: 25px;
-  font-size: 0.92rem;
-  color: #d4a853;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-outline:hover { background: rgba(212,168,83,0.08); }
-.btn-secondary {
-  height: 46px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 23px;
-  font-size: 0.85rem;
-  color: #8a7e6b;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-secondary:hover { background: rgba(255,255,255,0.08); }
-
-/* ===== View: Detail ===== */
-#view-detail .container { min-height: 100vh; padding: 16px 20px 32px; }
-.detail-header { text-align: center; margin: 16px 0 20px; }
-.detail-title { font-size: 1.05rem; color: #d4a853; font-weight: bold; }
-.detail-subtitle { display: block; font-size: 0.75rem; color: #8a7e6b; margin-top: 6px; }
-
-.summary-card {
-  background: rgba(212,168,83,0.08);
-  border: 1px solid rgba(212,168,83,0.2);
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 20px;
-}
-.summary-text { display: block; font-size: 0.8rem; color: #c0b8a8; line-height: 1.7; }
-
-/* Hua Grid */
-.hua-grid { display: flex; gap: 10px; }
-.hua-card {
-  flex: 1;
-  padding: 14px 8px;
-  border-radius: 10px;
-  text-align: center;
-}
-.hua-card.lu { background: rgba(240,208,128,0.1); border: 1px solid rgba(240,208,128,0.25); }
-.hua-card.quan { background: rgba(128,240,160,0.1); border: 1px solid rgba(128,240,160,0.25); }
-.hua-card.ke { background: rgba(128,192,240,0.1); border: 1px solid rgba(128,192,240,0.25); }
-.hua-card.ji { background: rgba(240,128,128,0.1); border: 1px solid rgba(240,128,128,0.25); }
-.hua-type { display: block; font-size: 0.7rem; color: #8a7e6b; margin-bottom: 4px; }
-.hua-star { display: block; font-size: 1rem; font-weight: bold; }
-.hua-card.lu .hua-star { color: #f0d080; }
-.hua-card.quan .hua-star { color: #80f0a0; }
-.hua-card.ke .hua-star { color: #80c0f0; }
-.hua-card.ji .hua-star { color: #f08080; }
-.hua-desc { display: block; font-size: 0.63rem; color: #6a6048; margin-top: 3px; }
-
-/* Patterns */
-.pattern-card {
-  background: rgba(212,168,83,0.06);
-  border: 1px solid rgba(212,168,83,0.15);
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-.pattern-name { display: block; font-size: 0.85rem; color: #d4a853; font-weight: bold; margin-bottom: 6px; }
-.pattern-desc { display: block; font-size: 0.75rem; color: #b0a898; line-height: 1.6; }
-
-/* Palace List */
-.palace-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.palace-card:hover { background: rgba(255,255,255,0.04); }
-.palace-card.ming { background: rgba(212,168,83,0.06); border-color: rgba(212,168,83,0.2); }
-
-.palace-header { display: flex; align-items: center; gap: 8px; }
-.palace-left { display: flex; align-items: center; gap: 6px; min-width: 100px; }
-.palace-name { font-size: 0.85rem; color: #d4a853; font-weight: bold; }
-.palace-branch { font-size: 0.7rem; color: #6a6048; }
-.shen-tag {
-  font-size: 0.63rem; color: #80f0a0; background: rgba(128,240,160,0.15);
-  padding: 0 6px; border-radius: 3px;
-}
-.palace-stars { flex: 1; display: flex; flex-wrap: wrap; gap: 4px; }
-.palace-star {
-  font-size: 0.68rem; padding: 1px 8px; border-radius: 4px;
-}
-.palace-star.main { color: #f0d080; background: rgba(240,208,128,0.12); }
-
-.arrow { font-size: 1.1rem; color: #3a3a5a; }
-
-.palace-hua { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.hua-badge { font-size: 0.63rem; padding: 1px 8px; border-radius: 4px; }
-.hua-badge.lu { color: #f0d080; background: rgba(240,208,128,0.12); }
-.hua-badge.quan { color: #80f0a0; background: rgba(128,240,160,0.12); }
-.hua-badge.ke { color: #80c0f0; background: rgba(128,192,240,0.12); }
-.hua-badge.ji { color: #f08080; background: rgba(240,128,128,0.12); }
-
-.palace-preview { margin-top: 8px; }
-.preview-text { font-size: 0.75rem; color: #6a6048; line-height: 1.5; }
-
-/* Da Xian Grid */
-.dx-list { display: flex; flex-wrap: wrap; gap: 10px; }
-.dx-card {
-  width: calc(33.33% - 7px);
-  padding: 12px 8px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  text-align: center;
-}
-.dx-age { display: block; font-size: 0.7rem; color: #8a7e6b; margin-bottom: 3px; }
-.dx-palace { display: block; font-size: 0.8rem; color: #d4a853; font-weight: bold; margin-bottom: 3px; }
-.dx-stars { display: block; font-size: 0.63rem; color: #6a6048; }
-
-/* Text Card */
-.text-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  padding: 18px;
-}
-.body-text { font-size: 0.8rem; color: #c0b8a8; line-height: 1.7; }
-
-/* Advice */
-.advice-card {
-  background: rgba(128,192,240,0.05);
-  border: 1px solid rgba(128,192,240,0.15);
-  border-radius: 10px;
-  padding: 18px;
-}
-.advice-text { font-size: 0.8rem; color: #a0b8d0; line-height: 1.7; }
-
-.btn-back {
-  width: 100%; height: 46px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid #3a3a5a;
-  border-radius: 23px;
-  font-size: 0.85rem;
-  color: #8a7e6b;
-  cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 16px;
-}
-.btn-back:hover { background: rgba(255,255,255,0.08); }
 </style>
-</head>
 <body>
-<div class="app-container" id="app">
+<div class="toast-container" id="toast"></div>
 
-  <!-- Toast -->
-  <div class="toast-container" id="toast"></div>
+<!-- Modal -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <button class="modal-btn" onclick="App.closeModal()" data-i18n="modal.ok">知道了</button>
+    <button class="modal-btn-cancel" style="display:none;" onclick="App.closeModal()" data-i18n="modal.cancel">暂不需要</button>
+  </div>
+</div>
 
-  <!-- Modal -->
-  <div class="modal-overlay hidden" id="modalOverlay">
-    <div class="modal-box">
-      <div class="modal-title" id="modalTitle"></div>
-      <div class="modal-body" id="modalBody"></div>
-      <button class="modal-btn" onclick="App.closeModal()">知道了</button>
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="header-logo" href="#">
+      <span class="icon">&#x263E;</span>
+      <span>yourfate.xyz</span>
+    </a>
+    <nav class="header-nav">
+      <a href="#features" data-i18n="header.nav.services">服务分类</a>
+      <a href="#how-it-works" data-i18n="header.nav.how">如何使用</a>
+      <a href="#form" data-i18n="header.nav.chart">在线排盘</a>
+      <a href="#pricing" data-i18n="header.nav.pricing">定价</a>
+      <a href="#faq" data-i18n="header.nav.faq">常见问题</a>
+    </nav>
+    <button class="header-cta" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})" data-i18n="header.cta">立即解密</button>
+    <button class="mobile-menu-btn" onclick="this.nextElementSibling.classList.toggle('show')">&#9776;</button>
+      <div class="lang-switcher">
+      <button class="lang-btn" data-lang="zh" onclick="I18N.setLanguage('zh')">中</button>
+      <button class="lang-btn" data-lang="en" onclick="I18N.setLanguage('en')">EN</button>
+      <button class="lang-btn" data-lang="ar" onclick="I18N.setLanguage('ar')">عربي</button>
+    </div></div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero-section" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-i18n="hero.badge">&#x2B50; 紫微斗数 · 专业解密 · 隐私保护</div>
+    <h1 class="hero-title"><span data-i18n="hero.title.line1">用千年智慧，</span><br><span data-i18n="hero.title.line2">解密你的</span><span class="gold" data-i18n="hero.title.gold">人生运势</span></h1>
+    <p class="hero-sub"><span data-i18n="hero.sub.line1">基于传统紫微斗数算法，精准排盘，十二宫详解</span><br><span data-i18n="hero.sub.line2">命盘格局 · 大限运势 · 四化飞星 · 综合解读</span></p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})" data-i18n="hero.btn.primary">&#x1F52E; 立即解密</button>
+      <button class="btn-outline-light" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">了解服务</button>
     </div>
   </div>
+  <div class="hero-scroll" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+    <span>&#x2304;</span>
+  </div>
+</section>
 
-  <!-- ================== VIEW: INPUT ================== -->
-  <div class="view active" id="view-input">
-    <div class="container">
-      <div class="header">
-        <div class="title">紫微斗数</div>
-        <span class="subtitle">紫微斗数命理分析</span>
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="features.label">服务分类</div>
+      <h2 class="section-title" data-i18n="features.title">全方位命运解读</h2>
+      <p class="section-desc" data-i18n="features.desc">从事业财运到感情健康，紫微斗数为你揭示人生的各个面向</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" onclick="App.showCategory('career')">
+        <div class="feature-icon">&#x1F4BC;</div>
+        <div class="feature-name" data-i18n="features.career.name">事业运</div>
+        <div class="feature-desc" data-i18n="features.career.desc">事业宫解读职业发展方向，分析官禄运、贵人运，助你做出正确职涯决策</div>
+        <div class="feature-cta">点击了解详情 &#x2192;</div>
       </div>
-      <div class="form-card">
-        <div class="form-title">出生信息</div>
+      <div class="feature-card" onclick="App.showCategory('love')">
+        <div class="feature-icon">&#x1F498;</div>
+        <div class="feature-name" data-i18n="features.love.name">感情运</div>
+        <div class="feature-desc" data-i18n="features.love.desc">夫妻宫详解桃花姻缘，了解感情模式，把握良缘时机</div>
+        <div class="feature-cta">点击了解详情 &#x2192;</div>
+      </div>
+      <div class="feature-card" onclick="App.showCategory('wealth')">
+        <div class="feature-icon">&#x1F4B0;</div>
+        <div class="feature-name" data-i18n="features.wealth.name">财运</div>
+        <div class="feature-desc" data-i18n="features.wealth.desc">财帛宫分析求财方式，识财运旺衰，掌财富密码</div>
+        <div class="feature-cta">点击了解详情 &#x2192;</div>
+      </div>
+      <div class="feature-card" onclick="App.showCategory('health')">
+        <div class="feature-icon">&#x1FA7A;</div>
+        <div class="feature-name" data-i18n="features.health.name">健康运</div>
+        <div class="feature-desc" data-i18n="features.health.desc">疾厄宫分析身体健康状况，预防潜在疾病风险，掌握养生调护之道</div>
+        <div class="feature-cta">点击了解详情 &#x2192;</div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section bg-dark" id="how-it-works" style="background:#0d0d1f;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="how.label">如何使用</div>
+      <h2 class="section-title" data-i18n="how.title">三步揭秘你的命运密码</h2>
+      <p class="section-desc" data-i18n="how.desc">简单三步，获取专业级紫微斗数命盘解读</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title" data-i18n="how.step1.title">输入出生信息</div>
+        <div class="step-desc" data-i18n="how.step1.desc">填写你的出生年月日时和性别，支持公历和农历两种日期输入方式</div>
+        <span class="step-arrow">&#x2192;</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title" data-i18n="how.step2.title">智能排盘</div>
+        <div class="step-desc" data-i18n="how.step2.desc">系统自动计算十二宫星曜分布、四化飞星、大限运势，生成专业命盘</div>
+        <span class="step-arrow">&#x2192;</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title" data-i18n="how.step3.title">详细解盘</div>
+        <div class="step-desc" data-i18n="how.step3.desc">获取十二宫详细解读、命盘格局分析、大限运势推演，全面了解人生运势</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORTUNE FORM ===== -->
+<section class="section" id="form">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="form.label">在线排盘</div>
+      <h2 class="section-title" data-i18n="form.title">填入你的出生信息</h2>
+      <p class="section-desc" data-i18n="form.desc">准确填写出生资料，即可免费查看紫微斗数命盘</p>
+    </div>
+    <div class="form-section-wrapper">
+      <div class="form-grid" id="formGrid">
         <div class="form-group">
-          <label class="form-label">姓名（选填）</label>
-          <input class="form-input" id="inputName" placeholder="请输入您的姓名" maxlength="20">
+          <label class="form-label" data-i18n="form.name.label">姓名（选填）</label>
+          <input class="form-input" id="inputName" data-i18n-placeholder="form.name.placeholder" placeholder="请输入您的姓名" maxlength="20">
         </div>
-
         <div class="form-group">
-          <label class="form-label">性别</label>
+          <label class="form-label" data-i18n="form.gender.label">性别</label>
           <div class="radio-group">
-            <div class="radio-item active" data-gender="male" onclick="App.selectGender(this)">男</div>
-            <div class="radio-item" data-gender="female" onclick="App.selectGender(this)">女</div>
+            <div class="radio-item active" data-gender="male" onclick="App.selectGender(this)" data-i18n="form.gender.male">&#x1F468; 男</div>
+            <div class="radio-item" data-gender="female" onclick="App.selectGender(this)" data-i18n="form.gender.female">&#x1F469; 女</div>
           </div>
         </div>
-
         <div class="form-group">
-          <label class="form-label">出生日期</label>
+          <label class="form-label" data-i18n="form.date.label">出生日期</label>
           <div class="date-type-tabs">
-            <div class="date-tab active" data-type="solar" onclick="App.selectDateType(this)">公历</div>
-            <div class="date-tab" data-type="lunar" onclick="App.selectDateType(this)">农历</div>
+            <div class="date-tab active" data-type="solar" onclick="App.selectDateType(this)" data-i18n="form.date.solar">&#x2600;&#xFE0F; 公历</div>
+            <div class="date-tab" data-type="lunar" onclick="App.selectDateType(this)" data-i18n="form.date.lunar">&#x1F319; 农历</div>
           </div>
           <div class="date-picker-box">
             <input type="date" id="inputDate" value="1990-01-01" min="1900-01-01" max="2100-12-31">
           </div>
         </div>
-
         <div class="form-group">
-          <label class="form-label">出生时辰</label>
-          <div class="select-box">
-            <select id="inputHour">
-              <option value="0">子时 (23:00-01:00)</option>
-              <option value="1">丑时 (01:00-03:00)</option>
-              <option value="2">寅时 (03:00-05:00)</option>
-              <option value="3">卯时 (05:00-07:00)</option>
-              <option value="4">辰时 (07:00-09:00)</option>
-              <option value="5">巳时 (09:00-11:00)</option>
-              <option value="6">午时 (11:00-13:00)</option>
-              <option value="7">未时 (13:00-15:00)</option>
-              <option value="8">申时 (15:00-17:00)</option>
-              <option value="9">酉时 (17:00-19:00)</option>
-              <option value="10">戌时 (19:00-21:00)</option>
-              <option value="11">亥时 (21:00-23:00)</option>
-            </select>
+          <label class="form-label" data-i18n="form.hour.label">出生时辰</label>
+          <div class="form-select-wrapper">
+            <select class="form-select" id="inputHour">
+            <option value="0" data-i18n="hour.0">子时 (23:00-01:00)</option>
+            <option value="1" data-i18n="hour.1">丑时 (01:00-03:00)</option>
+            <option value="2" data-i18n="hour.2">寅时 (03:00-05:00)</option>
+            <option value="3" data-i18n="hour.3">卯时 (05:00-07:00)</option>
+            <option value="4" data-i18n="hour.4">辰时 (07:00-09:00)</option>
+            <option value="5" data-i18n="hour.5">巳时 (09:00-11:00)</option>
+            <option value="6" data-i18n="hour.6">午时 (11:00-13:00)</option>
+            <option value="7" data-i18n="hour.7">未时 (13:00-15:00)</option>
+            <option value="8" data-i18n="hour.8">申时 (15:00-17:00)</option>
+            <option value="9" data-i18n="hour.9">酉时 (17:00-19:00)</option>
+            <option value="10" data-i18n="hour.10">戌时 (19:00-21:00)</option>
+            <option value="11" data-i18n="hour.11">亥时 (21:00-23:00)</option>
+          </select>
           </div>
         </div>
-
-        <button class="btn-primary" id="btnSubmit" onclick="App.onSubmit()">
+        <button class="btn-submit" id="btnSubmit" onclick="App.onSubmit()" data-i18n="form.submit">
           开始排盘
         </button>
       </div>
-      <div class="footer-note">命理分析仅供参考 · 命运由自己掌握</div>
+      <div class="form-note" data-i18n="form.note">命理分析仅供参考 · 命运由自己掌握</div>
     </div>
   </div>
+</section>
 
-  <!-- ================== VIEW: CHART ================== -->
-  <div class="view" id="view-chart">
-    <div class="container" id="chartContainer"></div>
+<!-- ===== CHART RESULT ===== -->
+<section class="section result-section" id="resultSection">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="result.label">排盘结果</div>
+      <h2 class="section-title" data-i18n="result.title">你的紫微斗数命盘</h2>
+    </div>
+    <div class="chart-wrapper" id="chartContainer"></div>
   </div>
+</section>
 
-  <!-- ================== VIEW: DETAIL ================== -->
-  <div class="view" id="view-detail">
-    <div class="container" id="detailContainer"></div>
+<!-- ===== DETAIL RESULT ===== -->
+<section class="section detail-section-wrapper" id="detailSection">
+  <div class="container">
+    <div class="detail-inner" id="detailContainer"></div>
   </div>
+</section>
 
-</div>
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section" style="background:#0d0d1f;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="testimonials.label">用户评价</div>
+      <h2 class="section-title" data-i18n="testimonials.title">他们都在用紫微斗数解密人生</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <div class="testimonial-text" data-i18n="testimonials.1.text">排盘结果非常详细，十二宫的解读让我对自己有了全新的认识。特别是事业宫的解读，和我的实际情况非常吻合。</div>
+        <div class="testimonial-author" data-i18n="testimonials.1.author">李先生</div>
+        <div class="testimonial-role" data-i18n="testimonials.1.role">互联网从业者</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <div class="testimonial-text" data-i18n="testimonials.2.text">夫妻宫的解读让我对感情有了更清晰的认识。化忌的地方也确实是我需要努力的方向。非常专业的解析！</div>
+        <div class="testimonial-author" data-i18n="testimonials.2.author">王女士</div>
+        <div class="testimonial-role" data-i18n="testimonials.2.role">教师</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <div class="testimonial-text" data-i18n="testimonials.3.text">大限运势的推算让我对未来的规划有了方向。格局分析准确度很高，推荐给需要的朋友。</div>
+        <div class="testimonial-author" data-i18n="testimonials.3.author">张先生</div>
+        <div class="testimonial-role" data-i18n="testimonials.3.role">创业者</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num">10,000+</div><div class="stat-label" data-i18n="stats.users">已服务用户</div></div>
+      <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label" data-i18n="stats.rating">好评率</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label" data-i18n="stats.privacy">隐私保护</div></div>
+    </div>
+  </div>
+</section>
 
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="pricing.label">定价</div>
+      <h2 class="section-title" data-i18n="pricing.title">选择适合你的方案</h2>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-badge" data-i18n="pricing.badge">&#x1F31F; 最受欢迎</div>
+      <div class="pricing-name" data-i18n="pricing.name">详细解盘套餐</div>
+      <div class="pricing-price">$19.99</div>
+      <div class="pricing-period" data-i18n="pricing.period">一次性付费 · 永久查看</div>
+      <ul class="pricing-features">
+        <li data-i18n="pricing.feat1"><span class="check">&#x2713;</span> 十二宫详细解读</li>
+        <li data-i18n="pricing.feat2"><span class="check">&#x2713;</span> 命盘格局分析</li>
+        <li data-i18n="pricing.feat3"><span class="check">&#x2713;</span> 大限运势推演</li>
+        <li data-i18n="pricing.feat4"><span class="check">&#x2713;</span> 四化飞星详解</li>
+        <li data-i18n="pricing.feat5"><span class="check">&#x2713;</span> 综合运势建议</li>
+      </ul>
+      <button class="btn-gold" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})" data-i18n="pricing.cta">&#x1F52E; 立即开始</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq" style="background:#0d0d1f;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-i18n="faq.label">常见问题</div>
+      <h2 class="section-title" data-i18n="faq.title">有任何疑问？我们为你解答</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span data-i18n="faq.q1">紫微斗数是什么？</span><span class="arrow-icon">&#x2304;</span></div>
+        <div class="faq-a"><p data-i18n="faq.a1">紫微斗数是中国传统命理学的重要分支，起源于宋代，通过出生年月日时推算十二宫星曜分布，分析人生各个方面的运势和发展趋势。与八字并称为中国传统命理学的两大体系。</p></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span data-i18n="faq.q2">排盘结果准确吗？</span><span class="arrow-icon">&#x2304;</span></div>
+        <div class="faq-a"><p data-i18n="faq.a2">我们使用传统紫微斗数算法，严格按照古法计算星曜分布和四化飞星。但请注意，命理分析仅供参考，人生的走向更多取决于自己的选择和努力。</p></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span data-i18n="faq.q3">如何保证我的隐私安全？</span><span class="arrow-icon">&#x2304;</span></div>
+        <div class="faq-a"><p data-i18n="faq.a3">所有出生信息仅用于排盘计算，我们不会存储或分享你的个人数据。支付通过 Stripe 安全处理，我们不接触你的支付信息。</p></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span data-i18n="faq.q4">支持哪些支付方式？</span><span class="arrow-icon">&#x2304;</span></div>
+        <div class="faq-a"><p data-i18n="faq.a4">我们通过 Stripe 接受全球主流信用卡和借记卡支付（Visa、Mastercard、American Express 等），安全便捷。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section section">
+  <div class="container">
+    <h2 class="cta-title" data-i18n="cta.title">准备好解密你的人生运势了吗？</h2>
+    <p class="cta-desc" data-i18n="cta.desc">输入出生信息，即刻获取你的专属紫微斗数命盘解读</p>
+    <button class="btn-gold" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})" data-i18n="pricing.cta">&#x1F52E; 立即开始</button>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand">&#x263E; yourfate.xyz</div>
+    <div class="footer-desc" data-i18n="footer.desc">紫微斗数在线命理解密服务平台</div>
+    <div class="footer-links">
+      <a data-i18n="footer.home" href="#home">首页</a>
+      <a href="#features" data-i18n="header.nav.services">服务分类</a>
+      <a href="#form" data-i18n="header.nav.chart">在线排盘</a>
+      <a href="#pricing" data-i18n="header.nav.pricing">定价</a>
+      <a href="#faq" data-i18n="header.nav.faq">常见问题</a>
+    </div>
+    <div class="footer-bottom" data-i18n="footer.bottom">© 2026 yourfate.xyz · 命理分析仅供参考 · 命运由自己掌握</div>
+  </div>
+</footer>
+<script id="i18n-data">
+// ============================================================
+// I18N — Multi-language support (zh/en/ar)
+// ============================================================
+var I18N = {
+  current: "zh",
+  data: { zh: {}, en: {}, ar: {} },
+  t: function(key) {
+    return (this.data[this.current] && this.data[this.current][key]) ||
+           (this.data.zh[key]) || key;
+  },
+  setLanguage: function(lang) {
+    this.current = lang;
+    document.documentElement.lang = lang === "ar" ? "ar" : lang === "en" ? "en" : "zh-CN";
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.style.fontFamily = lang === "ar" ?
+      "'Noto Naskh Arabic','Traditional Arabic','Scheherazade New',-apple-system,sans-serif" :
+      "";
+    localStorage.setItem("zwei_lang", lang);
+    this.translatePage();
+    // Re-render chart or detail if currently displayed
+    if (typeof App !== 'undefined' && App.onLanguageChange) {
+      App.onLanguageChange();
+    }
+    // Update lang switcher buttons
+    var btns = document.querySelectorAll(".lang-btn");
+    btns.forEach(function(b) { b.classList.toggle("active", b.dataset.lang === lang); });
+  },
+  translatePage: function() {
+    var self = this;
+    // data-i18n attributes
+    document.querySelectorAll("[data-i18n]").forEach(function(el) {
+      var key = el.dataset.i18n;
+      var text = self.t(key);
+      if (text && text !== key) {
+        if (el.tagName === 'OPTION') {
+          el.text = text;
+        } else {
+          el.textContent = text;
+        }
+      }
+    });
+    // data-i18n-placeholder
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
+      var key = el.dataset.i18nPlaceholder;
+      var text = self.t(key);
+      if (text && text !== key) el.placeholder = text;
+    });
+    // data-i18n-html elements (for rich content)
+    document.querySelectorAll("[data-i18n-html]").forEach(function(el) {
+      var key = el.dataset.i18nHtml;
+      var text = self.t(key);
+      if (text && text !== key) el.innerHTML = text;
+    });
+  }
+};
+
+I18N.data.zh['cat.analyze_label'] = '🔍 分析维度';
+I18N.data.en['cat.analyze_label'] = '🔍 Analysis Dimensions';
+I18N.data.ar['cat.analyze_label'] = '🔍 أبعاد التحليل';
+I18N.data.zh['cat.btn_close'] = '关闭';
+I18N.data.en['cat.btn_close'] = 'Close';
+I18N.data.ar['cat.btn_close'] = 'إغلاق';
+I18N.data.zh['cat.btn_goto'] = '立即排盘解锁解读';
+I18N.data.en['cat.btn_goto'] = 'Generate Chart to Unlock';
+I18N.data.ar['cat.btn_goto'] = 'إنشاء الرسم البياني للفتح';
+I18N.data.zh['cat.service_label'] = '📦 服务内容';
+I18N.data.en['cat.service_label'] = '📦 Service Details';
+I18N.data.ar['cat.service_label'] = '📦 تفاصيل الخدمة';
+I18N.data.zh['chart.age_suffix'] = '岁';
+I18N.data.en['chart.age_suffix'] = '';
+I18N.data.ar['chart.age_suffix'] = '';
+I18N.data.zh['chart.btn_detail'] = '查看详细解盘';
+I18N.data.en['chart.btn_detail'] = 'View Detailed Reading';
+I18N.data.ar['chart.btn_detail'] = 'عرض القراءة المفصلة';
+I18N.data.zh['chart.btn_reset'] = '重新输入';
+I18N.data.en['chart.btn_reset'] = 'Reset';
+I18N.data.ar['chart.btn_reset'] = 'إعادة تعيين';
+I18N.data.zh['chart.btn_unlocked'] = '查看详细解盘 ✓ 已解锁';
+I18N.data.en['chart.btn_unlocked'] = 'View Reading ✓ Unlocked';
+I18N.data.ar['chart.btn_unlocked'] = 'عرض القراءة ✓ مفتوح';
+I18N.data.zh['chart.calculating'] = '计算中...';
+I18N.data.en['chart.calculating'] = 'Calculating...';
+I18N.data.ar['chart.calculating'] = 'جارٍ الحساب...';
+I18N.data.zh['chart.daxian_range'] = '~';
+I18N.data.en['chart.daxian_range'] = '–';
+I18N.data.ar['chart.daxian_range'] = '–';
+I18N.data.zh['chart.daxian_title'] = '大限';
+I18N.data.en['chart.daxian_title'] = 'Major Cycles';
+I18N.data.ar['chart.daxian_title'] = 'الدورات الكبرى';
+I18N.data.zh['chart.day_prefix'] = '日 ';
+I18N.data.en['chart.day_prefix'] = 'Day ';
+I18N.data.ar['chart.day_prefix'] = 'يوم ';
+I18N.data.zh['chart.element_label'] = '五行局';
+I18N.data.en['chart.element_label'] = 'Element';
+I18N.data.ar['chart.element_label'] = 'العنصر';
+I18N.data.zh['chart.female'] = '女';
+I18N.data.en['chart.female'] = 'F';
+I18N.data.ar['chart.female'] = 'أنثى';
+I18N.data.zh['chart.hour_prefix'] = '时 ';
+I18N.data.en['chart.hour_prefix'] = 'Hr ';
+I18N.data.ar['chart.hour_prefix'] = 'ساعة ';
+I18N.data.zh['chart.huaji_suffix'] = '化忌';
+I18N.data.en['chart.huaji_suffix'] = ' Hua Ji';
+I18N.data.ar['chart.huaji_suffix'] = ' هوا جي';
+I18N.data.zh['chart.huake_suffix'] = '化科';
+I18N.data.en['chart.huake_suffix'] = ' Hua Ke';
+I18N.data.ar['chart.huake_suffix'] = ' هوا كه';
+I18N.data.zh['chart.hualu_suffix'] = '化禄';
+I18N.data.en['chart.hualu_suffix'] = ' Hua Lu';
+I18N.data.ar['chart.hualu_suffix'] = ' هوا لو';
+I18N.data.zh['chart.huaquan_suffix'] = '化权';
+I18N.data.en['chart.huaquan_suffix'] = ' Hua Quan';
+I18N.data.ar['chart.huaquan_suffix'] = ' هوا تشوان';
+I18N.data.zh['chart.male'] = '男';
+I18N.data.en['chart.male'] = 'M';
+I18N.data.ar['chart.male'] = 'ذكر';
+I18N.data.zh['chart.month_prefix'] = '月 ';
+I18N.data.en['chart.month_prefix'] = 'Mo ';
+I18N.data.ar['chart.month_prefix'] = 'شهر ';
+I18N.data.zh['chart.no_stars'] = '无主星';
+I18N.data.en['chart.no_stars'] = 'No main star';
+I18N.data.ar['chart.no_stars'] = 'لا نجم رئيسي';
+I18N.data.zh['chart.shen_tag'] = '身';
+I18N.data.en['chart.shen_tag'] = 'Body';
+I18N.data.ar['chart.shen_tag'] = 'جسم';
+I18N.data.zh['chart.sihua_label'] = '四化：';
+I18N.data.en['chart.sihua_label'] = '4 Transformations: ';
+I18N.data.ar['chart.sihua_label'] = 'التحولات الأربعة: ';
+I18N.data.zh['chart.unknown_name'] = '未知';
+I18N.data.en['chart.unknown_name'] = 'Unknown';
+I18N.data.ar['chart.unknown_name'] = 'غير معروف';
+I18N.data.zh['chart.year_prefix'] = '年 ';
+I18N.data.en['chart.year_prefix'] = 'Yr ';
+I18N.data.ar['chart.year_prefix'] = 'سنة ';
+I18N.data.zh['chart.year_suffix'] = '年';
+I18N.data.en['chart.year_suffix'] = '';
+I18N.data.ar['chart.year_suffix'] = '';
+I18N.data.zh['cta.btn'] = '🔮 立即开始';
+I18N.data.en['cta.btn'] = '🔮 Start Now';
+I18N.data.ar['cta.btn'] = '🔮 ابدأ الآن';
+I18N.data.zh['cta.desc'] = '输入出生信息，即刻获取你的专属紫微斗数命盘解读';
+I18N.data.en['cta.desc'] = 'Enter your birth info and get your personalized Zi Wei Dou Shu reading instantly';
+I18N.data.ar['cta.desc'] = 'أدخل معلومات ميلادك واحصل على قراءة زي وي دو شو المخصصة لك فورًا';
+I18N.data.zh['cta.title'] = '准备好解密你的人生运势了吗？';
+I18N.data.en['cta.title'] = 'Ready to Unlock Your Destiny?';
+I18N.data.ar['cta.title'] = 'هل أنت مستعد لاكتشاف مصيرك؟';
+I18N.data.zh['detail.advice_title'] = '温馨提示';
+I18N.data.en['detail.advice_title'] = 'A Gentle Reminder';
+I18N.data.ar['detail.advice_title'] = 'تذكير لطيف';
+I18N.data.zh['detail.btn_back'] = '返回命盘';
+I18N.data.en['detail.btn_back'] = 'Back to Chart';
+I18N.data.ar['detail.btn_back'] = 'العودة إلى الرسم البياني';
+I18N.data.zh['detail.daxian_every'] = ' · 大限每';
+I18N.data.en['detail.daxian_every'] = ' · Cycle every ';
+I18N.data.ar['detail.daxian_every'] = ' · دورة كل ';
+I18N.data.zh['detail.daxian_title'] = '大限运势';
+I18N.data.en['detail.daxian_title'] = 'Major Cycle Fortune';
+I18N.data.ar['detail.daxian_title'] = 'ثروة الدورة الكبرى';
+I18N.data.zh['detail.element_prefix'] = '五行';
+I18N.data.en['detail.element_prefix'] = 'Element: ';
+I18N.data.ar['detail.element_prefix'] = 'العنصر: ';
+I18N.data.zh['detail.forward'] = '阳男顺行';
+I18N.data.en['detail.forward'] = 'Yang Male Forward';
+I18N.data.ar['detail.forward'] = 'يانغ ذكر أمامي';
+I18N.data.zh['detail.huaji'] = '化忌';
+I18N.data.en['detail.huaji'] = 'Hua Ji';
+I18N.data.ar['detail.huaji'] = 'هوا جي';
+I18N.data.zh['detail.huaji_desc'] = '困扰阻碍';
+I18N.data.en['detail.huaji_desc'] = 'Obstacles & Challenges';
+I18N.data.ar['detail.huaji_desc'] = 'العقبات والتحديات';
+I18N.data.zh['detail.huake'] = '化科';
+I18N.data.en['detail.huake'] = 'Hua Ke';
+I18N.data.ar['detail.huake'] = 'هوا كه';
+I18N.data.zh['detail.huake_desc'] = '文名声誉';
+I18N.data.en['detail.huake_desc'] = 'Fame & Reputation';
+I18N.data.ar['detail.huake_desc'] = 'الشهرة والسمعة';
+I18N.data.zh['detail.hualu'] = '化禄';
+I18N.data.en['detail.hualu'] = 'Hua Lu';
+I18N.data.ar['detail.hualu'] = 'هوا لو';
+I18N.data.zh['detail.hualu_desc'] = '财禄顺利';
+I18N.data.en['detail.hualu_desc'] = 'Wealth & Prosperity';
+I18N.data.ar['detail.hualu_desc'] = 'الثروة والازدهار';
+I18N.data.zh['detail.huaquan'] = '化权';
+I18N.data.en['detail.huaquan'] = 'Hua Quan';
+I18N.data.ar['detail.huaquan'] = 'هوا تشوان';
+I18N.data.zh['detail.huaquan_desc'] = '掌权增强';
+I18N.data.en['detail.huaquan_desc'] = 'Power & Authority';
+I18N.data.ar['detail.huaquan_desc'] = 'القوة والسلطة';
+I18N.data.zh['detail.ming_in'] = '命宫在';
+I18N.data.en['detail.ming_in'] = 'Ming Palace in ';
+I18N.data.ar['detail.ming_in'] = 'قصر مينغ في ';
+I18N.data.zh['detail.palace_suffix'] = '宫';
+I18N.data.en['detail.palace_suffix'] = '';
+I18N.data.ar['detail.palace_suffix'] = '';
+I18N.data.zh['detail.palaces_title'] = '十二宫详解';
+I18N.data.en['detail.palaces_title'] = '12 Palaces Detailed';
+I18N.data.ar['detail.palaces_title'] = 'تفصيل القصور الـ 12';
+I18N.data.zh['detail.patterns_title'] = '命盘格局';
+I18N.data.en['detail.patterns_title'] = 'Chart Patterns';
+I18N.data.ar['detail.patterns_title'] = 'أنماط الرسم البياني';
+I18N.data.zh['detail.reverse'] = '阴男逆行';
+I18N.data.en['detail.reverse'] = 'Yin Male Reverse';
+I18N.data.ar['detail.reverse'] = 'ين ذكر عكسي';
+I18N.data.zh['detail.shen_in'] = ' · 身宫在';
+I18N.data.en['detail.shen_in'] = ' · Shen Palace in ';
+I18N.data.ar['detail.shen_in'] = ' · قصر شن في ';
+I18N.data.zh['detail.sihua_prefix'] = '四化：';
+I18N.data.en['detail.sihua_prefix'] = '4 Hua: ';
+I18N.data.ar['detail.sihua_prefix'] = 'التحولات الأربعة: ';
+I18N.data.zh['detail.sihua_title'] = '四化飞星';
+I18N.data.en['detail.sihua_title'] = 'Four Transformations';
+I18N.data.ar['detail.sihua_title'] = 'التحولات الأربعة';
+I18N.data.zh['detail.summary_title'] = '四化总结';
+I18N.data.en['detail.summary_title'] = 'Transformation Summary';
+I18N.data.ar['detail.summary_title'] = 'ملخص التحولات';
+I18N.data.zh['detail.title_suffix'] = '的命盘解读';
+I18N.data.en['detail.title_suffix'] = '\'s Chart Reading';
+I18N.data.ar['detail.title_suffix'] = ' قراءة الرسم البياني';
+I18N.data.zh['detail.year_sep'] = '年 · ';
+I18N.data.en['detail.year_sep'] = ' · ';
+I18N.data.ar['detail.year_sep'] = ' · ';
+I18N.data.zh['detail.years_per'] = '年一运';
+I18N.data.en['detail.years_per'] = ' years';
+I18N.data.ar['detail.years_per'] = ' سنوات';
+I18N.data.zh['faq.a1'] = '紫微斗数是中国传统命理学的重要分支，起源于宋代，通过出生年月日时推算十二宫星曜分布，分析人生各个方面的运势和发展趋势。与八字并称为中国传统命理学的两大体系。';
+I18N.data.en['faq.a1'] = 'Zi Wei Dou Shu is an important branch of traditional Chinese destiny analysis, originating from the Song Dynasty. It calculates the distribution of stars across 12 palaces based on birth date and time, analyzing all aspects of life fortune and development trends.';
+I18N.data.ar['faq.a1'] = 'زي وي دو شو هو فرع مهم من تحليل المصير الصيني التقليدي ، نشأ من عهد أسرة سونغ. يحسب توزيع النجوم عبر 12 قصرًا بناءً على تاريخ ووقت الميلاد ، ويحلل جميع جوانب ثروة الحياة واتجاهات التطور.';
+I18N.data.zh['faq.a2'] = '我们使用传统紫微斗数算法，严格按照古法计算星曜分布和四化飞星。但请注意，命理分析仅供参考，人生的走向更多取决于自己的选择和努力。';
+I18N.data.en['faq.a2'] = 'We use traditional Zi Wei Dou Shu algorithms following ancient calculation methods. However, please note that destiny analysis is for reference only — your life path depends more on your own choices and efforts.';
+I18N.data.ar['faq.a2'] = 'نستخدم خوارزميات زي وي دو شو التقليدية باتباع طرق الحساب القديمة. ومع ذلك ، يرجى ملاحظة أن تحليل المصير هو للمرجعية فقط - مسار حياتك يعتمد أكثر على اختياراتك وجهودك.';
+I18N.data.zh['faq.a3'] = '所有出生信息仅用于排盘计算，我们不会存储或分享你的个人数据。支付通过 Stripe 安全处理，我们不接触你的支付信息。';
+I18N.data.en['faq.a3'] = 'All birth information is used only for chart calculation. We do not store or share your personal data. Payments are securely processed through Stripe — we never access your payment information.';
+I18N.data.ar['faq.a3'] = 'تُستخدم جميع معلومات الميلاد فقط لحساب الرسم البياني. لا نخزن أو نشارك بياناتك الشخصية. تتم معالجة المدفوعات بشكل آمن من خلال Stripe - لا نصل أبدًا إلى معلومات الدفع الخاصة بك.';
+I18N.data.zh['faq.a4'] = '我们通过 Stripe 接受全球主流信用卡和借记卡支付（Visa、Mastercard、American Express 等），安全便捷。';
+I18N.data.en['faq.a4'] = 'We accept major global credit and debit cards through Stripe (Visa, Mastercard, American Express, etc.) — safe and convenient.';
+I18N.data.ar['faq.a4'] = 'نقبل بطاقات الائتمان والخصم العالمية الرئيسية من خلال Stripe (فيزا وماستركارد وأمريكان إكسبريس وغيرها) - آمنة ومريحة.';
+I18N.data.zh['faq.label'] = '常见问题';
+I18N.data.en['faq.label'] = 'FAQ';
+I18N.data.ar['faq.label'] = 'الأسئلة الشائعة';
+I18N.data.zh['faq.q1'] = '紫微斗数是什么？';
+I18N.data.en['faq.q1'] = 'What is Zi Wei Dou Shu?';
+I18N.data.ar['faq.q1'] = 'ما هو زي وي دو شو؟';
+I18N.data.zh['faq.q2'] = '排盘结果准确吗？';
+I18N.data.en['faq.q2'] = 'How accurate are the results?';
+I18N.data.ar['faq.q2'] = 'ما مدى دقة النتائج؟';
+I18N.data.zh['faq.q3'] = '如何保证我的隐私安全？';
+I18N.data.en['faq.q3'] = 'How is my privacy protected?';
+I18N.data.ar['faq.q3'] = 'كيف تتم حماية خصوصيتي؟';
+I18N.data.zh['faq.q4'] = '支持哪些支付方式？';
+I18N.data.en['faq.q4'] = 'What payment methods are supported?';
+I18N.data.ar['faq.q4'] = 'ما هي طرق الدفع المدعومة؟';
+I18N.data.zh['faq.title'] = '有任何疑问？我们为你解答';
+I18N.data.en['faq.title'] = 'Questions? We Have Answers';
+I18N.data.ar['faq.title'] = 'أسئلة؟ لدينا إجابات';
+I18N.data.zh['features.career.desc'] = '事业宫解读职业发展方向，分析官禄运、贵人运，助你做出正确职涯决策';
+I18N.data.en['features.career.desc'] = 'Career palace analysis reveals professional direction, promotion timing, and benefactor guidance';
+I18N.data.ar['features.career.desc'] = 'يكشف تحليل قصر المهنة عن الاتجاه المهني وتوقيت الترقية وتوجيه المحسنين';
+I18N.data.zh['features.career.name'] = '事业运';
+I18N.data.en['features.career.name'] = 'Career Fortune';
+I18N.data.ar['features.career.name'] = 'حظ المهنة';
+I18N.data.zh['features.cta'] = '<span data-i18n="features.cta">点击了解详情 →</span>';
+I18N.data.en['features.cta'] = 'Click for details →';
+I18N.data.ar['features.cta'] = 'انقر للتفاصيل ←';
+I18N.data.zh['features.desc'] = '从事业财运到感情健康，紫微斗数为你揭示人生的各个面向';
+I18N.data.en['features.desc'] = 'From career and wealth to love and health, Zi Wei Dou Shu reveals every aspect of your life';
+I18N.data.ar['features.desc'] = 'من المهنة والثروة إلى الحب والصحة ، يكشف زي وي دو شو كل جانب من جوانب حياتك';
+I18N.data.zh['features.health.desc'] = '疾厄宫分析身体健康状况，预防潜在疾病风险，掌握养生调护之道';
+I18N.data.en['features.health.desc'] = 'Health palace reveals physical constitution, potential risks, and wellness guidance';
+I18N.data.ar['features.health.desc'] = 'يكشف قصر الصحة عن التكوين الجسدي والمخاطر المحتملة وإرشادات العافية';
+I18N.data.zh['features.health.name'] = '健康运';
+I18N.data.en['features.health.name'] = 'Health Fortune';
+I18N.data.ar['features.health.name'] = 'حظ الصحة';
+I18N.data.zh['features.label'] = '服务分类';
+I18N.data.en['features.label'] = 'Our Services';
+I18N.data.ar['features.label'] = 'خدماتنا';
+I18N.data.zh['features.love.desc'] = '夫妻宫详解桃花姻缘，了解感情模式，把握良缘时机';
+I18N.data.en['features.love.desc'] = 'Spouse palace reveals romantic patterns, marriage quality, and the right timing for love';
+I18N.data.ar['features.love.desc'] = 'يكشف قصر الزوج عن الأنماط الرومانسية وجودة الزواج والتوقيت المناسب للحب';
+I18N.data.zh['features.love.name'] = '感情运';
+I18N.data.en['features.love.name'] = 'Love Fortune';
+I18N.data.ar['features.love.name'] = 'حظ الحب';
+I18N.data.zh['features.title'] = '全方位命运解读';
+I18N.data.en['features.title'] = 'Comprehensive Destiny Analysis';
+I18N.data.ar['features.title'] = 'تحليل شامل للمصير';
+I18N.data.zh['features.wealth.desc'] = '财帛宫分析求财方式，识财运旺衰，掌财富密码';
+I18N.data.en['features.wealth.desc'] = 'Wealth palace analyzes income sources, investment timing, and financial prosperity cycles';
+I18N.data.ar['features.wealth.desc'] = 'يحلل قصر الثروة مصادر الدخل وتوقيت الاستثمار ودورات الازدهار المالي';
+I18N.data.zh['features.wealth.name'] = '财运';
+I18N.data.en['features.wealth.name'] = 'Wealth Fortune';
+I18N.data.ar['features.wealth.name'] = 'حظ الثروة';
+I18N.data.zh['footer.bottom'] = '© 2026 yourfate.xyz · 命理分析仅供参考 · 命运由自己掌握';
+I18N.data.en['footer.bottom'] = '© 2026 yourfate.xyz · For reference only · You control your own destiny';
+I18N.data.ar['footer.bottom'] = '© 2026 yourfate.xyz · للمرجعية فقط · أنت تتحكم في مصيرك';
+I18N.data.zh['footer.brand'] = '☾ yourfate.xyz';
+I18N.data.en['footer.brand'] = '☾ yourfate.xyz';
+I18N.data.ar['footer.brand'] = '☾ yourfate.xyz';
+I18N.data.zh['footer.chart'] = '在线排盘';
+I18N.data.en['footer.chart'] = 'Free Chart';
+I18N.data.ar['footer.chart'] = 'رسم بياني مجاني';
+I18N.data.zh['footer.desc'] = '紫微斗数在线命理解密服务平台';
+I18N.data.en['footer.desc'] = 'Zi Wei Dou Shu Online Destiny Reading Platform';
+I18N.data.ar['footer.desc'] = 'منصة زي وي دو شو لقراءة المصير عبر الإنترنت';
+I18N.data.zh['footer.faq'] = '常见问题';
+I18N.data.en['footer.faq'] = 'FAQ';
+I18N.data.ar['footer.faq'] = 'الأسئلة الشائعة';
+I18N.data.zh['footer.home'] = '首页';
+I18N.data.en['footer.home'] = 'Home';
+I18N.data.ar['footer.home'] = 'الرئيسية';
+I18N.data.zh['footer.pricing'] = '定价';
+I18N.data.en['footer.pricing'] = 'Pricing';
+I18N.data.ar['footer.pricing'] = 'الأسعار';
+I18N.data.zh['footer.services'] = '服务分类';
+I18N.data.en['footer.services'] = 'Services';
+I18N.data.ar['footer.services'] = 'الخدمات';
+I18N.data.zh['form.date.label'] = '出生日期';
+I18N.data.en['form.date.label'] = 'Birth Date';
+I18N.data.ar['form.date.label'] = 'تاريخ الميلاد';
+I18N.data.zh['form.date.lunar'] = '🌙 农历';
+I18N.data.en['form.date.lunar'] = '🌙 Lunar';
+I18N.data.ar['form.date.lunar'] = '🌙 قمري';
+I18N.data.zh['form.date.solar'] = '☀️ 公历';
+I18N.data.en['form.date.solar'] = '☀️ Solar';
+I18N.data.ar['form.date.solar'] = '☀️ شمسي';
+I18N.data.zh['form.desc'] = '准确填写出生资料，即可免费查看紫微斗数命盘';
+I18N.data.en['form.desc'] = 'Enter your birth details accurately to view your free Zi Wei Dou Shu chart';
+I18N.data.ar['form.desc'] = 'أدخل تفاصيل ميلادك بدقة لعرض الرسم البياني المجاني';
+I18N.data.zh['form.gender.female'] = '👩 女';
+I18N.data.en['form.gender.female'] = '👩 Female';
+I18N.data.ar['form.gender.female'] = '👩 أنثى';
+I18N.data.zh['form.gender.label'] = '性别';
+I18N.data.en['form.gender.label'] = 'Gender';
+I18N.data.ar['form.gender.label'] = 'الجنس';
+I18N.data.zh['form.gender.male'] = '👨 男';
+I18N.data.en['form.gender.male'] = '👨 Male';
+I18N.data.ar['form.gender.male'] = '👨 ذكر';
+I18N.data.zh['form.hour.label'] = '出生时辰';
+I18N.data.en['form.hour.label'] = 'Birth Hour';
+I18N.data.ar['form.hour.label'] = 'ساعة الميلاد';
+I18N.data.zh['form.label'] = '在线排盘';
+I18N.data.en['form.label'] = 'Free Chart';
+I18N.data.ar['form.label'] = 'رسم بياني مجاني';
+I18N.data.zh['form.name.label'] = '姓名（选填）';
+I18N.data.en['form.name.label'] = 'Name (optional)';
+I18N.data.ar['form.name.label'] = 'الاسم (اختياري)';
+I18N.data.zh['form.name.placeholder'] = '请输入您的姓名';
+I18N.data.en['form.name.placeholder'] = 'Enter your name';
+I18N.data.ar['form.name.placeholder'] = 'أدخل اسمك';
+I18N.data.zh['form.note'] = '命理分析仅供参考 · 命运由自己掌握';
+I18N.data.en['form.note'] = 'For reference only · You control your own destiny';
+I18N.data.ar['form.note'] = 'للمرجعية فقط · أنت تتحكم في مصيرك';
+I18N.data.zh['form.submit'] = '开始排盘';
+I18N.data.en['form.submit'] = 'Generate Chart';
+I18N.data.ar['form.submit'] = 'إنشاء الرسم البياني';
+I18N.data.zh['form.title'] = '填入你的出生信息';
+I18N.data.en['form.title'] = 'Enter Your Birth Information';
+I18N.data.ar['form.title'] = 'أدخل معلومات ميلادك';
+I18N.data.zh['header.cta'] = '立即解密';
+I18N.data.en['header.cta'] = 'Get Started';
+I18N.data.ar['header.cta'] = 'ابدأ الآن';
+I18N.data.zh['header.nav.chart'] = '在线排盘';
+I18N.data.en['header.nav.chart'] = 'Free Chart';
+I18N.data.ar['header.nav.chart'] = 'رسم بياني مجاني';
+I18N.data.zh['header.nav.faq'] = '常见问题';
+I18N.data.en['header.nav.faq'] = 'FAQ';
+I18N.data.ar['header.nav.faq'] = 'الأسئلة الشائعة';
+I18N.data.zh['header.nav.how'] = '如何使用';
+I18N.data.en['header.nav.how'] = 'How It Works';
+I18N.data.ar['header.nav.how'] = 'كيف يعمل';
+I18N.data.zh['header.nav.pricing'] = '定价';
+I18N.data.en['header.nav.pricing'] = 'Pricing';
+I18N.data.ar['header.nav.pricing'] = 'الأسعار';
+I18N.data.zh['header.nav.services'] = '服务分类';
+I18N.data.en['header.nav.services'] = 'Services';
+I18N.data.ar['header.nav.services'] = 'الخدمات';
+I18N.data.zh['hero.badge'] = '⭐ 紫微斗数 · 专业解密 · 隐私保护';
+I18N.data.en['hero.badge'] = '⭐ Zi Wei Dou Shu · Professional Reading · Privacy Protected';
+I18N.data.ar['hero.badge'] = '⭐ زي وي دو شو · قراءة احترافية · حماية الخصوصية';
+I18N.data.zh['hero.btn.primary'] = '🔮 立即解密';
+I18N.data.en['hero.btn.primary'] = '🔮 Start Reading';
+I18N.data.ar['hero.btn.primary'] = '🔮 ابدأ القراءة';
+I18N.data.zh['hero.btn.secondary'] = '了解服务';
+I18N.data.en['hero.btn.secondary'] = 'Learn More';
+I18N.data.ar['hero.btn.secondary'] = 'اعرف المزيد';
+I18N.data.zh['hero.sub.line1'] = '基于传统紫微斗数算法，精准排盘，十二宫详解';
+I18N.data.en['hero.sub.line1'] = 'Traditional Zi Wei Dou Shu algorithm, precise chart calculation, 12 palaces analysis';
+I18N.data.ar['hero.sub.line1'] = 'خوارزمية زي وي دو شو التقليدية ، حساب دقيق للرسم البياني ، تحليل 12 قصرًا';
+I18N.data.zh['hero.sub.line2'] = '命盘格局 · 大限运势 · 四化飞星 · 综合解读';
+I18N.data.en['hero.sub.line2'] = 'Chart Patterns · Major Cycles · Four Transformations · Full Reading';
+I18N.data.ar['hero.sub.line2'] = 'أنماط الرسم البياني · الدورات الكبرى · التحولات الأربعة · قراءة كاملة';
+I18N.data.zh['hero.title.gold'] = '人生运势';
+I18N.data.en['hero.title.gold'] = 'Ancient Wisdom';
+I18N.data.ar['hero.title.gold'] = 'الحكمة القديمة';
+I18N.data.zh['hero.title.line1'] = '用千年智慧，';
+I18N.data.en['hero.title.line1'] = 'Unlock Your';
+I18N.data.ar['hero.title.line1'] = 'اكتشف';
+I18N.data.zh['hero.title.line2'] = '解密你的';
+I18N.data.en['hero.title.line2'] = 'Destiny with';
+I18N.data.ar['hero.title.line2'] = 'مصيرك من خلال';
+I18N.data.zh['how.desc'] = '简单三步，获取专业级紫微斗数命盘解读';
+I18N.data.en['how.desc'] = 'Three simple steps to get a professional Zi Wei Dou Shu reading';
+I18N.data.ar['how.desc'] = 'ثلاث خطوات بسيطة للحصول على قراءة احترافية';
+I18N.data.zh['how.label'] = '如何使用';
+I18N.data.en['how.label'] = 'How It Works';
+I18N.data.ar['how.label'] = 'كيف يعمل';
+I18N.data.zh['how.step1.desc'] = '填写你的出生年月日时和性别，支持公历和农历两种日期输入方式';
+I18N.data.en['how.step1.desc'] = 'Enter your birth date, time, and gender. Supports both solar and lunar calendar input';
+I18N.data.ar['how.step1.desc'] = 'أدخل تاريخ ميلادك ووقتك وجنسك. يدعم التقويم الشمسي والقمري';
+I18N.data.zh['how.step1.title'] = '输入出生信息';
+I18N.data.en['how.step1.title'] = 'Enter Birth Info';
+I18N.data.ar['how.step1.title'] = 'أدخل معلومات الميلاد';
+I18N.data.zh['how.step2.desc'] = '系统自动计算十二宫星曜分布、四化飞星、大限运势，生成专业命盘';
+I18N.data.en['how.step2.desc'] = 'System auto-calculates 12 palaces star distribution, Four Transformations, and major cycle fortune';
+I18N.data.ar['how.step2.desc'] = 'يحسب النظام تلقائيًا توزيع نجوم القصور الـ 12 والتحولات الأربعة وثروة الدورة الكبرى';
+I18N.data.zh['how.step2.title'] = '智能排盘';
+I18N.data.en['how.step2.title'] = 'Auto Chart Calculation';
+I18N.data.ar['how.step2.title'] = 'حساب الرسم البياني تلقائيًا';
+I18N.data.zh['how.step3.desc'] = '获取十二宫详细解读、命盘格局分析、大限运势推演，全面了解人生运势';
+I18N.data.en['how.step3.desc'] = 'Get detailed 12 palace interpretation, pattern analysis, and major cycle projection for a complete life reading';
+I18N.data.ar['how.step3.desc'] = 'احصل على تفسير مفصل للقصور الـ 12 وتحليل الأنماط وتوقعات الدورة الكبرى لقراءة حياة كاملة';
+I18N.data.zh['how.step3.title'] = '详细解盘';
+I18N.data.en['how.step3.title'] = 'Detailed Reading';
+I18N.data.ar['how.step3.title'] = 'قراءة مفصلة';
+I18N.data.zh['how.title'] = '三步揭秘你的命运密码';
+I18N.data.en['how.title'] = 'Three Steps to Reveal Your Destiny';
+I18N.data.ar['how.title'] = 'ثلاث خطوات لكشف مصيرك';
+I18N.data.zh['modal.cancel'] = '暂不需要';
+I18N.data.en['modal.cancel'] = 'Not Now';
+I18N.data.ar['modal.cancel'] = 'ليس الآن';
+I18N.data.zh['modal.ok'] = '知道了';
+I18N.data.en['modal.ok'] = 'OK';
+I18N.data.ar['modal.ok'] = 'موافق';
+I18N.data.zh['pay.body.forever'] = '付费后永久查看当前命盘解读';
+I18N.data.en['pay.body.forever'] = 'Lifetime access to this chart reading after payment';
+I18N.data.ar['pay.body.forever'] = 'وصول مدى الحياة لقراءة هذا الرسم البياني بعد الدفع';
+I18N.data.zh['pay.body.intro'] = '🔮 完整命盘解读内容：';
+I18N.data.en['pay.body.intro'] = '🔮 Complete Chart Reading Includes:';
+I18N.data.ar['pay.body.intro'] = '🔮 تشمل قراءة الرسم البياني الكاملة:';
+I18N.data.zh['pay.body.item1'] = '✦ 十二宫详细解读';
+I18N.data.en['pay.body.item1'] = '✦ 12 Palaces Detailed Reading';
+I18N.data.ar['pay.body.item1'] = '✦ قراءة مفصلة للقصور الـ 12';
+I18N.data.zh['pay.body.item2'] = '✦ 命盘格局分析';
+I18N.data.en['pay.body.item2'] = '✦ Chart Pattern Analysis';
+I18N.data.ar['pay.body.item2'] = '✦ تحليل أنماط الرسم البياني';
+I18N.data.zh['pay.body.item3'] = '✦ 大限运势解读';
+I18N.data.en['pay.body.item3'] = '✦ Major Cycle Reading';
+I18N.data.ar['pay.body.item3'] = '✦ قراءة الدورة الكبرى';
+I18N.data.zh['pay.body.item4'] = '✦ 四化飞星详解';
+I18N.data.en['pay.body.item4'] = '✦ Four Transformations Explained';
+I18N.data.ar['pay.body.item4'] = '✦ شرح التحولات الأربعة';
+I18N.data.zh['pay.body.item5'] = '✦ 综合运势建议';
+I18N.data.en['pay.body.item5'] = '✦ Comprehensive Life Guidance';
+I18N.data.ar['pay.body.item5'] = '✦ إرشادات حياة شاملة';
+I18N.data.zh['pay.body.price'] = '一次性付费 ';
+I18N.data.en['pay.body.price'] = 'One-time payment: ';
+I18N.data.ar['pay.body.price'] = 'دفعة واحدة: ';
+I18N.data.zh['pay.btn'] = '💳 立即支付 $19.99';
+I18N.data.en['pay.btn'] = '💳 Pay $19.99 Now';
+I18N.data.ar['pay.btn'] = '💳 ادفع $19.99 الآن';
+I18N.data.zh['pay.btn.stripe'] = '💳 信用卡 / 借记卡支付';
+I18N.data.en['pay.btn.stripe'] = '💳 Credit / Debit Card';
+I18N.data.ar['pay.btn.stripe'] = '💳 بطاقة ائتمان / خصم';
+I18N.data.zh['pay.btn.lianlian'] = '💱 连连跨境支付（支付宝/微信/银联）';
+I18N.data.en['pay.btn.lianlian'] = '💱 LianLian Global (Alipay/WeChat/UnionPay)';
+I18N.data.ar['pay.btn.lianlian'] = '💱 ليان ليان العالمية (Alipay/WeChat/UnionPay)';
+I18N.data.zh['pay.redirecting'] = '正在跳转支付...';
+I18N.data.en['pay.redirecting'] = 'Redirecting to payment...';
+I18N.data.ar['pay.redirecting'] = 'جارٍ التحويل إلى الدفع...';
+I18N.data.zh['pay.title'] = '解锁详细解盘';
+I18N.data.en['pay.title'] = 'Unlock Detailed Reading';
+I18N.data.ar['pay.title'] = 'فتح القراءة المفصلة';
+I18N.data.zh['pricing.badge'] = '🌟 最受欢迎';
+I18N.data.en['pricing.badge'] = '🌟 Most Popular';
+I18N.data.ar['pricing.badge'] = '🌟 الأكثر شيوعًا';
+I18N.data.zh['pricing.cta'] = '🔮 立即开始';
+I18N.data.en['pricing.cta'] = '🔮 Start Now';
+I18N.data.ar['pricing.cta'] = '🔮 ابدأ الآن';
+I18N.data.zh['pricing.feat1'] = '十二宫详细解读';
+I18N.data.en['pricing.feat1'] = '12 Palaces Detailed Reading';
+I18N.data.ar['pricing.feat1'] = 'قراءة مفصلة للقصور الـ 12';
+I18N.data.zh['pricing.feat2'] = '命盘格局分析';
+I18N.data.en['pricing.feat2'] = 'Chart Pattern Analysis';
+I18N.data.ar['pricing.feat2'] = 'تحليل أنماط الرسم البياني';
+I18N.data.zh['pricing.feat3'] = '大限运势推演';
+I18N.data.en['pricing.feat3'] = 'Major Cycle Projection';
+I18N.data.ar['pricing.feat3'] = 'توقعات الدورة الكبرى';
+I18N.data.zh['pricing.feat4'] = '四化飞星详解';
+I18N.data.en['pricing.feat4'] = 'Four Transformations Explained';
+I18N.data.ar['pricing.feat4'] = 'شرح التحولات الأربعة';
+I18N.data.zh['pricing.feat5'] = '综合运势建议';
+I18N.data.en['pricing.feat5'] = 'Comprehensive Life Guidance';
+I18N.data.ar['pricing.feat5'] = 'إرشادات حياة شاملة';
+I18N.data.zh['pricing.label'] = '定价';
+I18N.data.en['pricing.label'] = 'Pricing';
+I18N.data.ar['pricing.label'] = 'الأسعار';
+I18N.data.zh['pricing.name'] = '详细解盘套餐';
+I18N.data.en['pricing.name'] = 'Detailed Reading Package';
+I18N.data.ar['pricing.name'] = 'حزمة القراءة المفصلة';
+I18N.data.zh['pricing.period'] = '一次性付费 · 永久查看';
+I18N.data.en['pricing.period'] = 'One-time payment · Lifetime access';
+I18N.data.ar['pricing.period'] = 'دفعة واحدة · وصول مدى الحياة';
+I18N.data.zh['pricing.title'] = '选择适合你的方案';
+I18N.data.en['pricing.title'] = 'Choose Your Plan';
+I18N.data.ar['pricing.title'] = 'اختر خطتك';
+I18N.data.zh['report.advice'] = '命理分析仅供参考，命运掌握在自己手中。紫微斗数揭示的是先天禀赋，而后天的努力、选择和环境因素同样重要。建议发挥命盘中吉星的优势，化解凶星的负面影响，积极面对人生的挑战。';
+I18N.data.en['report.advice'] = 'Destiny analysis is for reference only. Your fate is in your own hands. Zi Wei Dou Shu reveals innate endowments, but effort, choices, and environment are equally important. Leverage auspicious stars and resolve malefic influences. Face life\'s challenges positively.';
+I18N.data.ar['report.advice'] = 'تحليل المصير هو للمرجعية فقط. مصيرك بين يديك. يكشف زي وي دو شو عن المواهب الفطرية ، لكن الجهد والاختيارات والبيئة مهمة بنفس القدر. استفد من النجوم الميمونة وحل التأثيرات الضارة. واجه تحديات الحياة بإيجابية.';
+I18N.data.zh['report.aux_hint'] = '。增加吉运与助力。';
+I18N.data.en['report.aux_hint'] = '. Adds auspicious energy and support.';
+I18N.data.ar['report.aux_hint'] = '. يضيف طاقة ميمونة ودعمًا.';
+I18N.data.zh['report.aux_stars'] = '辅星：';
+I18N.data.en['report.aux_stars'] = 'Auxiliary stars: ';
+I18N.data.ar['report.aux_stars'] = 'النجوم المساعدة: ';
+I18N.data.zh['report.daxian_fmt'] = '，大限在';
+I18N.data.en['report.daxian_fmt'] = ', Major Cycle in ';
+I18N.data.ar['report.daxian_fmt'] = '، الدورة الكبرى في ';
+I18N.data.zh['report.empty_fallback'] = '该宫无主星，需参考对宫。';
+I18N.data.en['report.empty_fallback'] = 'No main star in this palace. Refer to opposite palace.';
+I18N.data.ar['report.empty_fallback'] = 'لا يوجد نجم رئيسي في هذا القصر. راجع القصر المقابل.';
+I18N.data.zh['report.empty_ming'] = '命宫为空宫，一生受环境影响较大，可塑性强。需借对宫(父母宫)星曜来看。';
+I18N.data.en['report.empty_ming'] = 'Ming Palace is empty — life heavily influenced by environment, highly adaptable. Refer to opposite palace stars.';
+I18N.data.ar['report.empty_ming'] = 'قصر مينغ فارغ — الحياة متأثرة بشدة بالبيئة ، قابلة للتكيف بدرجة كبيرة. راجع نجوم القصر المقابل.';
+I18N.data.zh['report.hua_prefix'] = '化';
+I18N.data.en['report.hua_prefix'] = 'Hua ';
+I18N.data.ar['report.hua_prefix'] = 'هوا ';
+I18N.data.zh['report.ming_main'] = '宫，主星：';
+I18N.data.en['report.ming_main'] = ', main stars: ';
+I18N.data.ar['report.ming_main'] = '، النجوم الرئيسية: ';
+I18N.data.zh['report.ming_prefix'] = '命宫在';
+I18N.data.en['report.ming_prefix'] = 'Ming Palace: ';
+I18N.data.ar['report.ming_prefix'] = 'قصر مينغ: ';
+I18N.data.zh['report.sha_hint'] = ' 有煞星会照，人生多有磨炼。';
+I18N.data.en['report.sha_hint'] = ' Malefic stars present — life has many challenges.';
+I18N.data.ar['report.sha_hint'] = ' النجوم الضارة موجودة — الحياة بها العديد من التحديات.';
+I18N.data.zh['report.sha_hint2'] = '。带来挑战与考验。';
+I18N.data.en['report.sha_hint2'] = '. Brings challenges and trials.';
+I18N.data.ar['report.sha_hint2'] = '. يجلب التحديات والاختبارات.';
+I18N.data.zh['report.sha_stars'] = '煞星：';
+I18N.data.en['report.sha_stars'] = 'Malefic stars: ';
+I18N.data.ar['report.sha_stars'] = 'النجوم الضارة: ';
+I18N.data.zh['report.shen_hint'] = '此宫为身宫，对后天发展影响重大。';
+I18N.data.en['report.shen_hint'] = 'This is the Shen Palace, greatly influencing postnatal development.';
+I18N.data.ar['report.shen_hint'] = 'هذا هو قصر شن ، يؤثر بشكل كبير على التطور بعد الولادة.';
+I18N.data.zh['report.sihua_fmt'] = '四化：';
+I18N.data.en['report.sihua_fmt'] = '4 Hua: ';
+I18N.data.ar['report.sihua_fmt'] = 'التحولات الأربعة: ';
+I18N.data.zh['report.star_fallback'] = '入';
+I18N.data.en['report.star_fallback'] = ' enters ';
+I18N.data.ar['report.star_fallback'] = ' يدخل ';
+I18N.data.zh['report.star_fallback2'] = '，对';
+I18N.data.en['report.star_fallback2'] = ', affects ';
+I18N.data.ar['report.star_fallback2'] = '، يؤثر على ';
+I18N.data.zh['report.star_fallback3'] = '产生影响。';
+I18N.data.en['report.star_fallback3'] = '.';
+I18N.data.ar['report.star_fallback3'] = '.';
+I18N.data.zh['result.label'] = '排盘结果';
+I18N.data.en['result.label'] = 'Chart Result';
+I18N.data.ar['result.label'] = 'نتيجة الرسم البياني';
+I18N.data.zh['result.title'] = '你的紫微斗数命盘';
+I18N.data.en['result.title'] = 'Your Zi Wei Dou Shu Chart';
+I18N.data.ar['result.title'] = 'رسم زي وي دو شو الخاص بك';
+I18N.data.zh['site.title'] = '紫微斗数 - 命理分析';
+I18N.data.en['site.title'] = 'Zi Wei Dou Shu - Destiny Analysis';
+I18N.data.ar['site.title'] = 'زي وي دو شو - تحليل المصير';
+I18N.data.zh['stats.privacy'] = '隐私保护';
+I18N.data.en['stats.privacy'] = 'Privacy Protected';
+I18N.data.ar['stats.privacy'] = 'حماية الخصوصية';
+I18N.data.zh['stats.rating'] = '好评率';
+I18N.data.en['stats.rating'] = 'Satisfaction Rate';
+I18N.data.ar['stats.rating'] = 'معدل الرضا';
+I18N.data.zh['stats.users'] = '已服务用户';
+I18N.data.en['stats.users'] = 'Users Served';
+I18N.data.ar['stats.users'] = 'مستخدم تمت خدمتهم';
+I18N.data.zh['testimonials.1.author'] = '李先生';
+I18N.data.en['testimonials.1.author'] = 'Mr. Li';
+I18N.data.ar['testimonials.1.author'] = 'السيد لي';
+I18N.data.zh['testimonials.1.role'] = '互联网从业者';
+I18N.data.en['testimonials.1.role'] = 'Internet Professional';
+I18N.data.ar['testimonials.1.role'] = 'محترف إنترنت';
+I18N.data.zh['testimonials.1.text'] = '排盘结果非常详细，十二宫的解读让我对自己有了全新的认识。特别是事业宫的解读，和我的实际情况非常吻合。';
+I18N.data.en['testimonials.1.text'] = 'The chart result was very detailed. The 12 palace interpretation gave me a whole new understanding of myself. The career palace reading especially matched my actual situation.';
+I18N.data.ar['testimonials.1.text'] = 'كانت نتيجة الرسم البياني مفصلة للغاية. أعطاني تفسير القصور الـ 12 فهمًا جديدًا تمامًا لنفسي. تطابقت قراءة قصر المهنة بشكل خاص مع وضعي الفعلي.';
+I18N.data.zh['testimonials.2.author'] = '王女士';
+I18N.data.en['testimonials.2.author'] = 'Ms. Wang';
+I18N.data.ar['testimonials.2.author'] = 'السيدة وانغ';
+I18N.data.zh['testimonials.2.role'] = '教师';
+I18N.data.en['testimonials.2.role'] = 'Teacher';
+I18N.data.ar['testimonials.2.role'] = 'معلمة';
+I18N.data.zh['testimonials.2.text'] = '夫妻宫的解读让我对感情有了更清晰的认识。化忌的地方也确实是我需要努力的方向。非常专业的解析！';
+I18N.data.en['testimonials.2.text'] = 'The spouse palace reading gave me clearer insight into my relationships. The Hua Ji areas are exactly where I need to work on. Very professional analysis!';
+I18N.data.ar['testimonials.2.text'] = 'أعطتني قراءة قصر الزوج نظرة أوضح على علاقاتي. مناطق هوا جي هي بالضبط حيث أحتاج إلى العمل. تحليل احترافي للغاية!';
+I18N.data.zh['testimonials.3.author'] = '张先生';
+I18N.data.en['testimonials.3.author'] = 'Mr. Zhang';
+I18N.data.ar['testimonials.3.author'] = 'السيد تشانغ';
+I18N.data.zh['testimonials.3.role'] = '创业者';
+I18N.data.en['testimonials.3.role'] = 'Entrepreneur';
+I18N.data.ar['testimonials.3.role'] = 'رائد أعمال';
+I18N.data.zh['testimonials.3.text'] = '大限运势的推算让我对未来的规划有了方向。格局分析准确度很高，推荐给需要的朋友。';
+I18N.data.en['testimonials.3.text'] = 'The major cycle projection gave me direction for future planning. The pattern analysis was highly accurate. I recommend it to friends who need it.';
+I18N.data.ar['testimonials.3.text'] = 'أعطتني توقعات الدورة الكبرى اتجاهًا للتخطيط المستقبلي. كان تحليل الأنماط دقيقًا للغاية. أوصي به للأصدقاء الذين يحتاجون إليه.';
+I18N.data.zh['testimonials.label'] = '用户评价';
+I18N.data.en['testimonials.label'] = 'Testimonials';
+I18N.data.ar['testimonials.label'] = 'التوصيات';
+I18N.data.zh['testimonials.title'] = '他们都在用紫微斗数解密人生';
+I18N.data.en['testimonials.title'] = 'They All Use Zi Wei Dou Shu to Decode Life';
+I18N.data.ar['testimonials.title'] = 'جميعهم يستخدمون زي وي دو شو لفك شيفرة الحياة';
+I18N.data.zh['toast.calc_failed'] = '排盘失败，请检查日期';
+I18N.data.en['toast.calc_failed'] = 'Chart calculation failed. Please check date';
+I18N.data.ar['toast.calc_failed'] = 'فشل حساب الرسم البياني. يرجى التحقق من التاريخ';
+I18N.data.zh['toast.data_missing'] = '读取信息失败，请重新输入出生信息';
+I18N.data.en['toast.data_missing'] = 'Failed to load info. Please re-enter birth details';
+I18N.data.ar['toast.data_missing'] = 'فشل تحميل المعلومات. يرجى إعادة إدخال تفاصيل الميلاد';
+I18N.data.zh['toast.data_restore'] = '数据恢复失败，请重新输入出生信息';
+I18N.data.en['toast.data_restore'] = 'Data recovery failed. Please re-enter birth details';
+I18N.data.ar['toast.data_restore'] = 'فشل استعادة البيانات. يرجى إعادة إدخال تفاصيل الميلاد';
+I18N.data.zh['toast.info_missing'] = '信息缺失，请重新排盘';
+I18N.data.en['toast.info_missing'] = 'Information missing. Please regenerate chart';
+I18N.data.ar['toast.info_missing'] = 'المعلومات مفقودة. يرجى إعادة إنشاء الرسم البياني';
+I18N.data.zh['toast.network_error'] = '网络错误，请重试';
+I18N.data.en['toast.network_error'] = 'Network error. Please try again';
+I18N.data.ar['toast.network_error'] = 'خطأ في الشبكة. يرجى المحاولة مرة أخرى';
+I18N.data.zh['toast.pay_success'] = '支付成功！正在展示详细解盘...';
+I18N.data.en['toast.pay_success'] = 'Payment successful! Loading detailed reading...';
+I18N.data.ar['toast.pay_success'] = 'تم الدفع بنجاح! جارٍ تحميل القراءة المفصلة...';
+I18N.data.zh['toast.select_date'] = '请选择出生日期';
+I18N.data.en['toast.select_date'] = 'Please select your birth date';
+I18N.data.ar['toast.select_date'] = 'يرجى اختيار تاريخ ميلادك';
+I18N.data.zh['toast.stripe_config'] = '支付服务暂时不可用\n请确认已配置 Stripe 密钥后重试';
+I18N.data.en['toast.stripe_config'] = 'Payment service unavailable\nPlease configure Stripe keys and retry';
+I18N.data.ar['toast.stripe_config'] = 'خدمة الدفع غير متاحة\nيرجى تكوين مفاتيح Stripe وإعادة المحاولة';
+I18N.data.zh['toast.lianlian_config'] = '连连支付服务暂时不可用\n请确认已配置连连密钥后重试';
+I18N.data.en['toast.lianlian_config'] = 'LianLian payment service unavailable\nPlease configure LianLian keys and retry';
+I18N.data.ar['toast.lianlian_config'] = 'خدمة دفع ليان ليان غير متاحة\nيرجى تكوين مفاتيح ليان ليان وإعادة المحاولة';
+I18N.data.zh['toast.verify_fail'] = '支付验证失败，请稍后再试或联系客服';
+I18N.data.en['toast.verify_fail'] = 'Payment verification failed. Please try later or contact support';
+I18N.data.ar['toast.verify_fail'] = 'فشل التحقق من الدفع. يرجى المحاولة لاحقًا أو الاتصال بالدعم';
+I18N.data.zh['toast.verify_network'] = '网络错误，无法验证支付状态';
+I18N.data.en['toast.verify_network'] = 'Network error. Cannot verify payment status';
+I18N.data.ar['toast.verify_network'] = 'خطأ في الشبكة. لا يمكن التحقق من حالة الدفع';
+I18N.data.zh['toast.year_range'] = '仅支持1900-2100年范围';
+I18N.data.en['toast.year_range'] = 'Only years 1900-2100 supported';
+I18N.data.ar['toast.year_range'] = 'فقط السنوات 1900-2100 مدعومة';
+I18N.data.zh['hour.0'] = '子时 (23:00-01:00)';
+I18N.data.en['hour.0'] = 'Zi (23:00-01:00)';
+I18N.data.ar['hour.0'] = 'زي (23:00-01:00)';
+I18N.data.zh['hour.1'] = '丑时 (01:00-03:00)';
+I18N.data.en['hour.1'] = 'Chou (01:00-03:00)';
+I18N.data.ar['hour.1'] = 'تشو (01:00-03:00)';
+I18N.data.zh['hour.2'] = '寅时 (03:00-05:00)';
+I18N.data.en['hour.2'] = 'Yin (03:00-05:00)';
+I18N.data.ar['hour.2'] = 'ين (03:00-05:00)';
+I18N.data.zh['hour.3'] = '卯时 (05:00-07:00)';
+I18N.data.en['hour.3'] = 'Mao (05:00-07:00)';
+I18N.data.ar['hour.3'] = 'ماو (05:00-07:00)';
+I18N.data.zh['hour.4'] = '辰时 (07:00-09:00)';
+I18N.data.en['hour.4'] = 'Chen (07:00-09:00)';
+I18N.data.ar['hour.4'] = 'تشن (07:00-09:00)';
+I18N.data.zh['hour.5'] = '巳时 (09:00-11:00)';
+I18N.data.en['hour.5'] = 'Si (09:00-11:00)';
+I18N.data.ar['hour.5'] = 'سي (09:00-11:00)';
+I18N.data.zh['hour.6'] = '午时 (11:00-13:00)';
+I18N.data.en['hour.6'] = 'Wu (11:00-13:00)';
+I18N.data.ar['hour.6'] = 'وو (11:00-13:00)';
+I18N.data.zh['hour.7'] = '未时 (13:00-15:00)';
+I18N.data.en['hour.7'] = 'Wei (13:00-15:00)';
+I18N.data.ar['hour.7'] = 'وي (13:00-15:00)';
+I18N.data.zh['hour.8'] = '申时 (15:00-17:00)';
+I18N.data.en['hour.8'] = 'Shen (15:00-17:00)';
+I18N.data.ar['hour.8'] = 'شن (15:00-17:00)';
+I18N.data.zh['hour.9'] = '酉时 (17:00-19:00)';
+I18N.data.en['hour.9'] = 'You (17:00-19:00)';
+I18N.data.ar['hour.9'] = 'يو (17:00-19:00)';
+I18N.data.zh['hour.10'] = '戌时 (19:00-21:00)';
+I18N.data.en['hour.10'] = 'Xu (19:00-21:00)';
+I18N.data.ar['hour.10'] = 'شو (19:00-21:00)';
+I18N.data.zh['hour.11'] = '亥时 (21:00-23:00)';
+I18N.data.en['hour.11'] = 'Hai (21:00-23:00)';
+I18N.data.ar['hour.11'] = 'هاي (21:00-23:00)';
+I18N.data.zh['cat.career.title'] = '事业运 — 专业解读';
+I18N.data.en['cat.career.title'] = 'Career Fortune — Professional Reading';
+I18N.data.ar['cat.career.title'] = 'حظ المهنة — قراءة احترافية';
+I18N.data.zh['cat.career.intro'] = '通过紫微斗数十二宫中的<strong>官禄宫</strong>（事业宫）为核心，结合命宫、财帛宫、迁移宫，全面分析你的事业发展轨迹。';
+I18N.data.en['cat.career.intro'] = 'Using the <strong>Career Palace</strong> as the core, combined with Ming Palace, Wealth Palace, and Travel Palace, we comprehensively analyze your career development trajectory.';
+I18N.data.ar['cat.career.intro'] = 'باستخدام <strong>قصر المهنة</strong> كنواة ، جنبًا إلى جنب مع قصر مينغ وقصر الثروة وقصر السفر ، نحلل مسار تطورك المهني بشكل شامل.';
+I18N.data.zh['cat.career.serviceIntro'] = '购买详细解盘后，你将获得：';
+I18N.data.en['cat.career.serviceIntro'] = 'After purchasing the detailed reading, you will receive:';
+I18N.data.ar['cat.career.serviceIntro'] = 'بعد شراء القراءة المفصلة ، ستحصل على:';
+I18N.data.zh['cat.career.analyze.0.label'] = '命宫主星';
+I18N.data.zh['cat.career.analyze.0.desc'] = '天生性格特质，适合的职业类型与工作风格';
+I18N.data.en['cat.career.analyze.0.label'] = 'Ming Palace Star';
+I18N.data.en['cat.career.analyze.0.desc'] = 'Innate personality traits, suitable career types and work style';
+I18N.data.ar['cat.career.analyze.0.label'] = 'نجم قصر مينغ';
+I18N.data.ar['cat.career.analyze.0.desc'] = 'سمات الشخصية الفطرية وأنواع المهن المناسبة وأسلوب العمل';
+I18N.data.zh['cat.career.analyze.1.label'] = '官禄宫';
+I18N.data.zh['cat.career.analyze.1.desc'] = '事业运核心指标 — 职业发展方向、升迁时机、工作环境适配度';
+I18N.data.en['cat.career.analyze.1.label'] = 'Career Palace';
+I18N.data.en['cat.career.analyze.1.desc'] = 'Core career indicator — professional direction, promotion timing, work environment fit';
+I18N.data.ar['cat.career.analyze.1.label'] = 'قصر المهنة';
+I18N.data.ar['cat.career.analyze.1.desc'] = 'مؤشر المهنة الأساسي — الاتجاه المهني وتوقيت الترقية وملاءمة بيئة العمل';
+I18N.data.zh['cat.career.analyze.2.label'] = '财帛宫';
+I18N.data.zh['cat.career.analyze.2.desc'] = '收入来源与求财方式，正财偏财运势分析';
+I18N.data.en['cat.career.analyze.2.label'] = 'Wealth Palace';
+I18N.data.en['cat.career.analyze.2.desc'] = 'Income sources and wealth acquisition methods, direct and indirect wealth analysis';
+I18N.data.ar['cat.career.analyze.2.label'] = 'قصر الثروة';
+I18N.data.ar['cat.career.analyze.2.desc'] = 'مصادر الدخل وطرق اكتساب الثروة وتحليل الثروة المباشرة وغير المباشرة';
+I18N.data.zh['cat.career.analyze.3.label'] = '迁移宫';
+I18N.data.zh['cat.career.analyze.3.desc'] = '外出发展机遇、驿马运、贵人助力与小人防范';
+I18N.data.en['cat.career.analyze.3.label'] = 'Travel Palace';
+I18N.data.en['cat.career.analyze.3.desc'] = 'External development opportunities, travel fortune, benefactor assistance and adversary prevention';
+I18N.data.ar['cat.career.analyze.3.label'] = 'قصر السفر';
+I18N.data.ar['cat.career.analyze.3.desc'] = 'فرص التطوير الخارجية وثروة السفر ومساعدة المحسنين والوقاية من الخصوم';
+I18N.data.zh['cat.career.analyze.4.label'] = '四化飞星';
+I18N.data.zh['cat.career.analyze.4.desc'] = '化禄/化权/化科/化忌在事业相关宫位的影响与应对策略';
+I18N.data.en['cat.career.analyze.4.label'] = '4 Transformations';
+I18N.data.en['cat.career.analyze.4.desc'] = 'Impact of Hua Lu/Hua Quan/Hua Ke/Hua Ji on career-related palaces and strategies';
+I18N.data.ar['cat.career.analyze.4.label'] = 'التحولات الأربعة';
+I18N.data.ar['cat.career.analyze.4.desc'] = 'تأثير هوا لو/هوا تشوان/هوا كه/هوا جي على القصور المتعلقة بالمهنة والاستراتيجيات';
+I18N.data.zh['cat.career.service.0'] = '官禄宫星曜组合深度解析';
+I18N.data.en['cat.career.service.0'] = 'In-depth Career Palace star combination analysis';
+I18N.data.ar['cat.career.service.0'] = 'تحليل متعمق لتركيبة نجوم قصر المهنة';
+I18N.data.zh['cat.career.service.1'] = '职业转型与升迁时机建议';
+I18N.data.en['cat.career.service.1'] = 'Career transition and promotion timing advice';
+I18N.data.ar['cat.career.service.1'] = 'نصائح حول الانتقال المهني وتوقيت الترقية';
+I18N.data.zh['cat.career.service.2'] = '贵人与小人识别指引';
+I18N.data.en['cat.career.service.2'] = 'Benefactor and adversary identification guide';
+I18N.data.ar['cat.career.service.2'] = 'دليل تحديد المحسنين والخصوم';
+I18N.data.zh['cat.career.service.3'] = '每十年大限事业运势推演';
+I18N.data.en['cat.career.service.3'] = '10-year major cycle career fortune projection';
+I18N.data.ar['cat.career.service.3'] = 'توقعات ثروة المهنة للدورة الكبرى كل 10 سنوات';
+I18N.data.zh['cat.career.service.4'] = '适合行业与创业时机分析';
+I18N.data.en['cat.career.service.4'] = 'Suitable industry and entrepreneurship timing analysis';
+I18N.data.ar['cat.career.service.4'] = 'تحليل الصناعة المناسبة وتوقيت ريادة الأعمال';
+I18N.data.zh['cat.love.title'] = '感情运 — 专业解读';
+I18N.data.en['cat.love.title'] = 'Love Fortune — Professional Reading';
+I18N.data.ar['cat.love.title'] = 'حظ الحب — قراءة احترافية';
+I18N.data.zh['cat.love.intro'] = '以<strong>夫妻宫</strong>为核心，结合命宫、福德宫、子女宫，深度解读你的感情模式与婚姻缘分。';
+I18N.data.en['cat.love.intro'] = 'Using the <strong>Spouse Palace</strong> as the core, combined with Ming Palace, Fortune Palace, and Children Palace, we deeply interpret your relationship patterns and marriage destiny.';
+I18N.data.ar['cat.love.intro'] = 'باستخدام <strong>قصر الزوج</strong> كنواة ، جنبًا إلى جنب مع قصر مينغ وقصر الثروة وقصر الأطفال ، نفسر بعمق أنماط علاقاتك ومصير زواجك.';
+I18N.data.zh['cat.love.serviceIntro'] = '购买详细解盘后，你将获得：';
+I18N.data.en['cat.love.serviceIntro'] = 'After purchasing the detailed reading, you will receive:';
+I18N.data.ar['cat.love.serviceIntro'] = 'بعد شراء القراءة المفصلة ، ستحصل على:';
+I18N.data.zh['cat.love.analyze.0.label'] = '命宫主星';
+I18N.data.zh['cat.love.analyze.0.desc'] = '先天感情特质，恋爱风格与择偶偏好';
+I18N.data.en['cat.love.analyze.0.label'] = 'Ming Palace Star';
+I18N.data.en['cat.love.analyze.0.desc'] = 'Innate romantic traits, love style and partner preferences';
+I18N.data.ar['cat.love.analyze.0.label'] = 'نجم قصر مينغ';
+I18N.data.ar['cat.love.analyze.0.desc'] = 'السمات الرومانسية الفطرية وأسلوب الحب وتفضيلات الشريك';
+I18N.data.zh['cat.love.analyze.1.label'] = '夫妻宫';
+I18N.data.zh['cat.love.analyze.1.desc'] = '婚姻运核心指标 — 配偶特征、婚姻质量、感情走势';
+I18N.data.en['cat.love.analyze.1.label'] = 'Spouse Palace';
+I18N.data.en['cat.love.analyze.1.desc'] = 'Core marriage indicator — spouse characteristics, marriage quality, relationship trends';
+I18N.data.ar['cat.love.analyze.1.label'] = 'قصر الزوج';
+I18N.data.ar['cat.love.analyze.1.desc'] = 'مؤشر الزواج الأساسي — خصائص الزوج وجودة الزواج واتجاهات العلاقة';
+I18N.data.zh['cat.love.analyze.2.label'] = '福德宫';
+I18N.data.zh['cat.love.analyze.2.desc'] = '内心情感需求、精神契合度、感情幸福感来源';
+I18N.data.en['cat.love.analyze.2.label'] = 'Fortune Palace';
+I18N.data.en['cat.love.analyze.2.desc'] = 'Inner emotional needs, spiritual compatibility, sources of relationship happiness';
+I18N.data.ar['cat.love.analyze.2.label'] = 'قصر الثروة';
+I18N.data.ar['cat.love.analyze.2.desc'] = 'الاحتياجات العاطفية الداخلية والتوافق الروحي ومصادر سعادة العلاقة';
+I18N.data.zh['cat.love.analyze.3.label'] = '子女宫';
+I18N.data.zh['cat.love.analyze.3.desc'] = '桃花运旺衰、恋爱机会多寡、子女缘分';
+I18N.data.en['cat.love.analyze.3.label'] = 'Children Palace';
+I18N.data.en['cat.love.analyze.3.desc'] = 'Romance luck strength, love opportunity frequency, children destiny';
+I18N.data.ar['cat.love.analyze.3.label'] = 'قصر الأطفال';
+I18N.data.ar['cat.love.analyze.3.desc'] = 'قوة حظ الرومانسية وتكرار فرص الحب ومصير الأطفال';
+I18N.data.zh['cat.love.analyze.4.label'] = '四化飞星';
+I18N.data.zh['cat.love.analyze.4.desc'] = '化禄/化权/化科/化忌在感情宫位的具体影响';
+I18N.data.en['cat.love.analyze.4.label'] = '4 Transformations';
+I18N.data.en['cat.love.analyze.4.desc'] = 'Specific impact of the 4 transformations on relationship palaces';
+I18N.data.ar['cat.love.analyze.4.label'] = 'التحولات الأربعة';
+I18N.data.ar['cat.love.analyze.4.desc'] = 'التأثير المحدد للتحولات الأربعة على قصور العلاقات';
+I18N.data.zh['cat.love.service.0'] = '夫妻宫星曜组合深度解析';
+I18N.data.en['cat.love.service.0'] = 'In-depth Spouse Palace star combination analysis';
+I18N.data.ar['cat.love.service.0'] = 'تحليل متعمق لتركيبة نجوم قصر الزوج';
+I18N.data.zh['cat.love.service.1'] = '桃花运势与恋爱时机分析';
+I18N.data.en['cat.love.service.1'] = 'Romance fortune and love timing analysis';
+I18N.data.ar['cat.love.service.1'] = 'تحليل حظ الرومانسية وتوقيت الحب';
+I18N.data.zh['cat.love.service.2'] = '婚姻适配度与择偶建议';
+I18N.data.en['cat.love.service.2'] = 'Marriage compatibility and partner selection advice';
+I18N.data.ar['cat.love.service.2'] = 'نصائح حول توافق الزواج واختيار الشريك';
+I18N.data.zh['cat.love.service.3'] = '感情中需注意的煞星影响';
+I18N.data.en['cat.love.service.3'] = 'Malefic star influences to watch for in relationships';
+I18N.data.ar['cat.love.service.3'] = 'تأثيرات النجوم الضارة التي يجب مراقبتها في العلاقات';
+I18N.data.zh['cat.love.service.4'] = '大限感情运势推演';
+I18N.data.en['cat.love.service.4'] = 'Major cycle relationship fortune projection';
+I18N.data.ar['cat.love.service.4'] = 'توقعات ثروة العلاقة للدورة الكبرى';
+I18N.data.zh['cat.wealth.title'] = '财运 — 专业解读';
+I18N.data.en['cat.wealth.title'] = 'Wealth Fortune — Professional Reading';
+I18N.data.ar['cat.wealth.title'] = 'حظ الثروة — قراءة احترافية';
+I18N.data.zh['cat.wealth.intro'] = '以<strong>财帛宫</strong>为核心，结合命宫、田宅宫、福德宫，全面解析你的财富密码与求财之道。';
+I18N.data.en['cat.wealth.intro'] = 'Using the <strong>Wealth Palace</strong> as the core, combined with Ming Palace, Property Palace, and Fortune Palace, we comprehensively decode your wealth potential and path to prosperity.';
+I18N.data.ar['cat.wealth.intro'] = 'باستخدام <strong>قصر الثروة</strong> كنواة ، جنبًا إلى جنب مع قصر مينغ وقصر الممتلكات وقصر الثروة ، نفك شيفرة إمكانات ثروتك وطريقك إلى الازدهار بشكل شامل.';
+I18N.data.zh['cat.wealth.serviceIntro'] = '购买详细解盘后，你将获得：';
+I18N.data.en['cat.wealth.serviceIntro'] = 'After purchasing the detailed reading, you will receive:';
+I18N.data.ar['cat.wealth.serviceIntro'] = 'بعد شراء القراءة المفصلة ، ستحصل على:';
+I18N.data.zh['cat.wealth.analyze.0.label'] = '命宫主星';
+I18N.data.zh['cat.wealth.analyze.0.desc'] = '先天财运基因，理财观念与消费习惯';
+I18N.data.en['cat.wealth.analyze.0.label'] = 'Ming Palace Star';
+I18N.data.en['cat.wealth.analyze.0.desc'] = 'Innate wealth genes, financial concepts and spending habits';
+I18N.data.ar['cat.wealth.analyze.0.label'] = 'نجم قصر مينغ';
+I18N.data.ar['cat.wealth.analyze.0.desc'] = 'جينات الثروة الفطرية والمفاهيم المالية وعادات الإنفاق';
+I18N.data.zh['cat.wealth.analyze.1.label'] = '财帛宫';
+I18N.data.zh['cat.wealth.analyze.1.desc'] = '财运核心指标 — 收入来源、求财方式、财富积累能力';
+I18N.data.en['cat.wealth.analyze.1.label'] = 'Wealth Palace';
+I18N.data.en['cat.wealth.analyze.1.desc'] = 'Core wealth indicator — income sources, wealth methods, accumulation ability';
+I18N.data.ar['cat.wealth.analyze.1.label'] = 'قصر الثروة';
+I18N.data.ar['cat.wealth.analyze.1.desc'] = 'مؤشر الثروة الأساسي — مصادر الدخل وطرق الثروة والقدرة على التراكم';
+I18N.data.zh['cat.wealth.analyze.2.label'] = '田宅宫';
+I18N.data.zh['cat.wealth.analyze.2.desc'] = '不动产运、家庭资产、财富储存与保值能力';
+I18N.data.en['cat.wealth.analyze.2.label'] = 'Property Palace';
+I18N.data.en['cat.wealth.analyze.2.desc'] = 'Real estate fortune, family assets, wealth preservation ability';
+I18N.data.ar['cat.wealth.analyze.2.label'] = 'قصر الممتلكات';
+I18N.data.ar['cat.wealth.analyze.2.desc'] = 'ثروة العقارات والأصول العائلية والقدرة على الحفاظ على الثروة';
+I18N.data.zh['cat.wealth.analyze.3.label'] = '福德宫';
+I18N.data.zh['cat.wealth.analyze.3.desc'] = '偏财运、投资运气、精神满足与物质享受的平衡';
+I18N.data.en['cat.wealth.analyze.3.label'] = 'Fortune Palace';
+I18N.data.en['cat.wealth.analyze.3.desc'] = 'Speculative wealth luck, investment fortune, balance of spiritual and material fulfillment';
+I18N.data.ar['cat.wealth.analyze.3.label'] = 'قصر الثروة';
+I18N.data.ar['cat.wealth.analyze.3.desc'] = 'حظ الثروة المضاربة وثروة الاستثمار وتوازن الإشباع الروحي والمادي';
+I18N.data.zh['cat.wealth.analyze.4.label'] = '四化飞星';
+I18N.data.zh['cat.wealth.analyze.4.desc'] = '化禄/化权/化科/化忌在财帛相关宫位的影响';
+I18N.data.en['cat.wealth.analyze.4.label'] = '4 Transformations';
+I18N.data.en['cat.wealth.analyze.4.desc'] = 'Impact of the 4 transformations on wealth-related palaces';
+I18N.data.ar['cat.wealth.analyze.4.label'] = 'التحولات الأربعة';
+I18N.data.ar['cat.wealth.analyze.4.desc'] = 'تأثير التحولات الأربعة على القصور المتعلقة بالثروة';
+I18N.data.zh['cat.wealth.service.0'] = '财帛宫星曜组合深度解析';
+I18N.data.en['cat.wealth.service.0'] = 'In-depth Wealth Palace star combination analysis';
+I18N.data.ar['cat.wealth.service.0'] = 'تحليل متعمق لتركيبة نجوم قصر الثروة';
+I18N.data.zh['cat.wealth.service.1'] = '正财与偏财运势详解';
+I18N.data.en['cat.wealth.service.1'] = 'Direct and indirect wealth fortune details';
+I18N.data.ar['cat.wealth.service.1'] = 'تفاصيل ثروة الثروة المباشرة وغير المباشرة';
+I18N.data.zh['cat.wealth.service.2'] = '投资理财时机与方向建议';
+I18N.data.en['cat.wealth.service.2'] = 'Investment timing and direction advice';
+I18N.data.ar['cat.wealth.service.2'] = 'نصائح حول توقيت واتجاه الاستثمار';
+I18N.data.zh['cat.wealth.service.3'] = '破财风险预警与化解方法';
+I18N.data.en['cat.wealth.service.3'] = 'Financial loss risk warning and mitigation';
+I18N.data.ar['cat.wealth.service.3'] = 'تحذير من مخاطر الخسارة المالية والتخفيف منها';
+I18N.data.zh['cat.wealth.service.4'] = '大限财运走势推演';
+I18N.data.en['cat.wealth.service.4'] = 'Major cycle wealth trend projection';
+I18N.data.ar['cat.wealth.service.4'] = 'توقعات اتجاه ثروة الدورة الكبرى';
+I18N.data.zh['cat.health.title'] = '健康运 — 专业解读';
+I18N.data.en['cat.health.title'] = 'Health Fortune — Professional Reading';
+I18N.data.ar['cat.health.title'] = 'حظ الصحة — قراءة احترافية';
+I18N.data.zh['cat.health.intro'] = '以<strong>疾厄宫</strong>为核心，结合命宫、福德宫、迁移宫，全面分析你的身体健康状况与养生调理方向。';
+I18N.data.en['cat.health.intro'] = 'Using the <strong>Health Palace</strong> as the core, combined with Ming Palace, Fortune Palace, and Travel Palace, we comprehensively analyze your physical health and wellness direction.';
+I18N.data.ar['cat.health.intro'] = 'باستخدام <strong>قصر الصحة</strong> كنواة ، جنبًا إلى جنب مع قصر مينغ وقصر الثروة وقصر السفر ، نحلل صحتك الجسدية واتجاه العافية بشكل شامل.';
+I18N.data.zh['cat.health.serviceIntro'] = '购买详细解盘后，你将获得：';
+I18N.data.en['cat.health.serviceIntro'] = 'After purchasing the detailed reading, you will receive:';
+I18N.data.ar['cat.health.serviceIntro'] = 'بعد شراء القراءة المفصلة ، ستحصل على:';
+I18N.data.zh['cat.health.analyze.0.label'] = '命宫主星';
+I18N.data.zh['cat.health.analyze.0.desc'] = '先天体质强弱，身体能量的基本盘与抵抗力';
+I18N.data.en['cat.health.analyze.0.label'] = 'Ming Palace Star';
+I18N.data.en['cat.health.analyze.0.desc'] = 'Innate physical constitution, baseline body energy and immunity';
+I18N.data.ar['cat.health.analyze.0.label'] = 'نجم قصر مينغ';
+I18N.data.ar['cat.health.analyze.0.desc'] = 'التكوين الجسدي الفطري وطاقة الجسم الأساسية والمناعة';
+I18N.data.zh['cat.health.analyze.1.label'] = '疾厄宫';
+I18N.data.zh['cat.health.analyze.1.desc'] = '健康运核心指标 — 易患疾病类型、意外风险、康复能力';
+I18N.data.en['cat.health.analyze.1.label'] = 'Health Palace';
+I18N.data.en['cat.health.analyze.1.desc'] = 'Core health indicator — disease susceptibility, accident risk, recovery ability';
+I18N.data.ar['cat.health.analyze.1.label'] = 'قصر الصحة';
+I18N.data.ar['cat.health.analyze.1.desc'] = 'مؤشر الصحة الأساسي — القابلية للإصابة بالأمراض ومخاطر الحوادث والقدرة على التعافي';
+I18N.data.zh['cat.health.analyze.2.label'] = '福德宫';
+I18N.data.zh['cat.health.analyze.2.desc'] = '心理健康与情绪状态、压力应对能力、养生兴趣方向';
+I18N.data.en['cat.health.analyze.2.label'] = 'Fortune Palace';
+I18N.data.en['cat.health.analyze.2.desc'] = 'Mental health and emotional state, stress coping ability, wellness interests';
+I18N.data.ar['cat.health.analyze.2.label'] = 'قصر الثروة';
+I18N.data.ar['cat.health.analyze.2.desc'] = 'الصحة النفسية والحالة العاطفية والقدرة على التعامل مع التوتر واهتمامات العافية';
+I18N.data.zh['cat.health.analyze.3.label'] = '迁移宫';
+I18N.data.zh['cat.health.analyze.3.desc'] = '外出安全、交通事故风险、异地养生适应度';
+I18N.data.en['cat.health.analyze.3.label'] = 'Travel Palace';
+I18N.data.en['cat.health.analyze.3.desc'] = 'Travel safety, traffic accident risk, wellness adaptation abroad';
+I18N.data.ar['cat.health.analyze.3.label'] = 'قصر السفر';
+I18N.data.ar['cat.health.analyze.3.desc'] = 'سلامة السفر ومخاطر حوادث المرور والتكيف مع العافية في الخارج';
+I18N.data.zh['cat.health.analyze.4.label'] = '四化飞星';
+I18N.data.zh['cat.health.analyze.4.desc'] = '化禄/化权/化科/化忌在疾厄宫的影响，疾病预警与化解方向';
+I18N.data.en['cat.health.analyze.4.label'] = '4 Transformations';
+I18N.data.en['cat.health.analyze.4.desc'] = 'Impact of the 4 transformations on the Health Palace, disease warning and resolution';
+I18N.data.ar['cat.health.analyze.4.label'] = 'التحولات الأربعة';
+I18N.data.ar['cat.health.analyze.4.desc'] = 'تأثير التحولات الأربعة على قصر الصحة وتحذير الأمراض والحل';
+I18N.data.zh['cat.health.service.0'] = '疾厄宫星曜组合深度解析';
+I18N.data.en['cat.health.service.0'] = 'In-depth Health Palace star combination analysis';
+I18N.data.ar['cat.health.service.0'] = 'تحليل متعمق لتركيبة نجوم قصر الصحة';
+I18N.data.zh['cat.health.service.1'] = '先天体质评估与易患疾病预警';
+I18N.data.en['cat.health.service.1'] = 'Innate constitution assessment and disease susceptibility warning';
+I18N.data.ar['cat.health.service.1'] = 'تقييم التكوين الفطري وتحذير القابلية للإصابة بالأمراض';
+I18N.data.zh['cat.health.service.2'] = '各年龄段健康运势推演';
+I18N.data.en['cat.health.service.2'] = 'Health fortune projection by age group';
+I18N.data.ar['cat.health.service.2'] = 'توقعات ثروة الصحة حسب الفئة العمرية';
+I18N.data.zh['cat.health.service.3'] = '养生调理方向与运动建议';
+I18N.data.en['cat.health.service.3'] = 'Wellness direction and exercise recommendations';
+I18N.data.ar['cat.health.service.3'] = 'اتجاه العافية وتوصيات التمارين';
+I18N.data.zh['cat.health.service.4'] = '煞星入疾厄宫的化解指引';
+I18N.data.en['cat.health.service.4'] = 'Malefic star in Health Palace resolution guide';
+I18N.data.ar['cat.health.service.4'] = 'دليل حل النجم الضار في قصر الصحة';
+
+// Initialize from saved preference
+(function() {
+  var saved = localStorage.getItem("zwei_lang");
+  if (saved && (saved === "zh" || saved === "en" || saved === "ar")) {
+    I18N.current = saved;
+  } else {
+    var browserLang = (navigator.language || "").split("-")[0];
+    if (browserLang === "ar") I18N.current = "ar";
+    else if (browserLang === "en") I18N.current = "en";
+  }
+  I18N.setLanguage(I18N.current);
+})();
+</script>
 <script>
 // ============================================================
 // LunarCore — 公历农历转换
@@ -720,7 +1876,17 @@ var LunarCore = (function() {
     var yearGZ=getYearGanZhi(lunarYear);
     var monthGZ=getMonthGanZhi(lunarYear, lunarMonth||1);
     var dayGZ=getDayGanZhi(year,month,day);
-    return {
+    function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
+  return {
       year:lunarYear, month:lunarMonth||1, day:lunarDay||1, isLeap:isLeap,
       yearGanZhi:yearGZ, monthGanZhi:monthGZ, dayGanZhi:dayGZ,
       animal:ANIMALS[(lunarYear-4)%12],
@@ -754,6 +1920,16 @@ var LunarCore = (function() {
     return STEMS[(start+hb)%10]+BRANCHES[hb];
   }
   function getHourName(hour){return ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'][getHourBranchIndex(hour)];}
+  function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
   return {
     solarToLunar: solarToLunar, getYearGanZhi: getYearGanZhi,
     getMonthGanZhi: getMonthGanZhi, getDayGanZhi: getDayGanZhi,
@@ -851,6 +2027,16 @@ var StarData = (function() {
     '地空':{type:'煞星',quality:'凶',element:'火',meaning:'空亡,失落,波折'},
     '地劫':{type:'煞星',quality:'凶',element:'火',meaning:'劫煞,破耗,损失'}
   };
+  function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
   return {
     BRANCH_IDX:BRANCH_IDX, BRANCHES:BRANCHES, STEMS:STEMS,
     PALACE_NAMES:PALACE_NAMES, ELEMENT_TABLES:ELEMENT_TABLES,
@@ -909,8 +2095,10 @@ var ZiWeiCore = (function() {
     var yinGan = SD.WU_HU_DUN[yearGan];
     var yinGanIdx = SD.STEMS.indexOf(yinGan);
     for(var i=0;i<12;i++){
-      palaces[i].stem = SD.STEMS[(yinGanIdx+i)%10];
-      palaces[i].stemIdx = (yinGanIdx+i)%10;
+      // 五虎遁从寅(索引2)起，按地支位置顺排天干，非按宫位顺序
+      var stemOffset = (palaces[i].branchIdx - 2 + 12) % 12;
+      palaces[i].stem = SD.STEMS[(yinGanIdx + stemOffset) % 10];
+      palaces[i].stemIdx = (yinGanIdx + stemOffset) % 10;
     }
 
     var mingEl = SD.ELEMENT_TABLE[palaces[0].stemIdx][palaces[0].branchIdx];
@@ -978,7 +2166,17 @@ var ZiWeiCore = (function() {
       daXian.push({palaceIndex:pi, startAge:1+i*perDaXian, endAge:i*perDaXian+perDaXian, ageRange:(1+i*perDaXian)+'~'+(i*perDaXian+perDaXian)+'岁'});
     }
 
-    return {
+    function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
+  return {
       birthInfo:{
         solar:{year,month,day},
         lunar:{year:lunar.year, month:lunar.month, day:lunar.day, isLeap:lunar.isLeap, monthStr:lunar.lunarMonthStr, dayStr:lunar.lunarDayStr},
@@ -992,6 +2190,16 @@ var ZiWeiCore = (function() {
       forward:forward, timestamp:Date.now()
     };
   }
+  function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
   return {calculateChart:calculateChart};
 })();
 </script>
@@ -1238,10 +2446,10 @@ var Interpretations = (function() {
     var ming = palaces[0];
     var mingMain = ming.stars.filter(function(s){return s.type==='主星'}).map(function(s){return s.name});
     if(mingMain.length>0){
-      report.summary = '命宫在'+ming.branch+'宫，主星：'+mingMain.join('、')+'。';
-      if(ming.stars.some(function(s){return s.type==='煞星'})) report.summary += ' 有煞星会照，人生多有磨炼。';
+      report.summary = I18N.t('report.ming_prefix')+ming.branch+I18N.t('detail.palace_suffix')+I18N.t('report.ming_main')+mingMain.join('、')+'。';
+      if(ming.stars.some(function(s){return s.type==='煞星'})) report.summary += I18N.t('report.sha_hint');
     } else {
-      report.summary = '命宫在'+ming.branch+'宫为空宫，一生受环境影响较大，可塑性强。需借对宫(父母宫)星曜来看。';
+      report.summary = I18N.t('report.ming_prefix')+ming.branch+I18N.t('detail.palace_suffix')+I18N.t('report.empty_ming');
     }
     for(var i=0;i<palaces.length;i++){
       var pal = palaces[i];
@@ -1251,9 +2459,9 @@ var Interpretations = (function() {
       var huaList = pal.hua.map(function(h){return {name:h.name,huaType:h.huaType,cssClass:h.huaType==='禄'?'lu':h.huaType==='权'?'quan':h.huaType==='科'?'ke':'ji'};});
       var text = pal.name+'在'+pal.branch+'宫';
       if(main.length>0){
-        text += '\n'+main.map(function(n){return STAR_IN_PALACE[pal.name]&&STAR_IN_PALACE[pal.name][n]?STAR_IN_PALACE[pal.name][n]:n+'入'+pal.name+'，对'+pal.name+'产生影响。';}).join('\n');
+        text += '\n'+main.map(function(n){return STAR_IN_PALACE[pal.name]&&STAR_IN_PALACE[pal.name][n]?STAR_IN_PALACE[pal.name][n]:n+I18N.t('report.star_fallback')+pal.name+I18N.t('report.star_fallback2')+pal.name+I18N.t('report.star_fallback3');}).join('\n');
       } else {
-        text += '\n'+(EMPTY_PALACE[pal.name]||'该宫无主星，需参考对宫。');
+        text += '\n'+(EMPTY_PALACE[pal.name]||I18N.t('report.empty_fallback'));
       }
       if(aux.length>0) text += '\n辅星：'+aux.join('、')+'。增加吉运与助力。';
       if(sha.length>0) text += '\n煞星：'+sha.join('、')+'。带来挑战与考验。';
@@ -1262,10 +2470,20 @@ var Interpretations = (function() {
       report.palaces.push({name:pal.name,branch:pal.branch,mainStars:main,auxStars:aux,shaStars:sha,huaList:huaList,text:text,isMing:pal.isMing,isShen:pal.isShen});
     }
     for(var k=0;k<PATTERNS.length;k++){if(PATTERNS[k].check(palaces)) report.patterns.push({name:PATTERNS[k].name,desc:PATTERNS[k].desc});}
-    for(var l=0;l<daXian.length;l++){var dxp=palaces[daXian[l].palaceIndex];report.daXian.push({ageRange:daXian[l].ageRange,palace:dxp.name,stars:dxp.stars.map(function(s){return s.name}),text:daXian[l].ageRange+'，大限在'+dxp.name+dxp.branch+'宫。'});}
-    report.huaSummary = '四化：'+hua.lu+'化禄、'+hua.quan+'化权、'+hua.ke+'化科、'+hua.ji+'化忌';
-    report.advice = '命理分析仅供参考，命运掌握在自己手中。紫微斗数揭示的是先天禀赋，而后天的努力、选择和环境因素同样重要。建议发挥命盘中吉星的优势，化解凶星的负面影响，积极面对人生的挑战。';
+    for(var l=0;l<daXian.length;l++){var dxp=palaces[daXian[l].palaceIndex];report.daXian.push({ageRange:daXian[l].ageRange,palace:dxp.name,stars:dxp.stars.map(function(s){return s.name}),text:daXian[l].ageRange+I18N.t('report.daxian_fmt')+dxp.name+dxp.branch+I18N.t('detail.palace_suffix')+'。'});}
+    report.huaSummary = I18N.t('chart.sihua_label')+hua.lu+'化禄、'+hua.quan+'化权、'+hua.ke+'化科、'+hua.ji+'化忌';
+    report.advice = I18N.t('report.advice');
     return report;
+  }
+
+  function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
   }
 
   return {generateReport:generateReport, STAR_IN_PALACE:STAR_IN_PALACE, EMPTY_PALACE:EMPTY_PALACE, HUA_INTERPRETATION:HUA_INTERPRETATION, PATTERNS:PATTERNS};
@@ -1283,13 +2501,36 @@ var App = (function() {
     dateType: 'solar',
     chartData: null,
     birthInfo: null,
-    report: null
+    report: null,
+    readingId: null,
+    isPaid: false,
+    birthParams: null
   };
 
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function getStripeConfig() {
+    return fetch('/config').then(function(r){return r.json();}).catch(function(){return {publishableKey:'',domain:'https://yourfate.xyz'};});
+  }
+
   function showView(id) {
-    document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
+    var rs = document.getElementById('resultSection');
+    var ds = document.getElementById('detailSection');
+    if (rs) rs.classList.remove('active');
+    if (ds) ds.classList.remove('active');
+    if (id === 'view-chart') {
+      if (rs) { rs.classList.add('active'); rs.scrollIntoView({behavior:'smooth'}); }
+    } else if (id === 'view-detail') {
+      if (ds) { ds.classList.add('active'); ds.scrollIntoView({behavior:'smooth'}); }
+    } else if (id === 'view-input') {
+      var f = document.getElementById('form');
+      if (f) f.scrollIntoView({behavior:'smooth'});
+    }
   }
 
   function showToast(msg) {
@@ -1316,14 +2557,14 @@ var App = (function() {
 
   function onSubmit() {
     var dateVal = document.getElementById('inputDate').value;
-    if (!dateVal) { showToast('请选择出生日期'); return; }
+    if (!dateVal) { showToast(I18N.t('toast.select_date')); return; }
     var parts = dateVal.split('-');
     var year = parseInt(parts[0]);
-    if (year<1900 || year>2100) { showToast('仅支持1900-2100年范围'); return; }
+    if (year<1900 || year>2100) { showToast(I18N.t('toast.year_range')); return; }
 
     var btn = document.getElementById('btnSubmit');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> 计算中...';
+    btn.innerHTML = I18N.t('chart.calculating');
 
     setTimeout(function() {
       try {
@@ -1337,21 +2578,36 @@ var App = (function() {
         var chartData = ZiWeiCore.calculateChart(year, month, day, actualHour, 0, state.dateType === 'solar');
         state.chartData = chartData;
         state.birthInfo = {
-          name: document.getElementById('inputName').value || '未知',
+          name: document.getElementById('inputName').value || I18N.t('chart.unknown_name'),
           gender: state.gender,
           dateType: state.dateType,
           date: dateVal,
           hour: hourOptions[hourIdx]
         };
 
+        // Generate reading ID and save birth params for payment flow
+        state.readingId = generateUUID();
+        state.birthParams = {
+          name: document.getElementById('inputName').value || I18N.t('chart.unknown_name'),
+          gender: state.gender,
+          dateType: state.dateType,
+          year: year, month: month, day: day,
+          hour: actualHour
+        };
+        localStorage.setItem('zwei_reading_id', state.readingId);
+        localStorage.setItem('zwei_birth_params', JSON.stringify(state.birthParams));
+
+        // Check if this reading is already paid
+        checkPaymentStatus(state.readingId);
+
         renderChart();
         showView('view-chart');
       } catch(e) {
         console.error(e);
-        showToast('排盘失败，请检查日期');
+        showToast(I18N.t('toast.calc_failed'));
       } finally {
         btn.disabled = false;
-        btn.textContent = '开始排盘';
+        btn.textContent = I18N.t('form.submit');
       }
     }, 300);
   }
@@ -1372,7 +2628,7 @@ var App = (function() {
       [{branch:'巳',branchIdx:5,id:'c0'},{branch:'午',branchIdx:6,id:'c1'},{branch:'未',branchIdx:7,id:'c2'},{branch:'申',branchIdx:8,id:'c3'}],
       [{branch:'辰',branchIdx:4,id:'c4'},{branch:'',branchIdx:-1,center:true,span:2,id:'c5'},{branch:'酉',branchIdx:9,id:'c6'}],
       [{branch:'卯',branchIdx:3,id:'c7'},{branch:'',branchIdx:-1,center:true,span:2,id:'c8'},{branch:'戌',branchIdx:10,id:'c9'}],
-      [{branch:'丑',branchIdx:1,id:'c10'},{branch:'子',branchIdx:0,id:'c11'},{branch:'亥',branchIdx:11,id:'c12'},{branch:'寅',branchIdx:2,id:'c13'}]
+      [{branch:'寅',branchIdx:2,id:'c10'},{branch:'丑',branchIdx:1,id:'c11'},{branch:'子',branchIdx:0,id:'c12'},{branch:'亥',branchIdx:11,id:'c13'}]
     ];
 
     var gridRows = rawLayout.map(function(cells, ri) {
@@ -1404,7 +2660,7 @@ var App = (function() {
 
           var html = '<div class="cell-branch-row">';
           html += '<span class="cell-branch-tag">'+cell.branch+'</span>';
-          if (palace && palace.isShen) html += '<span class="cell-shen-tag">身</span>';
+          if (palace && palace.isShen) html += '<span class="cell-shen-tag">'+I18N.t('chart.shen_tag')+'</span>';
           html += '</div>';
           html += '<span class="cell-title">'+(palace?palace.name:'')+'</span>';
           html += '<div class="cell-stars-list">';
@@ -1433,7 +2689,7 @@ var App = (function() {
 
     var html =
       '<div class="info-bar">'+
-        '<span class="info-text">'+bi.name+' · '+(bi.gender==='male'?'男':'女')+'</span>'+
+        '<span class="info-text">'+bi.name+' · '+(bi.gender==='male'?I18N.t('chart.male'):I18N.t('chart.female'))+'</span>'+
         '<span class="info-text">'+bi.date+' '+bi.hour+'</span>'+
       '</div>'+
       '<div class="ganzhi-bar">'+
@@ -1452,11 +2708,11 @@ var App = (function() {
         '<span class="hua-item ji">'+cd.hua.ji+'化忌</span>'+
       '</div>'+
       '<div class="section">'+
-        '<span class="section-title">大限</span>'+
+        '<span class="section-title">'+I18N.t('chart.daxian_title')+'</span>'+
         '<div class="daxian-scroll"><div class="daxian-row">'+dxHtml+'</div></div>'+
       '</div>'+
       '<div class="actions">'+
-        '<button class="btn-outline" onclick="App.goToDetail()">查看详细解盘</button>'+
+        '<button class="btn-outline" id="btnDetail" onclick="App.goToDetail()"><span id="btnDetailText">查看详细解盘</span></button>'+
         '<button class="btn-secondary" onclick="App.goBack()">重新输入</button>'+
       '</div>';
 
@@ -1481,7 +2737,7 @@ var App = (function() {
     var rp = report.palaces[idx];
     if (!rp) return;
 
-    var starStr = palace.stars.map(function(s){return s.name}).join('、') || '无主星';
+    var starStr = palace.stars.map(function(s){return s.name}).join('、') || I18N.t('chart.no_stars');
     var huaStr = palace.hua.length>0 ? '\n四化：'+palace.hua.map(function(h){return h.name+'化'+h.huaType}).join('、') : '';
 
     showModal(
@@ -1494,12 +2750,260 @@ var App = (function() {
   function goToDetail() {
     var cd = state.chartData;
     if (!cd) return;
-    var report = state.report || Interpretations.generateReport(cd);
-    state.report = report;
 
-    var html = renderDetail(cd, report);
-    document.getElementById('detailContainer').innerHTML = html;
-    showView('view-detail');
+    // Already paid — show detail directly
+    if (state.isPaid) {
+      var report = state.report || Interpretations.generateReport(cd);
+      state.report = report;
+      document.getElementById('detailContainer').innerHTML = renderDetail(cd, report);
+      showView('view-detail');
+      return;
+    }
+
+    // Not paid — show payment modal
+    showPaymentModal();
+  }
+
+  function showPaymentModal() {
+    var priceDisplay = '$19.99 USD';
+    var title = I18N.t('pay.title');
+    var body =
+      I18N.t('pay.body.intro') + '\n\n'+
+      I18N.t('pay.body.item1') + '\n'+
+      I18N.t('pay.body.item2') + '\n'+
+      I18N.t('pay.body.item3') + '\n'+
+      I18N.t('pay.body.item4') + '\n'+
+      I18N.t('pay.body.item5') + '\n\n'+
+      I18N.t('pay.body.price') + priceDisplay + '\n'+
+      I18N.t('pay.body.forever');
+
+    showPaymentDialog(title, body);
+  }
+
+  function showPaymentDialog(title, body) {
+    var overlay = document.getElementById('modalOverlay');
+    document.getElementById('modalTitle').textContent = title;
+
+    var bodyEl = document.getElementById('modalBody');
+    bodyEl.style.whiteSpace = 'normal';
+    bodyEl.innerHTML =
+      '<div style="font-size:0.88rem;color:#c0b8a8;line-height:1.8;white-space:pre-line;margin-bottom:20px;">'+body+'</div>'+
+      '<button class="modal-btn" style="margin-bottom:8px;" onclick="App.initiateStripeCheckout()">'+
+        I18N.t('pay.btn.stripe')+
+      '</button>'+
+      '<button class="modal-btn-lianlian" onclick="App.initiateLianlianCheckout()">'+
+        I18N.t('pay.btn.lianlian')+
+      '</button>';
+
+    // Hide the default modal button (we use inline buttons instead)
+    var payBtn = document.querySelector('.modal-btn');
+    if (payBtn) { payBtn.style.display = 'none'; }
+
+    // Show cancel button
+    var cancelBtn = document.querySelector('.modal-btn-cancel');
+    if (cancelBtn) cancelBtn.style.display = '';
+
+    overlay.classList.remove('hidden');
+  }
+
+  function initiateStripeCheckout() {
+    if (!state.readingId || !state.birthParams) {
+      showToast(I18N.t('toast.info_missing'));
+      closeModal();
+      return;
+    }
+
+    var payBtn = document.querySelector('.modal-btn');
+    if (payBtn) {
+      payBtn.disabled = true;
+      payBtn.textContent = I18N.t('pay.redirecting');
+    }
+
+    var successUrl = window.location.origin + window.location.pathname + '?reading_id=' + state.readingId + '&paid=true';
+    var cancelUrl = window.location.origin + window.location.pathname;
+
+    fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        reading_id: state.readingId,
+        birth_info: state.birthParams,
+        success_url: successUrl,
+        cancel_url: cancelUrl
+      })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (data.error) {
+        showToast(data.error);
+        closeModal();
+      } else {
+        showToast(I18N.t('toast.stripe_config'));
+        closeModal();
+      }
+    })
+    .catch(function(err) {
+      console.error('Payment error:', err);
+      showToast(I18N.t('toast.network_error'));
+      closeModal();
+    });
+  }
+
+  function initiateLianlianCheckout() {
+    if (!state.readingId || !state.birthParams) {
+      showToast(I18N.t('toast.info_missing'));
+      closeModal();
+      return;
+    }
+
+    // Disable both buttons while redirecting
+    var payBtn = document.querySelector('.modal-btn');
+    var lianlianBtn = document.querySelector('.modal-btn-lianlian');
+    if (payBtn) { payBtn.disabled = true; payBtn.textContent = I18N.t('pay.redirecting'); }
+    if (lianlianBtn) { lianlianBtn.disabled = true; lianlianBtn.textContent = I18N.t('pay.redirecting'); }
+
+    var successUrl = window.location.origin + window.location.pathname + '?reading_id=' + state.readingId + '&paid=true';
+
+    fetch('/api/create-lianlian-order', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        reading_id: state.readingId,
+        birth_info: state.birthParams,
+        return_url: successUrl
+      })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (data.error) {
+        showToast(data.error);
+        closeModal();
+      } else {
+        showToast(I18N.t('toast.lianlian_config'));
+        closeModal();
+      }
+    })
+    .catch(function(err) {
+      console.error('LianLian payment error:', err);
+      showToast(I18N.t('toast.network_error'));
+      closeModal();
+    });
+  }
+
+  function checkPaymentStatus(readingId) {
+    if (!readingId) return;
+    fetch('/api/verify-payment?reading_id=' + encodeURIComponent(readingId))
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.paid) {
+        state.isPaid = true;
+        state.readingId = readingId;
+        updatePayButtonState();
+      }
+    })
+    .catch(function() {});
+  }
+
+  function updatePayButtonState() {
+    var btn = document.getElementById('btnDetailText');
+    if (!btn) return;
+    if (state.isPaid) {
+      btn.textContent = I18N.t('chart.btn_unlocked');
+      btn.parentElement.classList.add('unlocked');
+    }
+  }
+
+  function reconstructAndShowDetail(readingId) {
+    // Reconstruct chart from saved birth params
+    var stored = localStorage.getItem('zwei_birth_params');
+    if (!stored) {
+      showToast(I18N.t('toast.data_missing'));
+      showView('view-input');
+      return;
+    }
+
+    try {
+      var bp = JSON.parse(stored);
+      var hourMap = [23,1,3,5,7,9,11,13,15,17,19,21];
+      var cd = ZiWeiCore.calculateChart(bp.year, bp.month, bp.day, bp.hour, 0, bp.dateType === 'solar');
+      state.chartData = cd;
+
+      var hourOptions = ['子时 (23:00-01:00)','丑时 (01:00-03:00)','寅时 (03:00-05:00)','卯时 (05:00-07:00)','辰时 (07:00-09:00)','巳时 (09:00-11:00)','午时 (11:00-13:00)','未时 (13:00-15:00)','申时 (15:00-17:00)','酉时 (17:00-19:00)','戌时 (19:00-21:00)','亥时 (21:00-23:00)'];
+      var hourIdx = bp.hour >= 21 ? 11 : bp.hour >= 19 ? 10 : bp.hour >= 17 ? 9 : bp.hour >= 15 ? 8 : bp.hour >= 13 ? 7 : bp.hour >= 11 ? 6 : bp.hour >= 9 ? 5 : bp.hour >= 7 ? 4 : bp.hour >= 5 ? 3 : bp.hour >= 3 ? 2 : bp.hour >= 1 ? 1 : 0;
+
+      state.birthInfo = {
+        name: bp.name, gender: bp.gender, dateType: bp.dateType,
+        date: bp.year+'-'+String(bp.month).padStart(2,'0')+'-'+String(bp.day).padStart(2,'0'),
+        hour: hourOptions[hourIdx]
+      };
+      state.birthParams = bp;
+      state.isPaid = true;
+      state.readingId = readingId;
+
+      var report = Interpretations.generateReport(cd);
+      state.report = report;
+
+      renderChart();
+      showView('view-chart');
+      // Auto-navigate to detail after short delay
+      setTimeout(function() {
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, report);
+        showView('view-detail');
+      }, 400);
+
+      showToast(I18N.t('toast.pay_success'));
+    } catch(e) {
+      console.error('Reconstruct error:', e);
+      showToast(I18N.t('toast.data_restore'));
+      showView('view-input');
+    }
+  }
+
+  // === Handle Stripe return URL ===
+  function initFromURL() {
+    var params = new URLSearchParams(window.location.search);
+    var readingId = params.get('reading_id');
+    var isPaid = params.get('paid') === 'true';
+
+    if (readingId && isPaid) {
+      // Clean URL immediately
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      // Verify payment and show detail
+      fetch('/api/verify-payment?reading_id=' + encodeURIComponent(readingId))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.paid) {
+          localStorage.setItem('zwei_reading_id', readingId);
+          reconstructAndShowDetail(readingId);
+        } else {
+          showToast(I18N.t('toast.verify_fail'));
+        }
+      })
+      .catch(function() {
+        showToast(I18N.t('toast.verify_network'));
+      });
+      return;
+    }
+
+    // Check localStorage for existing paid reading
+    var savedId = localStorage.getItem('zwei_reading_id');
+    if (savedId) {
+      fetch('/api/verify-payment?reading_id=' + encodeURIComponent(savedId))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.paid) {
+          state.isPaid = true;
+          state.readingId = savedId;
+        }
+      })
+      .catch(function() {});
+    }
   }
 
   function renderDetail(cd, report) {
@@ -1532,7 +3036,7 @@ var App = (function() {
       return '<div class="dx-card">'+
         '<span class="dx-age">'+dx.ageRange+'</span>'+
         '<span class="dx-palace">'+dx.palace+'</span>'+
-        '<span class="dx-stars">'+(dx.stars.length>0?dx.stars.join('、'):'无主星')+'</span>'+
+        '<span class="dx-stars">'+(dx.stars.length>0?dx.stars.join('、'):I18N.t('chart.no_stars'))+'</span>'+
       '</div>';
     }).join('');
 
@@ -1608,6 +3112,25 @@ var App = (function() {
 
   function closeModal() {
     document.getElementById('modalOverlay').classList.add('hidden');
+    // Reset modal buttons to default state
+    var payBtn = document.querySelector('.modal-btn');
+    if (payBtn) {
+      payBtn.textContent = I18N.t('modal.ok');
+      payBtn.onclick = function() { App.closeModal(); };
+      payBtn.style.display = '';
+      payBtn.disabled = false;
+    }
+    var lianlianBtn = document.querySelector('.modal-btn-lianlian');
+    if (lianlianBtn) {
+      lianlianBtn.style.display = 'none';
+      lianlianBtn.disabled = false;
+    }
+    // Hide cancel button
+    var cancelBtn = document.querySelector('.modal-btn-cancel');
+    if (cancelBtn) cancelBtn.style.display = 'none';
+    // Reset body style
+    var bodyEl = document.getElementById('modalBody');
+    if (bodyEl) bodyEl.style.whiteSpace = '';
   }
 
   // === Keyboard support for modal ===
@@ -1620,6 +3143,108 @@ var App = (function() {
     if (e.target === this) closeModal();
   });
 
+  // === Category Detail ===
+  var CATEGORIES = {
+  getData: function(key) {
+    function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
+  return {
+      title: I18N.t('cat.'+key+'.title'),
+      intro: I18N.t('cat.'+key+'.intro'),
+      analyzes: [
+        { label: I18N.t('cat.'+key+'.analyze.0.label'), desc: I18N.t('cat.'+key+'.analyze.0.desc') },
+        { label: I18N.t('cat.'+key+'.analyze.1.label'), desc: I18N.t('cat.'+key+'.analyze.1.desc') },
+        { label: I18N.t('cat.'+key+'.analyze.2.label'), desc: I18N.t('cat.'+key+'.analyze.2.desc') },
+        { label: I18N.t('cat.'+key+'.analyze.3.label'), desc: I18N.t('cat.'+key+'.analyze.3.desc') },
+        { label: I18N.t('cat.'+key+'.analyze.4.label'), desc: I18N.t('cat.'+key+'.analyze.4.desc') }
+      ],
+      serviceIntro: I18N.t('cat.'+key+'.serviceIntro'),
+      services: [
+        I18N.t('cat.'+key+'.service.0'),
+        I18N.t('cat.'+key+'.service.1'),
+        I18N.t('cat.'+key+'.service.2'),
+        I18N.t('cat.'+key+'.service.3'),
+        I18N.t('cat.'+key+'.service.4')
+      ],
+      price: '$19.99',
+      priceNote: I18N.t('pricing.period')
+    };
+  }
+};
+
+  function showCategory(key) {
+    var cat = CATEGORIES.getData(key);
+    if (!cat) return;
+
+    var overlay = document.getElementById('modalOverlay');
+    document.getElementById('modalTitle').innerHTML = cat.icon + ' ' + cat.title;
+
+    var bodyEl = document.getElementById('modalBody');
+
+    // Build analysis items
+    var analyzeItems = cat.analyzes.map(function(item) {
+      return '<div class="cat-analyze-item"><span class="cat-analyze-label">'+item.label+'</span><span class="cat-analyze-desc">'+item.desc+'</span></div>';
+    }).join('');
+
+    // Build service items
+    var serviceItems = cat.services.map(function(s) {
+      return '<li>'+s+'</li>';
+    }).join('');
+
+    bodyEl.innerHTML =
+      '<div class="cat-section">'+
+        '<p class="cat-intro">'+cat.intro+'</p>'+
+      '</div>'+
+      '<div class="cat-section">'+
+        '<div class="cat-section-title">&#x1F50D; 分析维度</div>'+
+        '<div class="cat-analyze-list">'+analyzeItems+'</div>'+
+      '</div>'+
+      '<div class="cat-section">'+
+        '<div class="cat-section-title">&#x1F4E6; 服务内容</div>'+
+        '<p class="cat-service-intro">'+cat.serviceIntro+'</p>'+
+        '<ul class="cat-service-list">'+serviceItems+'</ul>'+
+      '</div>'+
+      '<div class="cat-pricing">'+
+        '<div class="cat-price">'+cat.price+'</div>'+
+        '<div class="cat-price-note">'+cat.priceNote+'</div>'+
+      '</div>';
+
+    bodyEl.style.whiteSpace = 'normal';
+
+    // Set up buttons
+    var payBtn = document.querySelector('.modal-btn');
+    payBtn.textContent = I18N.t('cat.btn_goto');
+    payBtn.style.display = '';
+    payBtn.onclick = function() {
+      App.closeModal();
+      document.getElementById('form').scrollIntoView({behavior:'smooth'});
+    };
+
+    var cancelBtn = document.querySelector('.modal-btn-cancel');
+    if (cancelBtn) cancelBtn.style.display = 'block';
+    cancelBtn.textContent = I18N.t('cat.btn_close');
+
+    overlay.classList.remove('hidden');
+  }
+
+  function onLanguageChange() {
+    if (state.chartData) {
+      renderChart();
+      if (state.report) {
+        var cd = state.chartData;
+        document.getElementById('detailContainer').innerHTML = renderDetail(cd, state.report);
+      }
+    }
+  }
+
   return {
     selectGender: selectGender,
     selectDateType: selectDateType,
@@ -1630,9 +3255,20 @@ var App = (function() {
     onPalaceTap: onPalaceTap,
     showPalaceDetail: showPalaceDetail,
     showModal: showModal,
-    closeModal: closeModal
+    closeModal: closeModal,
+    showPaymentDialog: showPaymentDialog,
+    initiateStripeCheckout: initiateStripeCheckout,
+    initiateLianlianCheckout: initiateLianlianCheckout,
+    initFromURL: initFromURL,
+    showCategory: showCategory,
+    onLanguageChange: onLanguageChange
   };
 })();
+
+// === Page load: handle Stripe return URL ===
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() { App.initFromURL(); }, 200);
+});
 </script>
 </body>
 </html>

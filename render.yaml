@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: yourfate
+    env: python
+    region: singapore
+    buildCommand: pip install -r requirements_web.txt
+    startCommand: python server.py
+    envVars:
+      - key: RENDER
+        value: "true"
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: DOMAIN
+        value: https://yourfate.xyz
+      - key: LIANLIAN_MERCHANT_ID
+        sync: false
+      - key: LIANLIAN_AUTH_TOKEN
+        sync: false
+      - key: LIANLIAN_RSA_PRIVATE_KEY
+        sync: false
+      - key: LIANLIAN_RSA_PUBLIC_KEY
+        sync: false
+      - key: LIANLIAN_API_BASE
+        value: https://api.lianlianglobal.com
