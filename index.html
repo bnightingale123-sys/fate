@@ -2515,7 +2515,7 @@ var App = (function() {
   }
 
   function getStripeConfig() {
-    return fetch('/config').then(function(r){return r.json();}).catch(function(){return {publishableKey:'',domain:'https://yourfate.xyz'};});
+    return fetch('/config').then(function(r){return r.json();}).catch(function(){return {stripePaymentLink:'https://buy.stripe.com/eVq5kDgDY8et2Um2h3g3600',domain:'https://yourfate.xyz'};});
   }
 
   function showView(id) {
@@ -2819,33 +2819,11 @@ var App = (function() {
       payBtn.textContent = I18N.t('pay.redirecting');
     }
 
-    var successUrl = window.location.origin + window.location.pathname + '?reading_id=' + state.readingId + '&paid=true';
-    var cancelUrl = window.location.origin + window.location.pathname;
-
-    fetch('/api/create-checkout-session', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        reading_id: state.readingId,
-        birth_info: state.birthParams,
-        success_url: successUrl,
-        cancel_url: cancelUrl
-      })
-    })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.url) {
-        window.location.href = data.url;
-      } else if (data.error) {
-        showToast(data.error);
-        closeModal();
-      } else {
-        showToast(I18N.t('toast.stripe_config'));
-        closeModal();
-      }
-    })
-    .catch(function(err) {
-      console.error('Payment error:', err);
+    // Redirect to Stripe Payment Link — reading_id passed as client_reference_id
+    getStripeConfig().then(function(cfg) {
+      var link = cfg.stripePaymentLink || 'https://buy.stripe.com/eVq5kDgDY8et2Um2h3g3600';
+      window.location.href = link + '?client_reference_id=' + encodeURIComponent(state.readingId);
+    }).catch(function() {
       showToast(I18N.t('toast.network_error'));
       closeModal();
     });
@@ -2992,17 +2970,33 @@ var App = (function() {
     }
 
     // Check localStorage for existing paid reading
+    // Poll a few times — the Stripe/LianLian webhook may take a few seconds to arrive
     var savedId = localStorage.getItem('zwei_reading_id');
     if (savedId) {
-      fetch('/api/verify-payment?reading_id=' + encodeURIComponent(savedId))
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.paid) {
-          state.isPaid = true;
-          state.readingId = savedId;
-        }
-      })
-      .catch(function() {});
+      var attempts = 0;
+      var maxAttempts = 10;
+      var pollTimer = setInterval(function() {
+        attempts++;
+        fetch('/api/verify-payment?reading_id=' + encodeURIComponent(savedId))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.paid) {
+            clearInterval(pollTimer);
+            state.isPaid = true;
+            state.readingId = savedId;
+            updatePayButtonState();
+            // If the user just returned from the payment page, show the detail view
+            if (attempts > 1 && !document.getElementById('detailSection').classList.contains('active')) {
+              reconstructAndShowDetail(savedId);
+            }
+          } else if (attempts >= maxAttempts) {
+            clearInterval(pollTimer);
+          }
+        })
+        .catch(function() {
+          if (attempts >= maxAttempts) clearInterval(pollTimer);
+        });
+      }, 2000);
     }
   }
 

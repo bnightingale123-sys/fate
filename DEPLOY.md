@@ -1,106 +1,85 @@
-# yourfate.xyz 部署指南
+# yourfate.xyz 部署指南 (Vercel)
 
-## 1. 上传代码到服务器
+## 架构
 
-```bash
-# 在服务器上
-mkdir -p /var/www/yourfate.xyz
-cd /var/www/yourfate.xyz
-
-# 从本地上传（在本机执行）
-scp index.html server.py requirements_web.txt start.sh .env.example \
-    user@your-server-ip:/var/www/yourfate.xyz/
+```
+Vercel 免费托管
+├── index.html            ← 静态前端（排盘 + 解读 + 支付弹窗）
+├── api/index.py          ← Serverless 后端（5 个路由合一）
+│     ├── /config
+│     ├── /api/verify-payment
+│     ├── /api/create-lianlian-order
+│     ├── /webhook/stripe
+│     └── /webhook/lianlian
+└── Vercel KV (Upstash Redis)  ← 支付记录存储
 ```
 
-## 2. 配置环境变量
+Stripe 使用 **Payment Link**（托管收银台），后端无需 API 密钥。
+
+---
+
+## 部署步骤
+
+### 1. 导入项目
+
+1. Vercel 面板 → **Add New… → Project**
+2. 导入 GitHub 仓库 `bnightingale123-sys/fate`
+3. Framework Preset 选 **Other**（自动检测即可）
+4. 点 **Deploy**（首次部署会失败属正常，环境变量还没配）
+
+### 2. 创建 KV 数据库
+
+1. Vercel 面板 → **Storage** → **Create Database** → 选 **KV**
+2. 命名如 `yourfate-kv`，区域选 **Hong Kong (hkg1)**
+3. 关联到刚创建的项目（自动注入 `KV_REST_API_URL` / `KV_REST_API_TOKEN`）
+
+### 3. 配置环境变量
+
+项目 → **Settings → Environment Variables**，添加：
+
+| Key | Value |
+|-----|-------|
+| `STRIPE_PAYMENT_LINK` | `https://buy.stripe.com/eVq5kDgDY8et2Um2h3g3600` |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_NQnzVJmFdwftND4Ocwk4n54YmJWtrao9` |
+| `DOMAIN` | `https://yourfate.xyz` |
+
+（连连的 4 个密钥拿到后也在这里添加）
+
+### 4. 重新部署
+
+环境变量保存后 → **Deployments** → 最新一次部署 → **Redeploy**
+
+### 5. 绑定域名
+
+1. 项目 → **Settings → Domains** → 添加 `yourfate.xyz` 和 `www.yourfate.xyz`
+2. 在你的域名 DNS 添加 Vercel 提示的 CNAME 记录
+3. 等 HTTPS 证书自动签发（约 1 分钟）
+
+### 6. 验证
+
+- 访问 `https://yourfate.xyz` → 页面正常
+- `https://yourfate.xyz/config` → 返回 JSON
+- Stripe 支付链接测试支付一笔 $19.99 → webhook 确认后自动解锁
+
+---
+
+## 备选：传统服务器部署（Render / VPS）
+
+如果不用 Vercel，项目里保留了完整 Flask 版本：
+
+- `server.py` — Flask 后端（SQLite 存储）
+- `start.sh` / `yourfate.nginx.conf` — 服务器启动 + NGINX 配置
+- `requirements_web.txt` — 服务器依赖
 
 ```bash
-cd /var/www/yourfate.xyz
-cp .env.example .env
-nano .env   # 填入真实密钥
-```
-
-需要填入的内容：
-- **Stripe**: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`
-- **连连跨境**: `LIANLIAN_MERCHANT_ID`, `LIANLIAN_AUTH_TOKEN`, `LIANLIAN_RSA_PRIVATE_KEY`, `LIANLIAN_RSA_PUBLIC_KEY`
-- **域名**: `DOMAIN=https://yourfate.xyz`
-
-## 3. 安装依赖 & 启动
-
-```bash
-# Python 版本 >= 3.10
-python3 --version
-
-# 创建虚拟环境（推荐）
-python3 -m venv venv
-source venv/bin/activate
-
-# 安装依赖
 pip install -r requirements_web.txt
-
-# 启动（开发测试）
 bash start.sh
-
-# 或生产模式（gunicorn）
-gunicorn --bind 127.0.0.1:5000 --workers 2 --timeout 120 server:app
 ```
 
-## 4. 配置 HTTPS & NGINX
+---
 
-```bash
-# 安装 certbot
-sudo apt install certbot python3-certbot-nginx -y
+## Stripe Payment Link 设置提醒
 
-# 申请证书（确保域名 DNS 已指向服务器 IP）
-sudo certbot --nginx -d yourfate.xyz -d www.yourfate.xyz
-
-# 使用项目中的 NGINX 配置
-sudo cp yourfate.nginx.conf /etc/nginx/sites-available/yourfate.xyz
-sudo ln -sf /etc/nginx/sites-available/yourfate.xyz /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-## 5. 设置开机自启 (systemd)
-
-```bash
-sudo tee /etc/systemd/system/yourfate.service << 'EOF'
-[Unit]
-Description=yourfate.xyz - Zi Wei Dou Shu Web Service
-After=network.target
-
-[Service]
-Type=simple
-User=www-data
-WorkingDirectory=/var/www/yourfate.xyz
-EnvironmentFile=/var/www/yourfate.xyz/.env
-ExecStart=/var/www/yourfate.xyz/venv/bin/gunicorn --bind 127.0.0.1:5000 --workers 2 --timeout 120 server:app
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reload
-sudo systemctl enable --now yourfate
-```
-
-## 6. 验证
-
-```bash
-# 检查服务状态
-sudo systemctl status yourfate
-curl http://127.0.0.1:5000/config | python3 -m json.tool
-
-# 访问网站
-curl -I https://yourfate.xyz
-```
-
-## 7. Stripe & 连连 Webhook 配置
-
-| 平台 | Webhook URL |
-|------|------------|
-| Stripe | `https://yourfate.xyz/webhook/stripe` |
-| 连连跨境 | `https://yourfate.xyz/webhook/lianlian` |
-
-在对应的商户后台填入以上地址。
+在 Stripe Dashboard → Payment Links → 该支付链接 → **After payment** 页面：
+- 重定向地址填 `https://yourfate.xyz`（用户支付后回到网站，前端会自动轮询解锁）
+- Webhook 端点已创建：`https://yourfate.xyz/webhook/stripe`，事件 `checkout.session.completed`

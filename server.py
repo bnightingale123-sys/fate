@@ -3,17 +3,15 @@
 ==============================
 Flask backend for yourfate.xyz
 - Serves the Zi Wei Dou Shu SPA (index.html)
-- Stripe Checkout integration for paid detailed interpretation
+- Stripe Payment Link (hosted checkout, no API keys needed)
 - LianLian Global (连连跨境) payment integration (SHA256WithRSA signing)
 - SQLite payment tracking
 - Webhook handlers for both gateways
 
 Setup:
   1. Set environment variables:
-     Stripe:
-       STRIPE_SECRET_KEY=sk_test_xxx
-       STRIPE_PUBLISHABLE_KEY=pk_test_xxx
-       STRIPE_WEBHOOK_SECRET=whsec_xxx
+     STRIPE_PAYMENT_LINK=https://buy.stripe.com/xxx
+     STRIPE_WEBHOOK_SECRET=whsec_xxx     (webhook verification only)
      LianLian Global:
        LIANLIAN_MERCHANT_ID=xxx          (商户号, also developerId)
        LIANLIAN_AUTH_TOKEN=xxx           (masterToken for Basic auth)
@@ -48,11 +46,8 @@ except ImportError:
 
 # ── Configuration ──────────────────────────────────────────────
 
-STRIPE_SECRET_KEY = os.environ.get(
-    "STRIPE_SECRET_KEY", "sk_test_placeholder_replace_me"
-)
-STRIPE_PUBLISHABLE_KEY = os.environ.get(
-    "STRIPE_PUBLISHABLE_KEY", "pk_test_placeholder_replace_me"
+STRIPE_PAYMENT_LINK = os.environ.get(
+    "STRIPE_PAYMENT_LINK", "https://buy.stripe.com/eVq5kDgDY8et2Um2h3g3600"
 )
 STRIPE_WEBHOOK_SECRET = os.environ.get(
     "STRIPE_WEBHOOK_SECRET", "whsec_placeholder_replace_me"
@@ -75,10 +70,10 @@ LIANLIAN_API_BASE = os.environ.get(
 )
 DOMAIN = os.environ.get("DOMAIN", "https://yourfate.xyz")
 
-PRICE_USD = 1999  # $19.99 in cents
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "payments.db")
 
-stripe.api_key = STRIPE_SECRET_KEY
+# Note: no stripe.api_key needed — we use hosted Payment Links only.
+# The stripe library is used solely for webhook signature verification.
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 
@@ -121,26 +116,20 @@ def get_payment(reading_id):
     return row
 
 
-def upsert_payment(reading_id, stripe_session_id, birth_info):
+def mark_paid(reading_id, gateway="stripe"):
+    """
+    Mark a reading as paid. Creates the record if it doesn't exist yet
+    (Payment Link webhook can arrive before any local record is created).
+    """
     with sqlite3.connect(DB_PATH) as conn:
+        now = int(time.time())
         conn.execute(
-            """INSERT INTO payments (reading_id, stripe_session_id, status, birth_info, created_at)
-               VALUES (?, ?, 'pending', ?, ?)
+            """INSERT INTO payments (reading_id, payment_gateway, status, created_at, paid_at)
+               VALUES (?, ?, 'paid', ?, ?)
                ON CONFLICT(reading_id) DO UPDATE SET
-               stripe_session_id = excluded.stripe_session_id,
-               status = 'pending',
-               birth_info = excluded.birth_info,
-               created_at = excluded.created_at""",
-            (reading_id, stripe_session_id, json.dumps(birth_info), int(time.time())),
-        )
-        conn.commit()
-
-
-def mark_paid(reading_id):
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
-            "UPDATE payments SET status = 'paid', paid_at = ? WHERE reading_id = ?",
-            (int(time.time()), reading_id),
+               status = 'paid',
+               paid_at = excluded.paid_at""",
+            (reading_id, gateway, now, now),
         )
         conn.commit()
 
@@ -156,75 +145,16 @@ def index():
 def config():
     """Expose payment gateway configuration to the frontend."""
     return jsonify({
-        "publishableKey": STRIPE_PUBLISHABLE_KEY,
+        "stripePaymentLink": STRIPE_PAYMENT_LINK,
         "domain": DOMAIN,
         "gateways": {
-            "stripe": not STRIPE_SECRET_KEY.startswith("sk_test_placeholder"),
+            "stripe": bool(STRIPE_PAYMENT_LINK),
             "lianlian": not LIANLIAN_MERCHANT_ID.startswith("placeholder"),
         }
     })
 
 
 # ── Routes: API ─────────────────────────────────────────────────
-
-@app.route("/api/create-checkout-session", methods=["POST"])
-def create_checkout_session():
-    """
-    Create a Stripe Checkout Session for $19.99 one-time payment.
-    Request body: { reading_id, birth_info, success_url, cancel_url }
-    Returns: { url: checkout_session_url }
-    """
-    try:
-        data = request.get_json()
-        reading_id = data.get("reading_id")
-        birth_info = data.get("birth_info", {})
-        success_url = data.get("success_url", f"{DOMAIN}/?reading_id={reading_id}&paid=true")
-        cancel_url = data.get("cancel_url", DOMAIN + "/")
-
-        if not reading_id:
-            return jsonify({"error": "缺少 reading_id"}), 400
-
-        # Validate the reading_id format
-        try:
-            uuid.UUID(reading_id)
-        except (ValueError, AttributeError):
-            return jsonify({"error": "无效的 reading_id"}), 400
-
-        checkout_session = stripe.checkout.Session.create(
-            mode="payment",
-            success_url=success_url,
-            cancel_url=cancel_url,
-            line_items=[
-                {
-                    "price_data": {
-                        "currency": "usd",
-                        "product_data": {
-                            "name": "紫微斗数详细解盘",
-                            "description": "十二宫详解 + 命盘格局分析 + 大限运势 + 四化飞星解读",
-                        },
-                        "unit_amount": PRICE_USD,
-                    },
-                    "quantity": 1,
-                }
-            ],
-            metadata={"reading_id": reading_id},
-            payment_intent_data={
-                "metadata": {"reading_id": reading_id},
-            },
-        )
-
-        # Save to database
-        upsert_payment(reading_id, checkout_session.id, birth_info)
-
-        return jsonify({"url": checkout_session.url})
-
-    except stripe.error.StripeError as e:
-        app.logger.error(f"Stripe error: {e}")
-        return jsonify({"error": "支付服务暂时不可用，请稍后再试"}), 500
-    except Exception as e:
-        app.logger.error(f"Unexpected error: {e}")
-        return jsonify({"error": "服务器错误，请重试"}), 500
-
 
 @app.route("/api/verify-payment", methods=["GET"])
 def verify_payment():
@@ -246,19 +176,13 @@ def verify_payment():
     if row:
         gateway = row[4] if len(row) > 4 else "stripe"  # payment_gateway column
         session_id = row[2]  # stripe_session_id or lianlian_order_id
-        if session_id:
+        if session_id and gateway == "lianlian":
             try:
-                if gateway == "stripe":
-                    session = stripe.checkout.Session.retrieve(session_id)
-                    if session.payment_status == "paid":
-                        mark_paid(reading_id)
-                        return jsonify({"paid": True})
-                elif gateway == "lianlian":
-                    # Query LianLian for order status
-                    status = query_lianlian_order(session_id)
-                    if status == "SUCCEEDED":
-                        mark_paid(reading_id)
-                        return jsonify({"paid": True})
+                # Query LianLian for order status
+                status = query_lianlian_order(session_id)
+                if status == "SUCCEEDED":
+                    mark_paid(reading_id)
+                    return jsonify({"paid": True})
             except Exception:
                 pass
 
@@ -500,8 +424,11 @@ def create_lianlian_order():
 @app.route("/webhook/stripe", methods=["POST"])
 def stripe_webhook():
     """
-    Stripe webhook endpoint. Handles checkout.session.completed events.
-    Requires raw request body for signature verification.
+    Stripe webhook endpoint. Handles checkout.session.completed events
+    from Payment Links. Requires raw request body for signature verification.
+
+    The reading_id is passed as client_reference_id in the payment link URL:
+      https://buy.stripe.com/xxx?client_reference_id=<reading_id>
     """
     payload = request.get_data(as_text=True)
     sig_header = request.headers.get("Stripe-Signature")
@@ -519,7 +446,10 @@ def stripe_webhook():
 
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
-        reading_id = session.get("metadata", {}).get("reading_id")
+        # Payment Link passes client_reference_id from URL query param
+        reading_id = session.get("client_reference_id") or (
+            session.get("metadata", {}) or {}
+        ).get("reading_id")
         if reading_id:
             mark_paid(reading_id)
             app.logger.info(f"Payment confirmed for reading_id={reading_id}")
@@ -590,26 +520,17 @@ def lianlian_webhook():
 if __name__ == "__main__":
     init_db()
 
-    if "placeholder" in STRIPE_SECRET_KEY and "placeholder" in LIANLIAN_MERCHANT_ID:
+    if "placeholder" in LIANLIAN_MERCHANT_ID:
         print("=" * 60)
-        print("WARNING: Using placeholder payment keys!")
-        print("  Set real keys via environment variables:")
-        print("  Stripe:")
-        print("    export STRIPE_SECRET_KEY=sk_test_xxx")
-        print("    export STRIPE_PUBLISHABLE_KEY=pk_test_xxx")
-        print("    export STRIPE_WEBHOOK_SECRET=whsec_xxx")
-        print("  LianLian Global (连连跨境) — SHA256WithRSA:")
+        print("LianLian not configured yet — Stripe Payment Link still works.")
+        print("  To enable LianLian Global (连连跨境) — SHA256WithRSA:")
         print("    export LIANLIAN_MERCHANT_ID=xxx")
         print("    export LIANLIAN_AUTH_TOKEN=xxx")
         print("    export LIANLIAN_RSA_PRIVATE_KEY=\"$(cat /path/to/merchant_private_key.pem)\"")
         print("    export LIANLIAN_RSA_PUBLIC_KEY=\"$(cat /path/to/lianlian_public_key.pem)\"")
         print("=" * 60)
 
-    stripe_mode = (
-        "TEST MODE" if STRIPE_SECRET_KEY.startswith("sk_test_")
-        else "LIVE MODE" if STRIPE_SECRET_KEY.startswith("sk_live_")
-        else "PLACEHOLDER (not configured)"
-    )
+    stripe_mode = "PAYMENT LINK: " + STRIPE_PAYMENT_LINK
     lianlian_configured = (
         not LIANLIAN_MERCHANT_ID.startswith("placeholder")
         and LIANLIAN_RSA_PRIVATE_KEY

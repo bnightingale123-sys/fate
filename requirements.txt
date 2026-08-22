@@ -1,0 +1,5 @@
+flask>=3.0.0
+stripe>=9.0.0
+requests>=2.31.0
+cryptography>=41.0.0
+upstash-redis>=1.4.0
