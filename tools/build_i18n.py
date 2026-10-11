@@ -220,7 +220,7 @@ T['pay.body.item4'] = {'zh': '✦ 四化飞星详解', 'en': '✦ Four Transform
 T['pay.body.item5'] = {'zh': '✦ 综合运势建议', 'en': '✦ Comprehensive Life Guidance', 'ar': '✦ إرشادات حياة شاملة'}
 T['pay.body.price'] = {'zh': '一次性付费 ', 'en': 'One-time payment: ', 'ar': 'دفعة واحدة: '}
 T['pay.body.forever'] = {'zh': '付费后永久查看当前命盘解读', 'en': 'Lifetime access to this chart reading after payment', 'ar': 'وصول مدى الحياة لقراءة هذا الرسم البياني بعد الدفع'}
-T['pay.btn'] = {'zh': '💳 立即支付 $19.99', 'en': '💳 Pay $19.99 Now', 'ar': '💳 ادفع $19.99 الآن'}
+T['pay.btn'] = {'zh': '💳 立即支付 $9.99', 'en': '💳 Pay $9.99 Now', 'ar': '💳 ادفع $9.99 الآن'}
 T['pay.btn.stripe'] = {'zh': '💳 信用卡 / 借记卡支付', 'en': '💳 Credit / Debit Card', 'ar': '💳 بطاقة ائتمان / خصم'}
 T['pay.btn.lianlian'] = {'zh': '💱 连连跨境支付（支付宝/微信/银联）', 'en': '💱 LianLian Global (Alipay/WeChat/UnionPay)', 'ar': '💱 ليان ليان العالمية (Alipay/WeChat/UnionPay)'}
 T['pay.redirecting'] = {'zh': '正在跳转支付...', 'en': 'Redirecting to payment...', 'ar': 'جارٍ التحويل إلى الدفع...'}
@@ -654,7 +654,7 @@ new_pay_body = """var body =
 html = html.replace(old_pay_body, new_pay_body)
 
 # Payment button text
-html = html.replace("payBtn.textContent = '💳 立即支付 $19.99';", "payBtn.textContent = I18N.t('pay.btn');")
+html = html.replace("payBtn.textContent = '💳 立即支付 $9.99';", "payBtn.textContent = I18N.t('pay.btn');")
 html = html.replace("payBtn.textContent = '正在跳转支付...';", "payBtn.textContent = I18N.t('pay.redirecting');")
 
 # ─ MODIFY renderDetail ─────────────────────────────────────────
@@ -777,7 +777,7 @@ if cat_start > 0 and cat_end > 0:
         I18N.t('cat.'+key+'.service.3'),
         I18N.t('cat.'+key+'.service.4')
       ],
-      price: '$19.99',
+      price: '$9.99',
       priceNote: I18N.t('pricing.period')
     };
   }

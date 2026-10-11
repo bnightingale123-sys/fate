@@ -14,8 +14,9 @@ Env vars (set in Vercel dashboard):
   STRIPE_PAYMENT_LINK    Stripe hosted payment link
   STRIPE_WEBHOOK_SECRET  whsec_... (webhook signature verification)
   DOMAIN                 https://yourfate.xyz
-  KV_REST_API_URL        auto-injected when Vercel KV is linked
-  KV_REST_API_TOKEN      auto-injected when Vercel KV is linked
+  KV_REST_API_URL / KV_REST_API_TOKEN              auto-injected by Vercel KV
+  UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN  auto-injected by Upstash Redis
+                                                   (either pair works — same backend)
   LIANLIAN_MERCHANT_ID / LIANLIAN_AUTH_TOKEN / LIANLIAN_RSA_PRIVATE_KEY /
   LIANLIAN_RSA_PUBLIC_KEY / LIANLIAN_API_BASE  (LianLian Global, optional)
 """
@@ -54,8 +55,11 @@ app = Flask(__name__)
 
 # ── Storage: Vercel KV (Upstash Redis) ─────────────────────────
 
-KV_REST_API_URL = os.environ.get("KV_REST_API_URL", "")
-KV_REST_API_TOKEN = os.environ.get("KV_REST_API_TOKEN", "")
+# Supports both naming conventions:
+#  - Vercel KV storage: KV_REST_API_URL / KV_REST_API_TOKEN
+#  - Upstash Redis marketplace integration: UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN
+KV_REST_API_URL = os.environ.get("KV_REST_API_URL") or os.environ.get("UPSTASH_REDIS_REST_URL", "")
+KV_REST_API_TOKEN = os.environ.get("KV_REST_API_TOKEN") or os.environ.get("UPSTASH_REDIS_REST_TOKEN", "")
 
 _redis = None
 
@@ -225,6 +229,59 @@ def query_lianlian_order(order_id):
     return None
 
 
+# ── Routes: Frontend page ──────────────────────────────────────
+# The whole site is a single index.html embedded into this function
+# (Vercel's Python pipeline does not copy root static files into the
+# deployment output, so Flask must serve the page itself).
+
+try:
+    from embedded_html import INDEX_HTML
+except ImportError:  # embedded module missing (e.g. not regenerated)
+    INDEX_HTML = "<h1>Site not built</h1><p>Run python tools/embed_html.py</p>"
+
+
+@app.route("/")
+@app.route("/index.html")
+def index_page():
+    resp = app.response_class(INDEX_HTML, mimetype="text/html; charset=utf-8")
+    resp.headers["Cache-Control"] = "public, max-age=300"
+    return resp
+
+
+@app.route("/robots.txt")
+def robots_txt():
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        "Sitemap: {}/sitemap.xml\n".format(DOMAIN)
+    )
+    return app.response_class(body, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        "  <url>\n"
+        "    <loc>{}/</loc>\n"
+        '    <xhtml:link rel="alternate" hreflang="ja" href="{}/?lang=ja"/>\n'
+        '    <xhtml:link rel="alternate" hreflang="zh" href="{}/?lang=zh"/>\n'
+        '    <xhtml:link rel="alternate" hreflang="en" href="{}/?lang=en"/>\n'
+        '    <xhtml:link rel="alternate" hreflang="ar" href="{}/?lang=ar"/>\n'
+        '    <xhtml:link rel="alternate" hreflang="x-default" href="{}/"/>\n'
+        "    <changefreq>weekly</changefreq>\n"
+        "    <priority>1.0</priority>\n"
+        "  </url>\n"
+        "</urlset>\n".format(*([DOMAIN] * 7))
+    )
+    resp = app.response_class(xml, mimetype="application/xml")
+    resp.headers["Cache-Control"] = "public, max-age=3600"
+    return resp
+
+
 # ── Routes: Config ─────────────────────────────────────────────
 
 @app.route("/config")
@@ -307,7 +364,7 @@ def create_lianlian_order():
         payload = {
             "merchant_id": LIANLIAN_MERCHANT_ID,
             "order_id": lianlian_order_id,
-            "amount": "19.99",
+            "amount": "9.99",
             "currency": "USD",
             "order_desc": "紫微斗数详细解盘",
             "return_url": return_url,

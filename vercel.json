@@ -7,10 +7,6 @@
     }
   },
   "rewrites": [
-    { "source": "/config", "destination": "/api/index" },
-    { "source": "/api/verify-payment", "destination": "/api/index" },
-    { "source": "/api/create-lianlian-order", "destination": "/api/index" },
-    { "source": "/webhook/stripe", "destination": "/api/index" },
-    { "source": "/webhook/lianlian", "destination": "/api/index" }
+    { "source": "/(.*)", "destination": "/api/index" }
   ]
 }

@@ -10,3 +10,7 @@ mcp-publisher.tar.gz
 mcp-publisher.exe
 payments.db
 payments.db-*
+
+.vercel
+
+*.bak

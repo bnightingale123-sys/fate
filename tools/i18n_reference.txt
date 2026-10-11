@@ -1,0 +1,1116 @@
+KEY: cat.analyze_label
+  zh: 🔍 分析维度
+  en: 🔍 Analysis Dimensions
+
+KEY: cat.btn_close
+  zh: 关闭
+  en: Close
+
+KEY: cat.btn_goto
+  zh: 立即排盘解锁解读
+  en: Generate Chart to Unlock
+
+KEY: cat.service_label
+  zh: 📦 服务内容
+  en: 📦 Service Details
+
+KEY: chart.age_suffix
+  zh: 岁
+  en: 
+
+KEY: chart.btn_detail
+  zh: 查看详细解盘
+  en: View Detailed Reading
+
+KEY: chart.btn_reset
+  zh: 重新输入
+  en: Reset
+
+KEY: chart.btn_unlocked
+  zh: 查看详细解盘 ✓ 已解锁
+  en: View Reading ✓ Unlocked
+
+KEY: chart.calculating
+  zh: 计算中...
+  en: Calculating...
+
+KEY: chart.daxian_range
+  zh: ~
+  en: –
+
+KEY: chart.daxian_title
+  zh: 大限
+  en: Major Cycles
+
+KEY: chart.day_prefix
+  zh: 日 
+  en: Day 
+
+KEY: chart.element_label
+  zh: 五行局
+  en: Element
+
+KEY: chart.female
+  zh: 女
+  en: F
+
+KEY: chart.hour_prefix
+  zh: 时 
+  en: Hr 
+
+KEY: chart.huaji_suffix
+  zh: 化忌
+  en:  Hua Ji
+
+KEY: chart.huake_suffix
+  zh: 化科
+  en:  Hua Ke
+
+KEY: chart.hualu_suffix
+  zh: 化禄
+  en:  Hua Lu
+
+KEY: chart.huaquan_suffix
+  zh: 化权
+  en:  Hua Quan
+
+KEY: chart.male
+  zh: 男
+  en: M
+
+KEY: chart.month_prefix
+  zh: 月 
+  en: Mo 
+
+KEY: chart.no_stars
+  zh: 无主星
+  en: No main star
+
+KEY: chart.shen_tag
+  zh: 身
+  en: Body
+
+KEY: chart.sihua_label
+  zh: 四化：
+  en: 4 Transformations: 
+
+KEY: chart.unknown_name
+  zh: 未知
+  en: Unknown
+
+KEY: chart.year_prefix
+  zh: 年 
+  en: Yr 
+
+KEY: chart.year_suffix
+  zh: 年
+  en: 
+
+KEY: cta.btn
+  zh: 🔮 立即开始
+  en: 🔮 Start Now
+
+KEY: cta.desc
+  zh: 输入出生信息，即刻获取你的专属紫微斗数命盘解读
+  en: Enter your birth info and get your personalized Zi Wei Dou Shu reading instantly
+
+KEY: cta.title
+  zh: 准备好解密你的人生运势了吗？
+  en: Ready to Unlock Your Destiny?
+
+KEY: detail.advice_title
+  zh: 温馨提示
+  en: A Gentle Reminder
+
+KEY: detail.btn_back
+  zh: 返回命盘
+  en: Back to Chart
+
+KEY: detail.daxian_every
+  zh:  · 大限每
+  en:  · Cycle every 
+
+KEY: detail.daxian_title
+  zh: 大限运势
+  en: Major Cycle Fortune
+
+KEY: detail.element_prefix
+  zh: 五行
+  en: Element: 
+
+KEY: detail.forward
+  zh: 阳男顺行
+  en: Yang Male Forward
+
+KEY: detail.huaji
+  zh: 化忌
+  en: Hua Ji
+
+KEY: detail.huaji_desc
+  zh: 困扰阻碍
+  en: Obstacles & Challenges
+
+KEY: detail.huake
+  zh: 化科
+  en: Hua Ke
+
+KEY: detail.huake_desc
+  zh: 文名声誉
+  en: Fame & Reputation
+
+KEY: detail.hualu
+  zh: 化禄
+  en: Hua Lu
+
+KEY: detail.hualu_desc
+  zh: 财禄顺利
+  en: Wealth & Prosperity
+
+KEY: detail.huaquan
+  zh: 化权
+  en: Hua Quan
+
+KEY: detail.huaquan_desc
+  zh: 掌权增强
+  en: Power & Authority
+
+KEY: detail.ming_in
+  zh: 命宫在
+  en: Ming Palace in 
+
+KEY: detail.palace_suffix
+  zh: 宫
+  en: 
+
+KEY: detail.palaces_title
+  zh: 十二宫详解
+  en: 12 Palaces Detailed
+
+KEY: detail.patterns_title
+  zh: 命盘格局
+  en: Chart Patterns
+
+KEY: detail.reverse
+  zh: 阴男逆行
+  en: Yin Male Reverse
+
+KEY: detail.shen_in
+  zh:  · 身宫在
+  en:  · Shen Palace in 
+
+KEY: detail.sihua_prefix
+  zh: 四化：
+  en: 4 Hua: 
+
+KEY: detail.sihua_title
+  zh: 四化飞星
+  en: Four Transformations
+
+KEY: detail.summary_title
+  zh: 四化总结
+  en: Transformation Summary
+
+KEY: detail.title_suffix
+  zh: 的命盘解读
+  en: 's Chart Reading
+
+KEY: detail.year_sep
+  zh: 年 · 
+  en:  · 
+
+KEY: detail.years_per
+  zh: 年一运
+  en:  years
+
+KEY: faq.a1
+  zh: 紫微斗数是中国传统命理学的重要分支，起源于宋代，通过出生年月日时推算十二宫星曜分布，分析人生各个方面的运势和发展趋势。与八字并称为中国传统命理学的两大体系。
+  en: Zi Wei Dou Shu is an important branch of traditional Chinese destiny analysis, originating from the Song Dynasty. It calculates the distribution of stars across 12 palaces based on birth date and time, analyzing all aspects of life fortune and development trends.
+
+KEY: faq.a2
+  zh: 我们使用传统紫微斗数算法，严格按照古法计算星曜分布和四化飞星。但请注意，命理分析仅供参考，人生的走向更多取决于自己的选择和努力。
+  en: We use traditional Zi Wei Dou Shu algorithms following ancient calculation methods. However, please note that destiny analysis is for reference only — your life path depends more on your own choices and efforts.
+
+KEY: faq.a3
+  zh: 所有出生信息仅用于排盘计算，我们不会存储或分享你的个人数据。支付通过 Stripe 安全处理，我们不接触你的支付信息。
+  en: All birth information is used only for chart calculation. We do not store or share your personal data. Payments are securely processed through Stripe — we never access your payment information.
+
+KEY: faq.a4
+  zh: 我们通过 Stripe 接受全球主流信用卡和借记卡支付（Visa、Mastercard、American Express 等），安全便捷。
+  en: We accept major global credit and debit cards through Stripe (Visa, Mastercard, American Express, etc.) — safe and convenient.
+
+KEY: faq.label
+  zh: 常见问题
+  en: FAQ
+
+KEY: faq.q1
+  zh: 紫微斗数是什么？
+  en: What is Zi Wei Dou Shu?
+
+KEY: faq.q2
+  zh: 排盘结果准确吗？
+  en: How accurate are the results?
+
+KEY: faq.q3
+  zh: 如何保证我的隐私安全？
+  en: How is my privacy protected?
+
+KEY: faq.q4
+  zh: 支持哪些支付方式？
+  en: What payment methods are supported?
+
+KEY: faq.title
+  zh: 有任何疑问？我们为你解答
+  en: Questions? We Have Answers
+
+KEY: features.career.desc
+  zh: 事业宫解读职业发展方向，分析官禄运、贵人运，助你做出正确职涯决策
+  en: Career palace analysis reveals professional direction, promotion timing, and benefactor guidance
+
+KEY: features.career.name
+  zh: 事业运
+  en: Career Fortune
+
+KEY: features.cta
+  zh: <span data-i18n="features.cta">点击了解详情 →</span>
+  en: Click for details →
+
+KEY: features.desc
+  zh: 从事业财运到感情健康，紫微斗数为你揭示人生的各个面向
+  en: From career and wealth to love and health, Zi Wei Dou Shu reveals every aspect of your life
+
+KEY: features.health.desc
+  zh: 疾厄宫分析身体健康状况，预防潜在疾病风险，掌握养生调护之道
+  en: Health palace reveals physical constitution, potential risks, and wellness guidance
+
+KEY: features.health.name
+  zh: 健康运
+  en: Health Fortune
+
+KEY: features.label
+  zh: 服务分类
+  en: Our Services
+
+KEY: features.love.desc
+  zh: 夫妻宫详解桃花姻缘，了解感情模式，把握良缘时机
+  en: Spouse palace reveals romantic patterns, marriage quality, and the right timing for love
+
+KEY: features.love.name
+  zh: 感情运
+  en: Love Fortune
+
+KEY: features.title
+  zh: 全方位命运解读
+  en: Comprehensive Destiny Analysis
+
+KEY: features.wealth.desc
+  zh: 财帛宫分析求财方式，识财运旺衰，掌财富密码
+  en: Wealth palace analyzes income sources, investment timing, and financial prosperity cycles
+
+KEY: features.wealth.name
+  zh: 财运
+  en: Wealth Fortune
+
+KEY: footer.bottom
+  zh: © 2026 yourfate.xyz · 命理分析仅供参考 · 命运由自己掌握
+  en: © 2026 yourfate.xyz · For reference only · You control your own destiny
+
+KEY: footer.brand
+  zh: ☾ yourfate.xyz
+  en: ☾ yourfate.xyz
+
+KEY: footer.chart
+  zh: 在线排盘
+  en: Free Chart
+
+KEY: footer.desc
+  zh: 紫微斗数在线命理解密服务平台
+  en: Zi Wei Dou Shu Online Destiny Reading Platform
+
+KEY: footer.faq
+  zh: 常见问题
+  en: FAQ
+
+KEY: footer.home
+  zh: 首页
+  en: Home
+
+KEY: footer.pricing
+  zh: 定价
+  en: Pricing
+
+KEY: footer.services
+  zh: 服务分类
+  en: Services
+
+KEY: form.date.label
+  zh: 出生日期
+  en: Birth Date
+
+KEY: form.date.lunar
+  zh: 🌙 农历
+  en: 🌙 Lunar
+
+KEY: form.date.solar
+  zh: ☀️ 公历
+  en: ☀️ Solar
+
+KEY: form.desc
+  zh: 准确填写出生资料，即可免费查看紫微斗数命盘
+  en: Enter your birth details accurately to view your free Zi Wei Dou Shu chart
+
+KEY: form.gender.female
+  zh: 👩 女
+  en: 👩 Female
+
+KEY: form.gender.label
+  zh: 性别
+  en: Gender
+
+KEY: form.gender.male
+  zh: 👨 男
+  en: 👨 Male
+
+KEY: form.hour.label
+  zh: 出生时辰
+  en: Birth Hour
+
+KEY: form.label
+  zh: 在线排盘
+  en: Free Chart
+
+KEY: form.name.label
+  zh: 姓名（选填）
+  en: Name (optional)
+
+KEY: form.name.placeholder
+  zh: 请输入您的姓名
+  en: Enter your name
+
+KEY: form.note
+  zh: 命理分析仅供参考 · 命运由自己掌握
+  en: For reference only · You control your own destiny
+
+KEY: form.submit
+  zh: 开始排盘
+  en: Generate Chart
+
+KEY: form.title
+  zh: 填入你的出生信息
+  en: Enter Your Birth Information
+
+KEY: header.cta
+  zh: 立即解密
+  en: Get Started
+
+KEY: header.nav.chart
+  zh: 在线排盘
+  en: Free Chart
+
+KEY: header.nav.faq
+  zh: 常见问题
+  en: FAQ
+
+KEY: header.nav.how
+  zh: 如何使用
+  en: How It Works
+
+KEY: header.nav.pricing
+  zh: 定价
+  en: Pricing
+
+KEY: header.nav.services
+  zh: 服务分类
+  en: Services
+
+KEY: hero.badge
+  zh: ⭐ 紫微斗数 · 专业解密 · 隐私保护
+  en: ⭐ Zi Wei Dou Shu · Professional Reading · Privacy Protected
+
+KEY: hero.btn.primary
+  zh: 🔮 立即解密
+  en: 🔮 Start Reading
+
+KEY: hero.btn.secondary
+  zh: 了解服务
+  en: Learn More
+
+KEY: hero.sub.line1
+  zh: 基于传统紫微斗数算法，精准排盘，十二宫详解
+  en: Traditional Zi Wei Dou Shu algorithm, precise chart calculation, 12 palaces analysis
+
+KEY: hero.sub.line2
+  zh: 命盘格局 · 大限运势 · 四化飞星 · 综合解读
+  en: Chart Patterns · Major Cycles · Four Transformations · Full Reading
+
+KEY: hero.title.gold
+  zh: 人生运势
+  en: Ancient Wisdom
+
+KEY: hero.title.line1
+  zh: 用千年智慧，
+  en: Unlock Your
+
+KEY: hero.title.line2
+  zh: 解密你的
+  en: Destiny with
+
+KEY: how.desc
+  zh: 简单三步，获取专业级紫微斗数命盘解读
+  en: Three simple steps to get a professional Zi Wei Dou Shu reading
+
+KEY: how.label
+  zh: 如何使用
+  en: How It Works
+
+KEY: how.step1.desc
+  zh: 填写你的出生年月日时和性别，支持公历和农历两种日期输入方式
+  en: Enter your birth date, time, and gender. Supports both solar and lunar calendar input
+
+KEY: how.step1.title
+  zh: 输入出生信息
+  en: Enter Birth Info
+
+KEY: how.step2.desc
+  zh: 系统自动计算十二宫星曜分布、四化飞星、大限运势，生成专业命盘
+  en: System auto-calculates 12 palaces star distribution, Four Transformations, and major cycle fortune
+
+KEY: how.step2.title
+  zh: 智能排盘
+  en: Auto Chart Calculation
+
+KEY: how.step3.desc
+  zh: 获取十二宫详细解读、命盘格局分析、大限运势推演，全面了解人生运势
+  en: Get detailed 12 palace interpretation, pattern analysis, and major cycle projection for a complete life reading
+
+KEY: how.step3.title
+  zh: 详细解盘
+  en: Detailed Reading
+
+KEY: how.title
+  zh: 三步揭秘你的命运密码
+  en: Three Steps to Reveal Your Destiny
+
+KEY: modal.cancel
+  zh: 暂不需要
+  en: Not Now
+
+KEY: modal.ok
+  zh: 知道了
+  en: OK
+
+KEY: pay.body.forever
+  zh: 付费后永久查看当前命盘解读
+  en: Lifetime access to this chart reading after payment
+
+KEY: pay.body.intro
+  zh: 🔮 完整命盘解读内容：
+  en: 🔮 Complete Chart Reading Includes:
+
+KEY: pay.body.item1
+  zh: ✦ 十二宫详细解读
+  en: ✦ 12 Palaces Detailed Reading
+
+KEY: pay.body.item2
+  zh: ✦ 命盘格局分析
+  en: ✦ Chart Pattern Analysis
+
+KEY: pay.body.item3
+  zh: ✦ 大限运势解读
+  en: ✦ Major Cycle Reading
+
+KEY: pay.body.item4
+  zh: ✦ 四化飞星详解
+  en: ✦ Four Transformations Explained
+
+KEY: pay.body.item5
+  zh: ✦ 综合运势建议
+  en: ✦ Comprehensive Life Guidance
+
+KEY: pay.body.price
+  zh: 一次性付费 
+  en: One-time payment: 
+
+KEY: pay.btn
+  zh: 💳 立即支付 $9.99
+  en: 💳 Pay $9.99 Now
+
+KEY: pay.btn.stripe
+  zh: 💳 Stripe 支付
+  en: 💳 Pay with Stripe
+
+KEY: pay.btn.lianlian
+  zh: 💱 连连跨境支付（支付宝/微信/银联）
+  en: 💱 LianLian Global (Alipay/WeChat/UnionPay)
+
+KEY: pay.redirecting
+  zh: 正在跳转支付...
+  en: Redirecting to payment...
+
+KEY: pay.title
+  zh: 解锁详细解盘
+  en: Unlock Detailed Reading
+
+KEY: pricing.badge
+  zh: 🌟 最受欢迎
+  en: 🌟 Most Popular
+
+KEY: pricing.cta
+  zh: 🔮 立即开始
+  en: 🔮 Start Now
+
+KEY: pricing.feat1
+  zh: 十二宫详细解读
+  en: 12 Palaces Detailed Reading
+
+KEY: pricing.feat2
+  zh: 命盘格局分析
+  en: Chart Pattern Analysis
+
+KEY: pricing.feat3
+  zh: 大限运势推演
+  en: Major Cycle Projection
+
+KEY: pricing.feat4
+  zh: 四化飞星详解
+  en: Four Transformations Explained
+
+KEY: pricing.feat5
+  zh: 综合运势建议
+  en: Comprehensive Life Guidance
+
+KEY: pricing.label
+  zh: 定价
+  en: Pricing
+
+KEY: pricing.name
+  zh: 详细解盘套餐
+  en: Detailed Reading Package
+
+KEY: pricing.period
+  zh: 一次性付费 · 永久查看
+  en: One-time payment · Lifetime access
+
+KEY: pricing.title
+  zh: 选择适合你的方案
+  en: Choose Your Plan
+
+KEY: report.advice
+  zh: 命理分析仅供参考，命运掌握在自己手中。紫微斗数揭示的是先天禀赋，而后天的努力、选择和环境因素同样重要。建议发挥命盘中吉星的优势，化解凶星的负面影响，积极面对人生的挑战。
+  en: Destiny analysis is for reference only. Your fate is in your own hands. Zi Wei Dou Shu reveals innate endowments, but effort, choices, and environment are equally important. Leverage auspicious stars and resolve malefic influences. Face life's challenges positively.
+
+KEY: report.aux_hint
+  zh: 。增加吉运与助力。
+  en: . Adds auspicious energy and support.
+
+KEY: report.aux_stars
+  zh: 辅星：
+  en: Auxiliary stars: 
+
+KEY: report.daxian_fmt
+  zh: ，大限在
+  en: , Major Cycle in 
+
+KEY: report.empty_fallback
+  zh: 该宫无主星，需参考对宫。
+  en: No main star in this palace. Refer to opposite palace.
+
+KEY: report.empty_ming
+  zh: 命宫为空宫，一生受环境影响较大，可塑性强。需借对宫(父母宫)星曜来看。
+  en: Ming Palace is empty — life heavily influenced by environment, highly adaptable. Refer to opposite palace stars.
+
+KEY: report.hua_prefix
+  zh: 化
+  en: Hua 
+
+KEY: report.ming_main
+  zh: 宫，主星：
+  en: , main stars: 
+
+KEY: report.ming_prefix
+  zh: 命宫在
+  en: Ming Palace: 
+
+KEY: report.sha_hint
+  zh:  有煞星会照，人生多有磨炼。
+  en:  Malefic stars present — life has many challenges.
+
+KEY: report.sha_hint2
+  zh: 。带来挑战与考验。
+  en: . Brings challenges and trials.
+
+KEY: report.sha_stars
+  zh: 煞星：
+  en: Malefic stars: 
+
+KEY: report.shen_hint
+  zh: 此宫为身宫，对后天发展影响重大。
+  en: This is the Shen Palace, greatly influencing postnatal development.
+
+KEY: report.sihua_fmt
+  zh: 四化：
+  en: 4 Hua: 
+
+KEY: report.star_fallback
+  zh: 入
+  en:  enters 
+
+KEY: report.star_fallback2
+  zh: ，对
+  en: , affects 
+
+KEY: report.star_fallback3
+  zh: 产生影响。
+  en: .
+
+KEY: result.label
+  zh: 排盘结果
+  en: Chart Result
+
+KEY: result.title
+  zh: 你的紫微斗数命盘
+  en: Your Zi Wei Dou Shu Chart
+
+KEY: site.title
+  zh: 紫微斗数 - 命理分析
+  en: Zi Wei Dou Shu - Destiny Analysis
+
+KEY: stats.privacy
+  zh: 隐私保护
+  en: Privacy Protected
+
+KEY: stats.rating
+  zh: 好评率
+  en: Satisfaction Rate
+
+KEY: stats.users
+  zh: 已服务用户
+  en: Users Served
+
+KEY: testimonials.1.author
+  zh: 李先生
+  en: Mr. Li
+
+KEY: testimonials.1.role
+  zh: 互联网从业者
+  en: Internet Professional
+
+KEY: testimonials.1.text
+  zh: 排盘结果非常详细，十二宫的解读让我对自己有了全新的认识。特别是事业宫的解读，和我的实际情况非常吻合。
+  en: The chart result was very detailed. The 12 palace interpretation gave me a whole new understanding of myself. The career palace reading especially matched my actual situation.
+
+KEY: testimonials.2.author
+  zh: 王女士
+  en: Ms. Wang
+
+KEY: testimonials.2.role
+  zh: 教师
+  en: Teacher
+
+KEY: testimonials.2.text
+  zh: 夫妻宫的解读让我对感情有了更清晰的认识。化忌的地方也确实是我需要努力的方向。非常专业的解析！
+  en: The spouse palace reading gave me clearer insight into my relationships. The Hua Ji areas are exactly where I need to work on. Very professional analysis!
+
+KEY: testimonials.3.author
+  zh: 张先生
+  en: Mr. Zhang
+
+KEY: testimonials.3.role
+  zh: 创业者
+  en: Entrepreneur
+
+KEY: testimonials.3.text
+  zh: 大限运势的推算让我对未来的规划有了方向。格局分析准确度很高，推荐给需要的朋友。
+  en: The major cycle projection gave me direction for future planning. The pattern analysis was highly accurate. I recommend it to friends who need it.
+
+KEY: testimonials.label
+  zh: 用户评价
+  en: Testimonials
+
+KEY: testimonials.title
+  zh: 他们都在用紫微斗数解密人生
+  en: They All Use Zi Wei Dou Shu to Decode Life
+
+KEY: toast.calc_failed
+  zh: 排盘失败，请检查日期
+  en: Chart calculation failed. Please check date
+
+KEY: toast.data_missing
+  zh: 读取信息失败，请重新输入出生信息
+  en: Failed to load info. Please re-enter birth details
+
+KEY: toast.data_restore
+  zh: 数据恢复失败，请重新输入出生信息
+  en: Data recovery failed. Please re-enter birth details
+
+KEY: toast.info_missing
+  zh: 信息缺失，请重新排盘
+  en: Information missing. Please regenerate chart
+
+KEY: toast.network_error
+  zh: 网络错误，请重试
+  en: Network error. Please try again
+
+KEY: toast.pay_success
+  zh: 支付成功！正在展示详细解盘...
+  en: Payment successful! Loading detailed reading...
+
+KEY: toast.select_date
+  zh: 请选择出生日期
+  en: Please select your birth date
+
+KEY: toast.stripe_config
+  zh: 支付服务暂时不可用\n请确认已配置 Stripe 密钥后重试
+  en: Payment service unavailable\nPlease configure Stripe keys and retry
+
+KEY: toast.lianlian_config
+  zh: 连连支付服务暂时不可用\n请确认已配置连连密钥后重试
+  en: LianLian payment service unavailable\nPlease configure LianLian keys and retry
+
+KEY: toast.verify_fail
+  zh: 支付验证失败，请稍后再试或联系客服
+  en: Payment verification failed. Please try later or contact support
+
+KEY: toast.verify_network
+  zh: 网络错误，无法验证支付状态
+  en: Network error. Cannot verify payment status
+
+KEY: toast.year_range
+  zh: 仅支持1900-2100年范围
+  en: Only years 1900-2100 supported
+
+KEY: hour.0
+  zh: 子时 (23:00-01:00)
+  en: Zi (23:00-01:00)
+
+KEY: hour.1
+  zh: 丑时 (01:00-03:00)
+  en: Chou (01:00-03:00)
+
+KEY: hour.2
+  zh: 寅时 (03:00-05:00)
+  en: Yin (03:00-05:00)
+
+KEY: hour.3
+  zh: 卯时 (05:00-07:00)
+  en: Mao (05:00-07:00)
+
+KEY: hour.4
+  zh: 辰时 (07:00-09:00)
+  en: Chen (07:00-09:00)
+
+KEY: hour.5
+  zh: 巳时 (09:00-11:00)
+  en: Si (09:00-11:00)
+
+KEY: hour.6
+  zh: 午时 (11:00-13:00)
+  en: Wu (11:00-13:00)
+
+KEY: hour.7
+  zh: 未时 (13:00-15:00)
+  en: Wei (13:00-15:00)
+
+KEY: hour.8
+  zh: 申时 (15:00-17:00)
+  en: Shen (15:00-17:00)
+
+KEY: hour.9
+  zh: 酉时 (17:00-19:00)
+  en: You (17:00-19:00)
+
+KEY: hour.10
+  zh: 戌时 (19:00-21:00)
+  en: Xu (19:00-21:00)
+
+KEY: hour.11
+  zh: 亥时 (21:00-23:00)
+  en: Hai (21:00-23:00)
+
+KEY: cat.career.title
+  zh: 事业运 — 专业解读
+  en: Career Fortune — Professional Reading
+
+KEY: cat.career.intro
+  zh: 通过紫微斗数十二宫中的<strong>官禄宫</strong>（事业宫）为核心，结合命宫、财帛宫、迁移宫，全面分析你的事业发展轨迹。
+  en: Using the <strong>Career Palace</strong> as the core, combined with Ming Palace, Wealth Palace, and Travel Palace, we comprehensively analyze your career development trajectory.
+
+KEY: cat.career.serviceIntro
+  zh: 购买详细解盘后，你将获得：
+  en: After purchasing the detailed reading, you will receive:
+
+KEY: cat.career.analyze.0.label
+  zh: 命宫主星
+  en: Ming Palace Star
+
+KEY: cat.career.analyze.0.desc
+  zh: 天生性格特质，适合的职业类型与工作风格
+  en: Innate personality traits, suitable career types and work style
+
+KEY: cat.career.analyze.1.label
+  zh: 官禄宫
+  en: Career Palace
+
+KEY: cat.career.analyze.1.desc
+  zh: 事业运核心指标 — 职业发展方向、升迁时机、工作环境适配度
+  en: Core career indicator — professional direction, promotion timing, work environment fit
+
+KEY: cat.career.analyze.2.label
+  zh: 财帛宫
+  en: Wealth Palace
+
+KEY: cat.career.analyze.2.desc
+  zh: 收入来源与求财方式，正财偏财运势分析
+  en: Income sources and wealth acquisition methods, direct and indirect wealth analysis
+
+KEY: cat.career.analyze.3.label
+  zh: 迁移宫
+  en: Travel Palace
+
+KEY: cat.career.analyze.3.desc
+  zh: 外出发展机遇、驿马运、贵人助力与小人防范
+  en: External development opportunities, travel fortune, benefactor assistance and adversary prevention
+
+KEY: cat.career.analyze.4.label
+  zh: 四化飞星
+  en: 4 Transformations
+
+KEY: cat.career.analyze.4.desc
+  zh: 化禄/化权/化科/化忌在事业相关宫位的影响与应对策略
+  en: Impact of Hua Lu/Hua Quan/Hua Ke/Hua Ji on career-related palaces and strategies
+
+KEY: cat.career.service.0
+  zh: 官禄宫星曜组合深度解析
+  en: In-depth Career Palace star combination analysis
+
+KEY: cat.career.service.1
+  zh: 职业转型与升迁时机建议
+  en: Career transition and promotion timing advice
+
+KEY: cat.career.service.2
+  zh: 贵人与小人识别指引
+  en: Benefactor and adversary identification guide
+
+KEY: cat.career.service.3
+  zh: 每十年大限事业运势推演
+  en: 10-year major cycle career fortune projection
+
+KEY: cat.career.service.4
+  zh: 适合行业与创业时机分析
+  en: Suitable industry and entrepreneurship timing analysis
+
+KEY: cat.love.title
+  zh: 感情运 — 专业解读
+  en: Love Fortune — Professional Reading
+
+KEY: cat.love.intro
+  zh: 以<strong>夫妻宫</strong>为核心，结合命宫、福德宫、子女宫，深度解读你的感情模式与婚姻缘分。
+  en: Using the <strong>Spouse Palace</strong> as the core, combined with Ming Palace, Fortune Palace, and Children Palace, we deeply interpret your relationship patterns and marriage destiny.
+
+KEY: cat.love.serviceIntro
+  zh: 购买详细解盘后，你将获得：
+  en: After purchasing the detailed reading, you will receive:
+
+KEY: cat.love.analyze.0.label
+  zh: 命宫主星
+  en: Ming Palace Star
+
+KEY: cat.love.analyze.0.desc
+  zh: 先天感情特质，恋爱风格与择偶偏好
+  en: Innate romantic traits, love style and partner preferences
+
+KEY: cat.love.analyze.1.label
+  zh: 夫妻宫
+  en: Spouse Palace
+
+KEY: cat.love.analyze.1.desc
+  zh: 婚姻运核心指标 — 配偶特征、婚姻质量、感情走势
+  en: Core marriage indicator — spouse characteristics, marriage quality, relationship trends
+
+KEY: cat.love.analyze.2.label
+  zh: 福德宫
+  en: Fortune Palace
+
+KEY: cat.love.analyze.2.desc
+  zh: 内心情感需求、精神契合度、感情幸福感来源
+  en: Inner emotional needs, spiritual compatibility, sources of relationship happiness
+
+KEY: cat.love.analyze.3.label
+  zh: 子女宫
+  en: Children Palace
+
+KEY: cat.love.analyze.3.desc
+  zh: 桃花运旺衰、恋爱机会多寡、子女缘分
+  en: Romance luck strength, love opportunity frequency, children destiny
+
+KEY: cat.love.analyze.4.label
+  zh: 四化飞星
+  en: 4 Transformations
+
+KEY: cat.love.analyze.4.desc
+  zh: 化禄/化权/化科/化忌在感情宫位的具体影响
+  en: Specific impact of the 4 transformations on relationship palaces
+
+KEY: cat.love.service.0
+  zh: 夫妻宫星曜组合深度解析
+  en: In-depth Spouse Palace star combination analysis
+
+KEY: cat.love.service.1
+  zh: 桃花运势与恋爱时机分析
+  en: Romance fortune and love timing analysis
+
+KEY: cat.love.service.2
+  zh: 婚姻适配度与择偶建议
+  en: Marriage compatibility and partner selection advice
+
+KEY: cat.love.service.3
+  zh: 感情中需注意的煞星影响
+  en: Malefic star influences to watch for in relationships
+
+KEY: cat.love.service.4
+  zh: 大限感情运势推演
+  en: Major cycle relationship fortune projection
+
+KEY: cat.wealth.title
+  zh: 财运 — 专业解读
+  en: Wealth Fortune — Professional Reading
+
+KEY: cat.wealth.intro
+  zh: 以<strong>财帛宫</strong>为核心，结合命宫、田宅宫、福德宫，全面解析你的财富密码与求财之道。
+  en: Using the <strong>Wealth Palace</strong> as the core, combined with Ming Palace, Property Palace, and Fortune Palace, we comprehensively decode your wealth potential and path to prosperity.
+
+KEY: cat.wealth.serviceIntro
+  zh: 购买详细解盘后，你将获得：
+  en: After purchasing the detailed reading, you will receive:
+
+KEY: cat.wealth.analyze.0.label
+  zh: 命宫主星
+  en: Ming Palace Star
+
+KEY: cat.wealth.analyze.0.desc
+  zh: 先天财运基因，理财观念与消费习惯
+  en: Innate wealth genes, financial concepts and spending habits
+
+KEY: cat.wealth.analyze.1.label
+  zh: 财帛宫
+  en: Wealth Palace
+
+KEY: cat.wealth.analyze.1.desc
+  zh: 财运核心指标 — 收入来源、求财方式、财富积累能力
+  en: Core wealth indicator — income sources, wealth methods, accumulation ability
+
+KEY: cat.wealth.analyze.2.label
+  zh: 田宅宫
+  en: Property Palace
+
+KEY: cat.wealth.analyze.2.desc
+  zh: 不动产运、家庭资产、财富储存与保值能力
+  en: Real estate fortune, family assets, wealth preservation ability
+
+KEY: cat.wealth.analyze.3.label
+  zh: 福德宫
+  en: Fortune Palace
+
+KEY: cat.wealth.analyze.3.desc
+  zh: 偏财运、投资运气、精神满足与物质享受的平衡
+  en: Speculative wealth luck, investment fortune, balance of spiritual and material fulfillment
+
+KEY: cat.wealth.analyze.4.label
+  zh: 四化飞星
+  en: 4 Transformations
+
+KEY: cat.wealth.analyze.4.desc
+  zh: 化禄/化权/化科/化忌在财帛相关宫位的影响
+  en: Impact of the 4 transformations on wealth-related palaces
+
+KEY: cat.wealth.service.0
+  zh: 财帛宫星曜组合深度解析
+  en: In-depth Wealth Palace star combination analysis
+
+KEY: cat.wealth.service.1
+  zh: 正财与偏财运势详解
+  en: Direct and indirect wealth fortune details
+
+KEY: cat.wealth.service.2
+  zh: 投资理财时机与方向建议
+  en: Investment timing and direction advice
+
+KEY: cat.wealth.service.3
+  zh: 破财风险预警与化解方法
+  en: Financial loss risk warning and mitigation
+
+KEY: cat.wealth.service.4
+  zh: 大限财运走势推演
+  en: Major cycle wealth trend projection
+
+KEY: cat.health.title
+  zh: 健康运 — 专业解读
+  en: Health Fortune — Professional Reading
+
+KEY: cat.health.intro
+  zh: 以<strong>疾厄宫</strong>为核心，结合命宫、福德宫、迁移宫，全面分析你的身体健康状况与养生调理方向。
+  en: Using the <strong>Health Palace</strong> as the core, combined with Ming Palace, Fortune Palace, and Travel Palace, we comprehensively analyze your physical health and wellness direction.
+
+KEY: cat.health.serviceIntro
+  zh: 购买详细解盘后，你将获得：
+  en: After purchasing the detailed reading, you will receive:
+
+KEY: cat.health.analyze.0.label
+  zh: 命宫主星
+  en: Ming Palace Star
+
+KEY: cat.health.analyze.0.desc
+  zh: 先天体质强弱，身体能量的基本盘与抵抗力
+  en: Innate physical constitution, baseline body energy and immunity
+
+KEY: cat.health.analyze.1.label
+  zh: 疾厄宫
+  en: Health Palace
+
+KEY: cat.health.analyze.1.desc
+  zh: 健康运核心指标 — 易患疾病类型、意外风险、康复能力
+  en: Core health indicator — disease susceptibility, accident risk, recovery ability
+
+KEY: cat.health.analyze.2.label
+  zh: 福德宫
+  en: Fortune Palace
+
+KEY: cat.health.analyze.2.desc
+  zh: 心理健康与情绪状态、压力应对能力、养生兴趣方向
+  en: Mental health and emotional state, stress coping ability, wellness interests
+
+KEY: cat.health.analyze.3.label
+  zh: 迁移宫
+  en: Travel Palace
+
+KEY: cat.health.analyze.3.desc
+  zh: 外出安全、交通事故风险、异地养生适应度
+  en: Travel safety, traffic accident risk, wellness adaptation abroad
+
+KEY: cat.health.analyze.4.label
+  zh: 四化飞星
+  en: 4 Transformations
+
+KEY: cat.health.analyze.4.desc
+  zh: 化禄/化权/化科/化忌在疾厄宫的影响，疾病预警与化解方向
+  en: Impact of the 4 transformations on the Health Palace, disease warning and resolution
+
+KEY: cat.health.service.0
+  zh: 疾厄宫星曜组合深度解析
+  en: In-depth Health Palace star combination analysis
+
+KEY: cat.health.service.1
+  zh: 先天体质评估与易患疾病预警
+  en: Innate constitution assessment and disease susceptibility warning
+
+KEY: cat.health.service.2
+  zh: 各年龄段健康运势推演
+  en: Health fortune projection by age group
+
+KEY: cat.health.service.3
+  zh: 养生调理方向与运动建议
+  en: Wellness direction and exercise recommendations
+
+KEY: cat.health.service.4
+  zh: 煞星入疾厄宫的化解指引
+  en: Malefic star in Health Palace resolution guide
+

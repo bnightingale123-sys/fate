@@ -379,7 +379,7 @@ def create_lianlian_order():
         payload = {
             "merchant_id": LIANLIAN_MERCHANT_ID,
             "order_id": lianlian_order_id,
-            "amount": "19.99",
+            "amount": "9.99",
             "currency": "USD",
             "order_desc": "紫微斗数详细解盘",
             "return_url": return_url,

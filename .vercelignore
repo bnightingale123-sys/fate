@@ -1,0 +1,10 @@
+.env
+payments.db
+payments.db-*
+*.exe
+*.tar.gz
+*.whl
+dist/
+legacy-server/
+__pycache__/
+*.pyc
